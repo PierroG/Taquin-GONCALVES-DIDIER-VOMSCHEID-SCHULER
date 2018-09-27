@@ -18,12 +18,21 @@ public class Taquin extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = loader.load();
+        FXMLDocumentController controller = loader.getController();
+        
+        //Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
         
+        boolean add = scene.getStylesheets().add("css/styles.css");
+        
         stage.setScene(scene);
         stage.show();
+        
+        
     }
 
     /**
@@ -31,6 +40,17 @@ public class Taquin extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        Plateau p = new Plateau(3);
+        p.melange();
+        //p.intialisePlateau();
+        p.affichePlateauConsole();
+        boolean test = false;
+        while(test == false){//vraie condition : p.isOver()==false
+            p.choix();
+            p.affichePlateauConsole();
+            System.out.println(p.coefDesordre());
+            
+        }
     }
     
 }
