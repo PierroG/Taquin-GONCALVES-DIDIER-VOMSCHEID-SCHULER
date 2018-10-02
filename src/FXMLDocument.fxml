@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -9,9 +10,9 @@
 
 <AnchorPane id="AnchorPane" onKeyPressed="#keyPressed" prefHeight="450.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FXMLDocumentController">
     <children>
-      <Pane prefHeight="450.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane prefHeight="450.0" prefWidth="350.0" style="-fx-background-color: lightgrey;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <GridPane fx:id="grille" alignment="CENTER" gridLinesVisible="true" layoutX="50.0" layoutY="144.0" prefHeight="250.0" prefWidth="250.0">
+            <GridPane fx:id="grille" alignment="CENTER" gridLinesVisible="true" layoutX="25.0" layoutY="126.0" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: grey;">
               <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -25,9 +26,19 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
+              <Button fx:id="button" layoutX="145.0" layoutY="66.0" onAction="#handleButtonAction" style="-fx-background-color: grey;" text="Start !" />
+              <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="101.0" minHeight="16" minWidth="63.0" prefHeight="63.0" prefWidth="148.0" text="TAQUIN" textAlignment="CENTER">
+               <font>
+                  <Font name="AR BONNIE" size="55.0" />
+               </font>
+            </Label>
+            <Pane layoutX="257.0" layoutY="26.0" prefHeight="75.0" prefWidth="59.0" style="-fx-border-width: 3; -fx-border-color: grey;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="2.0" prefHeight="25.0" prefWidth="53.0" style="-fx-background-color: grey;" text="Score" />
+                  <Label layoutX="21.0" layoutY="38.0" text="0" />
+               </children>
+            </Pane>
          </children>
       </Pane>
-        <Button fx:id="button" layoutX="135.0" layoutY="80.0" onAction="#handleButtonAction" text="Click Me!" />
-        <Label fx:id="label" layoutX="144.0" layoutY="35.0" minHeight="16" minWidth="63.0" prefHeight="21.0" prefWidth="63.0" text="TAQUIN" textAlignment="CENTER" />
     </children>
 </AnchorPane>

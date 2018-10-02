@@ -32,24 +32,24 @@ public class Plateau {
     
     public void intialisePlateauOrdre(){
         int k =1;
-        for(int i=0;i<taille;i++){
-            for (int j=0;j<taille;j++){
-                plateau[i][j]=new Case(k);
+        for(int i=0;i<getTaille();i++){
+            for (int j=0;j<getTaille();j++){
+                getPlateau()[i][j]=new Case(k);
                 k++;
             }
         }
         //case en bas a droite est la case vide
-        plateau[taille-1][taille-1].setNum(0);
-        this.setXYcaseVide(taille-1,taille-1);
+        getPlateau()[getTaille()-1][getTaille()-1].setNum(0);
+        this.setXYcaseVide(getTaille()-1,getTaille()-1);
     }
     public void affichePlateauConsole(){
-        for(int i=0;i<taille;i++){
+        for(int i=0;i<getTaille();i++){
             System.out.println();
-            for (int j=0;j<taille;j++){
-                if(plateau[i][j].getNum()<10){
-                    System.out.print("[0"+plateau[i][j].getNum()+"]");
+            for (int j=0;j<getTaille();j++){
+                if(getPlateau()[i][j].getNum()<10){
+                    System.out.print("[0"+getPlateau()[i][j].getNum()+"]");
                 }else{
-                    System.out.print("["+plateau[i][j].getNum()+"]");
+                    System.out.print("["+getPlateau()[i][j].getNum()+"]");
                 }
             }   
         }
@@ -62,30 +62,30 @@ public class Plateau {
     
     public void moveRight(){
         if(yCaseVide>0){
-            Case tmp = plateau[xCaseVide][yCaseVide];
-        plateau[xCaseVide][yCaseVide]=plateau[xCaseVide][yCaseVide-1];
-        plateau[xCaseVide][yCaseVide-1]=tmp;
+            Case tmp = getPlateau()[xCaseVide][yCaseVide];
+            getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide][yCaseVide-1];
+            getPlateau()[xCaseVide][yCaseVide-1]=tmp;
         this.setXYcaseVide(xCaseVide, yCaseVide-1);  
     }}
     public void moveLeft(){
-        if(yCaseVide<taille-1){
-            Case tmp = plateau[xCaseVide][yCaseVide];
-        plateau[xCaseVide][yCaseVide]=plateau[xCaseVide][yCaseVide+1];
-        plateau[xCaseVide][yCaseVide+1]=tmp;
+        if(yCaseVide<getTaille()-1){
+            Case tmp = getPlateau()[xCaseVide][yCaseVide];
+            getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide][yCaseVide+1];
+            getPlateau()[xCaseVide][yCaseVide+1]=tmp;
         this.setXYcaseVide(xCaseVide, yCaseVide+1);  
     }}
     public void moveUp(){
         if(xCaseVide>0){
-            Case tmp = plateau[xCaseVide][yCaseVide];
-        plateau[xCaseVide][yCaseVide]=plateau[xCaseVide-1][yCaseVide];
-        plateau[xCaseVide-1][yCaseVide]=tmp;
+            Case tmp = getPlateau()[xCaseVide][yCaseVide];
+            getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide-1][yCaseVide];
+            getPlateau()[xCaseVide-1][yCaseVide]=tmp;
         this.setXYcaseVide(xCaseVide-1, yCaseVide);  
     }}
     public void moveDown(){
-        if(xCaseVide<taille-1){
-            Case tmp = plateau[xCaseVide][yCaseVide];
-        plateau[xCaseVide][yCaseVide]=plateau[xCaseVide+1][yCaseVide];
-        plateau[xCaseVide+1][yCaseVide]=tmp;
+        if(xCaseVide<getTaille()-1){
+            Case tmp = getPlateau()[xCaseVide][yCaseVide];
+            getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide+1][yCaseVide];
+            getPlateau()[xCaseVide+1][yCaseVide]=tmp;
         this.setXYcaseVide(xCaseVide+1, yCaseVide);  
     }}
     
@@ -93,9 +93,9 @@ public class Plateau {
         int retour=0;
         //crée une liste de toute les Cases
         LinkedList<Case> list = new LinkedList<Case>();
-        for(int i=0;i<taille;i++){
-            for (int j=0;j<taille;j++){
-                list.addLast(plateau[i][j]);
+        for(int i=0;i<getTaille();i++){
+            for (int j=0;j<getTaille();j++){
+                list.addLast(getPlateau()[i][j]);
             }}
         int k=0;
         for(int i=0;i<list.size();i++){
@@ -130,22 +130,22 @@ public class Plateau {
     public void melange(){
         //Crée une liste de int de 1 a taille*taille pour remplir le Plateau
         LinkedList<Integer> list = new LinkedList<Integer>();
-        for(int i=1;i<taille*taille;i++){
+        for(int i=1;i<getTaille()*getTaille();i++){
             list.add(i);
         }
         Random r = new Random();
         //a chaque case du tableau on attribut un numéro aléatoire choisie dans la liste
         //et on le retire pour pas avoir de doublon dans le plateau
-        for(int i=0;i<taille;i++){
-            for (int j=0;j<taille;j++){
+        for(int i=0;i<getTaille();i++){
+            for (int j=0;j<getTaille();j++){
                 //si la liste est vide il reste que la case vide a placer en bas a droite
                 if(list.size()!=0){
                     int k = r.nextInt(list.size());;     
-                    plateau[i][j]=new Case(list.get(k));
+                    getPlateau()[i][j]=new Case(list.get(k));
                     list.remove(k);
                 }else{
-                    plateau[i][j]=new Case(0);
-                    this.setXYcaseVide(taille-1,taille-1);
+                    getPlateau()[i][j]=new Case(0);
+                    this.setXYcaseVide(getTaille()-1,getTaille()-1);
                 }
                 
             }   
@@ -159,15 +159,31 @@ public class Plateau {
     public boolean isOver(){
         boolean retour = true;
         int k=1;
-        for(int i=0;i<taille;i++){
-            for (int j=0;j<taille;j++){
+        for(int i=0;i<getTaille();i++){
+            for (int j=0;j<getTaille();j++){
                 //Vérifie si chaque case est a ça place
-                if(plateau[i][j].getNum()!=k && k!=taille*taille){
+                if(getPlateau()[i][j].getNum()!=k && k!=getTaille()*getTaille()){
                     retour=false;
                 }
             k++;
             }      
         }
         return retour;
+    }
+
+    public int getTaille() {
+        return taille;
+    }
+
+    public void setTaille(int taille) {
+        this.taille = taille;
+    }
+
+    public Case[][] getPlateau() {
+        return plateau;
+    }
+
+    public void setPlateau(Case[][] plateau) {
+        this.plateau = plateau;
     }
 }
