@@ -17,8 +17,8 @@ and open the template in the editor.
 }
 
 .num{
-    -fx-font-size: 32;
-    -fx-padding: 10 0 0 20;
+    -fx-font-size: 30;
+    -fx-padding: 20.5 34.5 20.5 34.5;
     -fx-halignment: center;
     -fx-alignment: CENTER;  
 }

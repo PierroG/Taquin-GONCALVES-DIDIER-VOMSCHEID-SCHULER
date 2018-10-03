@@ -19,6 +19,7 @@ public class Plateau {
     private int taille;
     private Case plateau[][];
     private int xCaseVide,yCaseVide;
+    private int score=0;
     
     public Plateau(){
         
@@ -65,28 +66,32 @@ public class Plateau {
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
             getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide][yCaseVide-1];
             getPlateau()[xCaseVide][yCaseVide-1]=tmp;
-        this.setXYcaseVide(xCaseVide, yCaseVide-1);  
+            this.setXYcaseVide(xCaseVide, yCaseVide-1);  
+            score++;
     }}
     public void moveLeft(){
         if(yCaseVide<getTaille()-1){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
             getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide][yCaseVide+1];
             getPlateau()[xCaseVide][yCaseVide+1]=tmp;
-        this.setXYcaseVide(xCaseVide, yCaseVide+1);  
+            this.setXYcaseVide(xCaseVide, yCaseVide+1);
+            score++;
     }}
     public void moveUp(){
         if(xCaseVide>0){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
             getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide-1][yCaseVide];
             getPlateau()[xCaseVide-1][yCaseVide]=tmp;
-        this.setXYcaseVide(xCaseVide-1, yCaseVide);  
+            this.setXYcaseVide(xCaseVide-1, yCaseVide);
+            score++;
     }}
     public void moveDown(){
         if(xCaseVide<getTaille()-1){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
             getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide+1][yCaseVide];
             getPlateau()[xCaseVide+1][yCaseVide]=tmp;
-        this.setXYcaseVide(xCaseVide+1, yCaseVide);  
+            this.setXYcaseVide(xCaseVide+1, yCaseVide);  
+            score++;
     }}
     
     public int coefDesordre(){
@@ -185,5 +190,8 @@ public class Plateau {
 
     public void setPlateau(Case[][] plateau) {
         this.plateau = plateau;
+    }
+    public int getScore(){
+        return this.score;
     }
 }
