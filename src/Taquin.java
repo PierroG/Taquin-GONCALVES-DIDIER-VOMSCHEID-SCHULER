@@ -28,10 +28,10 @@ public class Taquin extends Application {
  
         Scene scene = new Scene(root);
         boolean add = scene.getStylesheets().add("css/styles.css");
-        Plateau p = new Plateau(4);
-        p.melange();
+        Plateau p = new Plateau();
+        //p.melange();
         controller.setPlateau(p);
-        controller.initializePlateauView();
+        //controller.initializePlateauView2();
         
         stage.setScene(scene);
         stage.show();

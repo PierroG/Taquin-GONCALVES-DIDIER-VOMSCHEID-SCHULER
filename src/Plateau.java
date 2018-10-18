@@ -28,9 +28,12 @@ public class Plateau {
     public Plateau(int t){
         this.taille = t;
         this.plateau= new Case[taille][taille];
-        
     }
-    
+    public void initialize(int t){
+        this.taille = t;
+        this.plateau= new Case[taille][taille];
+        this.melange();
+    }
     public void intialisePlateauOrdre(){
         int k =1;
         for(int i=0;i<getTaille();i++){
@@ -61,38 +64,46 @@ public class Plateau {
         this.yCaseVide=Y;
     }
     
-    public void moveRight(){
+    public boolean moveRight(){
         if(yCaseVide>0){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
             getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide][yCaseVide-1];
             getPlateau()[xCaseVide][yCaseVide-1]=tmp;
             this.setXYcaseVide(xCaseVide, yCaseVide-1);  
             score++;
-    }}
-    public void moveLeft(){
+            return true;
+        }else{return false;}
+    }
+    public boolean moveLeft(){
         if(yCaseVide<getTaille()-1){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
             getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide][yCaseVide+1];
             getPlateau()[xCaseVide][yCaseVide+1]=tmp;
             this.setXYcaseVide(xCaseVide, yCaseVide+1);
             score++;
-    }}
-    public void moveUp(){
+            return true;
+        }else{return false;}
+    }
+    public boolean moveUp(){
         if(xCaseVide>0){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
             getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide-1][yCaseVide];
             getPlateau()[xCaseVide-1][yCaseVide]=tmp;
             this.setXYcaseVide(xCaseVide-1, yCaseVide);
             score++;
-    }}
-    public void moveDown(){
+            return true;
+        }else{return false;}
+    }
+    public boolean moveDown(){
         if(xCaseVide<getTaille()-1){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
             getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide+1][yCaseVide];
             getPlateau()[xCaseVide+1][yCaseVide]=tmp;
             this.setXYcaseVide(xCaseVide+1, yCaseVide);  
             score++;
-    }}
+            return true;
+        }else{return false;}
+    }
     
     public int coefDesordre(){
         int retour=0;
@@ -193,5 +204,11 @@ public class Plateau {
     }
     public int getScore(){
         return this.score;
+    }
+    public int getXCaseVide(){
+        return this.xCaseVide;
+    }
+    public int getYCaseVide(){
+        return this.yCaseVide;
     }
 }
