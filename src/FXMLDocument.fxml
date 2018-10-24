@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
@@ -10,66 +13,114 @@
 
 <AnchorPane id="AnchorPane" onKeyPressed="#keyPressed" prefHeight="520.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FXMLDocumentController">
     <children>
-      <Pane fx:id="taquinPane" layoutY="30.0" prefHeight="452.0" prefWidth="350.0" style="-fx-background-color: white;" visible="false" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+      <AnchorPane prefHeight="37.0" prefWidth="400.0" style="-fx-background-color: grey;" visible="false" />
+      <Pane fx:id="taquinPane" layoutY="30.0" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Pane layoutX="25.0" layoutY="121.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: grey;" />
-            <GridPane fx:id="grille" alignment="CENTER" gridLinesVisible="true" layoutX="25.0" layoutY="121.0" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: grey;" visible="false">
-              <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
-              <Button fx:id="button" layoutX="170.0" layoutY="64.0" onAction="#handleButtonAction" style="-fx-background-color: grey;" text="Start !" />
-              <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="126.0" minHeight="16" minWidth="63.0" prefHeight="63.0" prefWidth="148.0" text="TAQUIN" textAlignment="CENTER">
-               <font>
-                  <Font name="AR BONNIE" size="55.0" />
-               </font>
-            </Label>
-            <Pane layoutX="316.0" layoutY="26.0" prefHeight="75.0" prefWidth="59.0" style="-fx-border-width: 3; -fx-border-color: grey;">
+            <Pane layoutY="-2.0" onMouseDragged="#OnMouseDrag" onMousePressed="#OnMousePressed" prefHeight="37.0" prefWidth="400.0" style="-fx-background-color: #3d3d3d;">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="2.0" prefHeight="25.0" prefWidth="53.0" style="-fx-background-color: grey;" text="Score" />
-                  <Label fx:id="lScore" layoutX="25.0" layoutY="38.0" text="0" />
+                  <Button layoutY="-1.0" mnemonicParsing="false" onAction="#handleButtonHome" prefHeight="37.0" prefWidth="72.0" style="-fx-background-color: #3d3d3d; -fx-border-width: 0 2 0 0; -fx-border-color: #3d3d3d;" text="Home" textFill="WHITE" />
+                  <Button layoutX="341.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleButtonClose" prefHeight="37.0" prefWidth="59.0" style="-fx-background-color: #9e4d4d;" text="Close" textFill="WHITE" />
                </children>
             </Pane>
-         </children>
-      </Pane>
-      <Pane fx:id="menuPane" prefHeight="494.0" prefWidth="400.0" style="-fx-background-color: white;">
-         <children>
-            <Button layoutX="100.0" layoutY="187.0" mnemonicParsing="false" onAction="#HandleButtonLancerJeuAction" prefHeight="63.0" prefWidth="200.0" text="Lancer le Jeu" />
-            <ChoiceBox fx:id="tailleTaquin" layoutX="100.0" layoutY="250.0" prefHeight="31.0" prefWidth="200.0" />
-            <Label fx:id="labelTestAnimation" layoutX="144.0" layoutY="100.0" text="TAQUIN">
+            <Pane layoutX="25.0" layoutY="142.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: #3d3d3d;" />
+            <Pane layoutX="316.0" layoutY="49.0" prefHeight="75.0" prefWidth="59.0">
+               <children>
+                  <Label fx:id="lScore" alignment="CENTER" layoutX="8.0" layoutY="38.0" prefHeight="30.0" prefWidth="41.0" text="0" textAlignment="CENTER" textFill="#3d3d3d">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font></Label>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" layoutY="2.0" prefHeight="25.0" prefWidth="53.0" text="Score" textFill="#3d3d3d">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font></Label>
+               </children>
+            </Pane>
+            <Polygon fill="#3d3d3d" layoutX="250.0" layoutY="70.0" rotate="180.0" scaleY="0.5" stroke="BLACK" strokeDashOffset="5.0" strokeMiterLimit="5.0" strokeType="INSIDE" strokeWidth="0.0">
+               <points>
+                  <Double fx:value="-50.0" />
+                  <Double fx:value="40.0" />
+                  <Double fx:value="50.0" />
+                  <Double fx:value="40.0" />
+                  <Double fx:value="0.0" />
+                  <Double fx:value="-60.0" />
+               </points>
+            </Polygon>
+            <Polygon fill="#3d3d3d" layoutX="150.0" layoutY="70.0" rotate="180.0" scaleY="0.5" stroke="BLACK" strokeDashOffset="5.0" strokeMiterLimit="5.0" strokeType="INSIDE" strokeWidth="0.0">
+              <points>
+                <Double fx:value="-50.0" />
+                <Double fx:value="40.0" />
+                <Double fx:value="50.0" />
+                <Double fx:value="40.0" />
+                <Double fx:value="0.0" />
+                <Double fx:value="-60.0" />
+              </points>
+            </Polygon>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3d3d3d" height="50.0" layoutX="150.0" layoutY="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="100.0" />
+              <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="110.0" layoutY="-1.0" minHeight="16" minWidth="63.0" onMouseDragged="#OnMouseDrag" onMousePressed="#OnMousePressed" prefHeight="75.0" prefWidth="180.0" text="TAQUIN" textAlignment="CENTER">
                <font>
                   <Font name="AR BONNIE" size="55.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="0.6796116504854368" startX="1.0">
+                     <stops>
+                        <Stop color="#619bff" />
+                        <Stop color="#619bff" offset="0.007246376811594203" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <Label fx:id="lTimer" alignment="CENTER" layoutX="145.0" layoutY="93.0" prefHeight="37.0" prefWidth="111.0" text="0 : 00" textFill="#3b3b3b">
+               <font>
+                  <Font name="System Bold" size="24.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <MenuBar layoutY="-2.0" prefHeight="32.0" prefWidth="400.0" style="-fx-background-color: grey;">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#handleButtonHome" text="Home" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+      <Pane fx:id="menuPane" layoutY="30.0" onMouseDragged="#OnMouseDrag" onMousePressed="#OnMousePressed" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #3d3d3d; -fx-border-width: 5px; -fx-border-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="66.0" layoutY="318.0" text="TAILLE">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="0.7572815533980582" startX="1.0">
+                     <stops>
+                        <Stop color="WHITE" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <Button layoutX="145.0" layoutY="415.0" mnemonicParsing="false" onAction="#HandleButtonLancerJeuAction" prefHeight="53.0" prefWidth="111.0" style="-fx-background-color: white; -fx-background-radius: 10;" text="Play">
+               <font>
+                  <Font size="29.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="0.3640776699029126" startX="1.0" startY="1.0">
+                     <stops>
+                        <Stop color="BLACK" />
+                        <Stop color="#5ea8ff" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Button>
+            <ChoiceBox fx:id="tailleTaquin" layoutX="200.0" layoutY="322.0" prefHeight="31.0" prefWidth="139.0" style="-fx-background-color: white;" />
+            <Label fx:id="labelTestAnimation" layoutX="102.0" layoutY="15.0" style="-fx-border-color: white; -fx-border-width: 0 0 5 0;" text="TAQUIN" textAlignment="CENTER">
+               <font>
+                  <Font name="AR BONNIE" size="96.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="0.7572815533980582" startX="1.0">
+                     <stops>
+                        <Stop color="#619bff" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Label>
+            <Button layoutX="341.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleButtonClose" prefHeight="31.0" prefWidth="59.0" style="-fx-background-color: #9e4d4d; -fx-background-radius: 0;" text="Close" textFill="WHITE" />
+         </children>
+      </Pane>
     </children>
 </AnchorPane>

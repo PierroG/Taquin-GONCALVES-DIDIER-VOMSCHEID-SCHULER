@@ -8,7 +8,12 @@ and open the template in the editor.
     Author     : Pierre
 */
 .case {
-    -fx-background-color: #5fa4ea;
+    /*-fx-background-color: #5fa4ea;*/
+    -fx-background-color:
+        linear-gradient(#619bff,white),
+        radial-gradient(center 50% -40%, radius 400%,#619bff 10%,#193366 50%);
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
     -fx-border-color: black;
 }
 .caseVide {
@@ -18,6 +23,7 @@ and open the template in the editor.
 
 .num{
     -fx-font-size: 30;
+    -fx-text-fill: white;
     -fx-padding: 20.5 34.5 20.5 34.5;
     -fx-halignment: center;
     -fx-alignment: CENTER;  
