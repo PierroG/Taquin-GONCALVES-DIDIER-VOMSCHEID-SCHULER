@@ -160,7 +160,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    public void keyPressed(KeyEvent ke) {
+    public void keyPressed(KeyEvent ke) throws InterruptedException {
         if(canPlay==true){
             
         System.out.println("touche appuyée");
