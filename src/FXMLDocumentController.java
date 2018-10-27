@@ -8,6 +8,7 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -19,6 +20,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
@@ -91,11 +94,38 @@ public class FXMLDocumentController implements Initializable {
     }
     @FXML
     private void HandleButtonLancerJeuAction(ActionEvent event){
-        String taille = tailleTaquin.getValue().toString().substring(0, 1); //récupére le premier nombre écrit dans le choiceBox (4 si 4x4 est selectionné etc)
-        this.destroyPlateayView(); //Détruit l'ancienne partie si il y en avais une
-        plateau.initialize(Integer.parseInt(taille)); //intiailise la plateau est la vue
-        this.initializePlateauView();
-        this.AnimMenuOut();
+        if(!SerialiserPlateau.existePlateau()){
+            String taille = tailleTaquin.getValue().toString().substring(0, 1); //récupére le premier nombre écrit dans le choiceBox (4 si 4x4 est selectionné etc)
+            this.destroyPlateayView(); //Détruit l'ancienne partie si il y en avais une
+            plateau.initialize(Integer.parseInt(taille)); //intiailise la plateau est la vue
+            this.initializePlateauView();
+            this.AnimMenuOut();
+        }else{
+            //si il existe une partie en cours, une boite de dialogue est cree 
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle(null);
+            alert.setHeaderText(null);
+            alert.setContentText("Souhaitez-vous continuer la partie en cours ?");
+            ButtonType buttonOui = new ButtonType("Oui");
+            ButtonType buttonNon = new ButtonType("Non");
+            alert.getButtonTypes().setAll(buttonOui, buttonNon);
+            Optional<ButtonType> result = alert.showAndWait();
+            //si on clique sur le bouton oui alors on recharge la partie precedente
+            if (result.get() == buttonOui){
+                plateau = SerialiserPlateau.RecupPlateau();
+                this.initializePlateauView();
+                this.AnimMenuOut();
+            }
+            //sinon on cree une nouvelle partie
+            else {
+                String taille = tailleTaquin.getValue().toString().substring(0, 1); //récupére le premier nombre écrit dans le choiceBox (4 si 4x4 est selectionné etc)
+                this.destroyPlateayView(); //Détruit l'ancienne partie si il y en avais une
+                plateau.initialize(Integer.parseInt(taille)); //intiailise la plateau est la vue
+                this.initializePlateauView();
+                this.AnimMenuOut();
+            }
+        }
+        
         
     }
     @FXML
@@ -143,6 +173,8 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     public void initializePlateauView(){
+        SerialiserPlateau.enregistrerPlateau(plateau);
+        lScore.setText(plateau.getScore() + "");
         int taille=this.plateau.getTaille();
         this.paneTab = new Pane[taille][taille];
         int x = 25;
@@ -154,8 +186,10 @@ public class FXMLDocumentController implements Initializable {
         for(int i=0;i<taille;i++){
             x=25;
             for(int j=0;j<taille;j++){
-                if(i==taille-1 && j==taille-1){
+                if((this.plateau.getPlateau()[i][j]).getNum()==0){
                     paneTab[i][j]=null;
+                    objectifX=25+((350/taille)*j);       
+                    objectifY=142+((350/taille)*i);
                 }else{
                     //Crée une tuile et la place dans la fenétre
                     Pane p = new Pane();
@@ -180,80 +214,83 @@ public class FXMLDocumentController implements Initializable {
 
     public void keyPressed(KeyEvent ke) throws InterruptedException {
         if(canPlay==true){
-            
-        System.out.println("touche appuyée");
-        String touche = ke.getText();
-        
-        if (touche.compareTo("q")==0) {
-            System.out.println("q appuyée");
-            //effectu le mouvement dans le plateau
-            if(plateau.moveLeft()){
-                //effectu le mouvement dans la vue
-                //récupére la pane a déplacer qui est a la place de la case vide dans le plateau , et la dépalce
-                
-                this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
-                //met a jour l'objectif pour le prochain déplacement
-                objectifX = objectifX+(350/this.plateau.getTaille());
-                //paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()].relocate(objectifX,objectifY);
-            
-                paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()-1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
-                paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
 
-           
+            System.out.println("touche appuyée");
+            String touche = ke.getText();
+
+            if (touche.compareTo("q")==0) {
+                System.out.println("q appuyée");
+                //effectu le mouvement dans le plateau
+                if(plateau.moveLeft()){
+                    //effectu le mouvement dans la vue
+                    //récupére la pane a déplacer qui est a la place de la case vide dans le plateau , et la dépalce
+
+                    this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
+                    //met a jour l'objectif pour le prochain déplacement
+                    objectifX = objectifX+(350/this.plateau.getTaille());
+                    //paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()].relocate(objectifX,objectifY);
+
+                    paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()-1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
+                    paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
+
+
+                }
+
             }
-            
-        }
-        if (touche.compareTo("d")==0) {
-            System.out.println("d appuyée");
-            if(plateau.moveRight()){
-                
-                this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
-                objectifX = objectifX-(350/this.plateau.getTaille());
-                //déplacement sans thread
-                //paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()].relocate(objectifX,objectifY);
-            
-                paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()+1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
-                paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
-            
-                //objectifX = objectifX-(350/this.plateau.getTaille());
-            
+            if (touche.compareTo("d")==0) {
+                System.out.println("d appuyée");
+                if(plateau.moveRight()){
+
+                    this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
+                    objectifX = objectifX-(350/this.plateau.getTaille());
+                    //déplacement sans thread
+                    //paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()].relocate(objectifX,objectifY);
+
+                    paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()+1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
+                    paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
+
+                    //objectifX = objectifX-(350/this.plateau.getTaille());
+
+                }
             }
-        }
-        if (touche.compareTo("z")==0) {
-            System.out.println("z appuyée");
-            if(plateau.moveDown()){
-                
-                this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
-                objectifY = objectifY+(350/this.plateau.getTaille());
-                //paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()].relocate(objectifX,objectifY);
-            
-                paneTab[this.plateau.getXCaseVide()-1][this.plateau.getYCaseVide()]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
-                paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
-            
-                //objectifY = objectifY+(350/this.plateau.getTaille());
+            if (touche.compareTo("z")==0) {
+                System.out.println("z appuyée");
+                if(plateau.moveDown()){
+
+                    this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
+                    objectifY = objectifY+(350/this.plateau.getTaille());
+                    //paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()].relocate(objectifX,objectifY);
+
+                    paneTab[this.plateau.getXCaseVide()-1][this.plateau.getYCaseVide()]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
+                    paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
+
+                    //objectifY = objectifY+(350/this.plateau.getTaille());
+                }
             }
-        }
-        if (touche.compareTo("s")==0) {
-            System.out.println("s appuyée");
-            if(plateau.moveUp()){
-                
-                this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
-                objectifY = objectifY-(350/this.plateau.getTaille());
-                //paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()].relocate(objectifX,objectifY);
-                
-                paneTab[this.plateau.getXCaseVide()+1][this.plateau.getYCaseVide()]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
-                paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
-                
-                //objectifY = objectifY-(350/this.plateau.getTaille());
+            if (touche.compareTo("s")==0) {
+                System.out.println("s appuyée");
+                if(plateau.moveUp()){
+
+                    this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
+                    objectifY = objectifY-(350/this.plateau.getTaille());
+                    //paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()].relocate(objectifX,objectifY);
+
+                    paneTab[this.plateau.getXCaseVide()+1][this.plateau.getYCaseVide()]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
+                    paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
+
+                    //objectifY = objectifY-(350/this.plateau.getTaille());
+                }
             }
-        }
-        lScore.setText(Integer.toString(plateau.getScore()));
-        plateau.affichePlateauConsole();
-        if(this.plateau.isOver()){
-            System.out.println("Bien ouéj ta fini");
-            this.canPlay=false;
-            endEvent();
-        }
+            lScore.setText(Integer.toString(plateau.getScore()));
+            plateau.affichePlateauConsole();
+            if(this.plateau.isOver()){
+                System.out.println("Félicitation, vous avez gagné !");
+                SerialiserPlateau.EffacerPlateau();
+                this.canPlay=false;
+                endEvent();
+            }else{
+                SerialiserPlateau.enregistrerPlateau(plateau);
+            }
         }
     }
     public void createThread(Pane p,int toX,int toY){
@@ -300,16 +337,19 @@ public class FXMLDocumentController implements Initializable {
     }
     public void createTimer(){
         Task task = new Task<Void>() {
-            int minute,seconde = 0;
+            int minute = plateau.getChronoMin();
+            int seconde = plateau.getChronoSec();
             @Override
             public Void call() throws Exception {
                 while(canPlay){
-                    
                     if(seconde<60){
                         seconde+=1;
+                        plateau.setChronoSec(seconde);
                     }else{
                         minute+=1;
                         seconde=0;
+                        plateau.setChronoSec(seconde);
+                        plateau.setChronoMin(minute);
                     }
                     Platform.runLater(new Runnable() { // classe anonyme
                         @Override
