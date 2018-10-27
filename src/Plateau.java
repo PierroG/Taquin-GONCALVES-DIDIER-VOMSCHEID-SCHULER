@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import static java.lang.Math.random;
 import java.util.LinkedList;
 import java.util.Random;
@@ -14,7 +15,7 @@ import java.util.Scanner;
  *
  * @author Pierre
  */
-public class Plateau {
+public class Plateau implements Serializable {
     
     private int taille;
     private Case plateau[][];
