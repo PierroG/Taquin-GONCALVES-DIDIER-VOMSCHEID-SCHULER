@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -20,19 +21,13 @@ public class Taquin extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
-        Parent root = loader.load();
-        FXMLDocumentController controller = loader.getController();
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
-        loader.setController(controller);
  
         Scene scene = new Scene(root);
         boolean add = scene.getStylesheets().add("css/styles.css");
-        Plateau p = new Plateau();
-        //p.melange();
-        controller.setPlateau(p);
-        //controller.initializePlateauView2();
         
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
         
@@ -43,18 +38,7 @@ public class Taquin extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        //Plateau p = new Plateau(4);
-        //p.melange();
         launch(args);
-        //p.affichePlateauConsole();
-        /*boolean test = false;
-        while(test == false){//vraie condition : p.isOver()==false
-            p.choix();
-            p.affichePlateauConsole();
-            System.out.println(p.coefDesordre());
-         
-        }*/
     }
     
 }

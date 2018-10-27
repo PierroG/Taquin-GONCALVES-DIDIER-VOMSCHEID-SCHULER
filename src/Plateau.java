@@ -212,4 +212,7 @@ public class Plateau implements Serializable {
     public int getYCaseVide(){
         return this.yCaseVide;
     }
+    public void setScore(int i){
+        this.score = i;
+    }
 }

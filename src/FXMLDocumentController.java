@@ -22,8 +22,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -41,56 +43,30 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private GridPane grille;
     @FXML
-    private Label lScore;
+    private Label lScore,lTimer;
     @FXML
-    private Pane menuPane; // Pane représentant le menu
-    @FXML
-    private Pane taquinPane; // Pane représentant l'afficahge du jeu
-    ChoiceBox cb = new ChoiceBox(FXCollections.observableArrayList(
-    "First", "Second", "Third"));
-    
+    private Pane menuPane,taquinPane; // Pane représentant le menu , et l'affichage du taquin
     @FXML
     private ChoiceBox tailleTaquin;
     ObservableList list = FXCollections.observableArrayList("2x2","3x3","4x4","5x5","6x6","7x7","8x8");
-    //tableau qui contiendras les panes constituant le jeu
+    
+    //tableau qui contiendras les panes constituant le jeu pour l'affichage
     private Pane paneTab[][];
     
-    private int objectifX; private int objectifY;
+    private int objectifX,objectifY;
+    //boolean pour savoir si le joueur peux effectuer des mouvement ou non , pour éviter tous probléme
     private boolean canPlay=false;
-    
-    private final Label lab = new Label("2");
-    private final Pane pane = new Pane();
-    
+    private double xOffset = 0;
+    private double yOffset = 0;
     
     @FXML
     private Label labelTestAnimation;
     
-    @FXML
-    private void HandleButtonLancerJeuAction(ActionEvent event){
-        System.out.println("lance le jeu");
-        String test = tailleTaquin.getValue().toString().substring(0, 1);
-        System.out.println(test);
-
-        plateau.initialize(Integer.parseInt(test));
-        
-            this.initializePlateauView2();
-            this.testAnimation();
-        
-    }
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        
-    }
-    @FXML
-    private void handleButtonHome(ActionEvent event){
-        System.out.println("Home");
-        this.destroyPlateayView();
-        taquinPane.setVisible(false);
-        menuPane.setVisible(true);
-    }
+    
+    //Constructeur de la class
     public FXMLDocumentController(){
         System.out.println("Construct");
+        this.plateau = new Plateau(); 
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -102,21 +78,63 @@ public class FXMLDocumentController implements Initializable {
         //tailleTaquin.getValue() pour récupérer la valeur;
         
     } 
-    public void testAnimation(){
-        TranslateTransition t = new TranslateTransition();
-        t.setDuration(Duration.seconds(1));
-        t.setNode(labelTestAnimation);
-        t.setToY(-70);
+    @FXML
+    private void OnMousePressed(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+    }
+    @FXML
+    private void OnMouseDrag(MouseEvent event) {
+                Stage stage = (Stage) menuPane.getScene().getWindow();
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+    }
+    @FXML
+    private void HandleButtonLancerJeuAction(ActionEvent event){
+        String taille = tailleTaquin.getValue().toString().substring(0, 1); //récupére le premier nombre écrit dans le choiceBox (4 si 4x4 est selectionné etc)
+        this.destroyPlateayView(); //Détruit l'ancienne partie si il y en avais une
+        plateau.initialize(Integer.parseInt(taille)); //intiailise la plateau est la vue
+        this.initializePlateauView();
+        this.AnimMenuOut();
         
+    }
+    @FXML
+    private void handleButtonClose(ActionEvent event) {
+        Platform.exit();
+    }
+    @FXML
+    private void handleButtonHome(ActionEvent event){
+        System.out.println("Home");
+        
+        this.AnimMenuIn();
+    }
+
+    public void AnimMenuIn(){
+        this.canPlay=false;
+        TranslateTransition t = new TranslateTransition();
+        t.setDuration(Duration.seconds(2.5));
+        t.setNode(menuPane);
+        t.setToY(0);
+        t.play();
+        t.setOnFinished((e)->{
+            this.destroyPlateayView();
+        }); 
+    }
+    public void AnimMenuOut(){
+        TranslateTransition t = new TranslateTransition();
+        t.setDuration(Duration.seconds(2.5));
+        t.setNode(menuPane);
+        t.setToY(-520);
         t.play();
         t.setOnFinished((e)->{
             this.canPlay=true;
-            menuPane.setVisible(false);
-            taquinPane.setVisible(true);
-        });
+            this.createTimer();
+        }); 
     }
     public void destroyPlateayView(){
         if (paneTab!=null){
+            lScore.setText("0");
+            plateau.setScore(0);
             for(int i=0;i<this.plateau.getTaille();i++){
                 for(int j=0;j<this.plateau.getTaille();j++){
                     taquinPane.getChildren().remove(this.paneTab[i][j]);
@@ -124,14 +142,14 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
-    public void initializePlateauView2(){
+    public void initializePlateauView(){
         int taille=this.plateau.getTaille();
         this.paneTab = new Pane[taille][taille];
         int x = 25;
-        int y = 121;
+        int y = 142;
         //objectifX et objectifY corresponde a l'emplacement de la case vide
-        objectifX=25+((350/taille)*(taille-1));
-        objectifY=121+((350/taille)*(taille-1));
+        objectifX=x+((350/taille)*(taille-1));
+        objectifY=y+((350/taille)*(taille-1));
         System.out.println(taille);
         for(int i=0;i<taille;i++){
             x=25;
@@ -174,14 +192,14 @@ public class FXMLDocumentController implements Initializable {
                 //récupére la pane a déplacer qui est a la place de la case vide dans le plateau , et la dépalce
                 
                 this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
+                //met a jour l'objectif pour le prochain déplacement
                 objectifX = objectifX+(350/this.plateau.getTaille());
                 //paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()].relocate(objectifX,objectifY);
             
                 paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()-1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
                 paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
 
-                //mets a jours l'objectifX pour le prochain déplacement
-                //objectifX = objectifX+(350/this.plateau.getTaille());
+           
             }
             
         }
@@ -279,7 +297,41 @@ public class FXMLDocumentController implements Initializable {
         Thread th = new Thread(task); // on crée un contrôleur de Thread
         th.setDaemon(true); // le Thread s'exécutera en arrière-plan (démon informatique)
         th.start(); // et on exécute le Thread pour mettre à jour la vue (déplacement continu de la tuile horizontalement)
-    }    
+    }
+    public void createTimer(){
+        Task task = new Task<Void>() {
+            int minute,seconde = 0;
+            @Override
+            public Void call() throws Exception {
+                while(canPlay){
+                    
+                    if(seconde<60){
+                        seconde+=1;
+                    }else{
+                        minute+=1;
+                        seconde=0;
+                    }
+                    Platform.runLater(new Runnable() { // classe anonyme
+                        @Override
+                        public void run() {
+                            if(seconde<10){
+                                lTimer.setText(minute+" : 0"+seconde);
+                            }else{
+                                lTimer.setText(minute+" : "+seconde);
+                            }
+                            
+                        }
+                    }
+                    );
+                    Thread.sleep(1000);
+                }
+                return null;
+            }
+        }; 
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+    }
     public void endEvent(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Bien ouéj");
