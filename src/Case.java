@@ -1,5 +1,8 @@
 
+
 import java.util.LinkedList;
+import java.io.Serializable;
+>>>>>>> b9e93ad Envoi de la classe serialerPlateau (oublie)
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -11,7 +14,7 @@ import java.util.LinkedList;
  *
  * @author Pierre
  */
-public class Case {
+public class Case implements Serializable{
     
     private int num;
     
@@ -72,5 +75,6 @@ public class Case {
         
     
     
-    
+
+    } 
 }
