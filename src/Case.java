@@ -14,8 +14,10 @@ import java.io.Serializable;
 public class Case implements Serializable{
     
     private int num;
+    private int nu;
     
     public Case(){
+
     }
 
     public Case(int n){
