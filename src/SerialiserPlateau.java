@@ -31,6 +31,8 @@ public class SerialiserPlateau {
         catch(final java.io.IOException e) {
             e.printStackTrace();
         } 
+        
+        
         finally {
             try {
                 if(oos!= null) {
