@@ -19,6 +19,7 @@ import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class SerialiserPlateau {
     public static void enregistrerPlateau(Plateau plateau) {
         ObjectOutputStream oos = null;
