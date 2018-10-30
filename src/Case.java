@@ -1,3 +1,6 @@
+
+import java.util.LinkedList;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -27,6 +30,46 @@ public class Case {
     public void setNum(int num) {
         this.num = num;
     }
+    
+    public int isCaseVideDown(Plateau p){
+        int retour = 0;
+        for(int x = 0;x<p.getTaille();x++){
+            if(p.getPlateau()[x][p.getYCaseVide()].equals(this)){
+                retour = p.getXCaseVide()-x;
+            }
+        }
+        return retour;
+    }
+    public int isCaseVideUp(Plateau p){
+        int retour = 0;
+        for(int x = 0;x<p.getTaille();x++){
+            if(p.getPlateau()[x][p.getYCaseVide()].equals(this)){
+                retour = x-p.getXCaseVide();
+            }
+        }
+        return retour;
+    }
+    public int isCaseVideAGauche(Plateau p){
+        int retour = 0;
+        for(int y = 0;y<p.getTaille();y++){
+            if(p.getPlateau()[p.getXCaseVide()][y].equals(this)){
+                retour = y-p.getYCaseVide();
+            }
+        }
+        return retour;
+    }
+    public int isCaseVideADroite(Plateau p){
+        int retour = 0;
+        for(int y = 0;y<p.getTaille();y++){
+            if(p.getPlateau()[p.getXCaseVide()][y].equals(this)){
+                retour = p.getYCaseVide()-y;
+            }
+        }
+        return retour;
+    }
+        
+            
+        
     
     
     
