@@ -16,6 +16,7 @@ public class Case implements Serializable{
     private int num;
     
     public Case(){
+
     }
 
     public Case(int n){
