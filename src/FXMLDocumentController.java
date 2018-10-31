@@ -114,6 +114,7 @@ public class FXMLDocumentController implements Initializable {
             //si on clique sur le bouton oui alors on recharge la partie precedente
             if (result.get() == buttonOui){
                 plateau = SerialiserPlateau.RecupPlateau();
+                plateau.affichePlateauConsole();
                 this.initializePlateauView();
                 this.AnimMenuOut();
             }
@@ -131,6 +132,7 @@ public class FXMLDocumentController implements Initializable {
     }
     @FXML
     private void handleButtonClose(ActionEvent event) {
+        SerialiserPlateau.enregistrerPlateau(plateau);
         Platform.exit();
     }
     @FXML
@@ -176,6 +178,7 @@ public class FXMLDocumentController implements Initializable {
     }
     public void initializePlateauView(){
         SerialiserPlateau.enregistrerPlateau(plateau);
+        
         lScore.setText(plateau.getScore() + "");
         int taille=this.plateau.getTaille();
         this.paneTab = new Pane[taille][taille];
@@ -188,8 +191,10 @@ public class FXMLDocumentController implements Initializable {
         for(int i=0;i<taille;i++){
             x=25;
             for(int j=0;j<taille;j++){
-                if(i==taille-1 && j==taille-1){
+                if(plateau.getPlateau()[i][j].getNum()==0){
                     paneTab[i][j]=null;
+                    objectifX=25+(((float)350/taille)*j);
+                    objectifY=142+(((float)350/taille)*i);
                 }else{
                     
                     //Crée une tuile et la place dans la fenétre
@@ -388,19 +393,19 @@ public class FXMLDocumentController implements Initializable {
     }
     public void createTimer(){
         Task task = new Task<Void>() {
-            int minute = 0;//plateau.getChronoMin();
-            int seconde = 0;//plateau.getChronoSec();
+            int minute = plateau.getMin();
+            int seconde = plateau.getSec();
             @Override
             public Void call() throws Exception {
                 while(canPlay){
                     if(seconde<60){
                         seconde+=1;
-                        //plateau.setChronoSec(seconde);
+                        plateau.setSec(seconde);
                     }else{
                         minute+=1;
                         seconde=0;
-                        //plateau.setChronoSec(seconde);
-                        //plateau.setChronoMin(minute);
+                        plateau.setSec(seconde);
+                        plateau.setMin(minute);
                     }
                     Platform.runLater(new Runnable() { // classe anonyme
                         @Override
