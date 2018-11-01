@@ -8,6 +8,9 @@ import java.awt.Button;
 import java.awt.Color;
 import java.awt.Font;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.animation.TranslateTransition;
@@ -36,11 +39,12 @@ import javafx.util.Duration;
  *
  * @author Pierre
  */
-public class FXMLDocumentController implements Initializable {
+public class FXMLDocumentController implements Initializable, Observer {
     
     
     //@FXML
     //private Button[][] GrilleBoutons = new Button[7][8];
+    
     private Plateau plateau;
     @FXML
     private Label label;
@@ -127,7 +131,7 @@ public class FXMLDocumentController implements Initializable {
                 this.AnimMenuOut();
             }
         }
-        
+        plateau.addObserver(this);
         
     }
     @FXML
@@ -238,19 +242,31 @@ public class FXMLDocumentController implements Initializable {
         
         if (touche.compareTo("q")==0) {
             System.out.println("q appuyée");
-            moveLeft();
+            if(plateau.moveLeft()){
+                //mouv.add(4);
+            }
+            //moveLeft();
         }
         if (touche.compareTo("d")==0) {
             System.out.println("d appuyée");
-            moveRight();
+            if(plateau.moveRight()){
+                //mouv.add(3);
+            }
+            //moveRight();
         }
         if (touche.compareTo("z")==0) {
             System.out.println("z appuyée");
-            moveUp();
+            if(plateau.moveUp()){
+                //mouv.add(1);
+            }
+            //moveUp();
         }
         if (touche.compareTo("s")==0) {
             System.out.println("s appuyée");
-            moveDown();
+            if(plateau.moveDown()){
+                //mouv.add(2);
+            }
+            //moveDown();
         }
         
         if (ke.getCode().toString() == "DOWN" ) {
@@ -261,7 +277,10 @@ public class FXMLDocumentController implements Initializable {
             int nbCaseToMove = c.isCaseVideDown(plateau);
             //fait les déplacements
             for(int i=0;i<nbCaseToMove;i++){
-                moveDown();
+                if(plateau.moveDown()){
+                    //mouv.add(2);
+                }
+                //moveDown();
             }   
         }
         if (ke.getCode().toString() == "UP" ) {
@@ -269,7 +288,10 @@ public class FXMLDocumentController implements Initializable {
             Case c = chercheCase();
             int nbCaseToMove = c.isCaseVideUp(plateau);
             for(int i=0;i<nbCaseToMove;i++){
-                moveUp();
+                if(plateau.moveUp()){
+                    //mouv.add(1);
+                }
+                //moveUp();
             }   
         }
         if (ke.getCode().toString() == "LEFT" ) {
@@ -277,7 +299,10 @@ public class FXMLDocumentController implements Initializable {
             Case c = chercheCase();
             int nbCaseToMove = c.isCaseVideAGauche(plateau);
             for(int i=0;i<nbCaseToMove;i++){
-                moveLeft();
+                if(plateau.moveLeft()){
+                    //mouv.add(4);
+                }
+                //moveLeft();
             }   
         }
         if (ke.getCode().toString() == "RIGHT" ) {
@@ -285,7 +310,10 @@ public class FXMLDocumentController implements Initializable {
             Case c = chercheCase();
             int nbCaseToMove = c.isCaseVideADroite(plateau);
             for(int i=0;i<nbCaseToMove;i++){
-                moveRight();
+                if(plateau.moveRight()){
+                    //mouv.add(3);
+                }
+                //moveRight();
             }   
         }
         lScore.setText(Integer.toString(plateau.getScore()));
@@ -297,42 +325,35 @@ public class FXMLDocumentController implements Initializable {
         }
         }
     }
+    
     public void moveLeft(){
-        //essaye de faire le mouvement
-        if(plateau.moveLeft()){
-                //Si il a été fait , effectu le mouvement dans la vue
-                //récupére la pane a déplacer qui est a la place de la case vide dans le plateau , et la dépalce
-                this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
-                //met a jour l'objectif pour le prochain déplacement
-                objectifX = (float)objectifX+((float)350/this.plateau.getTaille());
-                //met a jour le tableau des Pane
-                paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()-1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
-                paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
-            }
+        //récupére la pane a déplacer qui est a la place de la case vide dans le plateau , et la dépalce
+        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
+        //met a jour l'objectif pour le prochain déplacement
+        objectifX = (float)objectifX+((float)350/this.plateau.getTaille());
+        //met a jour le tableau des Pane
+        paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()-1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
+        paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
     }
     public void moveRight(){
-        if(plateau.moveRight()){
-                this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
-                objectifX = (float)objectifX-((float)350/this.plateau.getTaille());
-                paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()+1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
-                paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
-        }
+        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
+        objectifX = (float)objectifX-((float)350/this.plateau.getTaille());
+        paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()+1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
+        paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
     }
     public void moveDown(){
-        if(plateau.moveUp()){
-                this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
-                objectifY =(float) objectifY-((float)350/this.plateau.getTaille());
-                paneTab[this.plateau.getXCaseVide()+1][this.plateau.getYCaseVide()]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
-                paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
-            }
+        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
+        objectifY =(float) objectifY-((float)350/this.plateau.getTaille());
+        paneTab[this.plateau.getXCaseVide()+1][this.plateau.getYCaseVide()]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
+        paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
+
     }
     public void moveUp(){
-        if(plateau.moveDown()){
-                this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
-                objectifY =(float) objectifY+((float)350/this.plateau.getTaille());
-                paneTab[this.plateau.getXCaseVide()-1][this.plateau.getYCaseVide()]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
-                paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
-            }
+        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
+        objectifY =(float) objectifY+((float)350/this.plateau.getTaille());
+        paneTab[this.plateau.getXCaseVide()-1][this.plateau.getYCaseVide()]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
+        paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
+            
 }
     public void createThread(Pane p,float toX,float toY){
         System.out.println(toX+"/"+toY);
@@ -435,6 +456,25 @@ public class FXMLDocumentController implements Initializable {
     }
     public void setPlateau(Plateau p){
         this.plateau=p;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        int i = this.plateau.getNextMouv();
+        switch(i){
+            case 1:
+                moveUp();
+                break;
+            case 2:
+                moveDown();
+                break;
+            case 3:
+                moveRight();
+                break;
+            case 4:
+                moveLeft();
+                break;
+        }
     }
     
     
