@@ -1,7 +1,9 @@
 
 import java.io.Serializable;
 import static java.lang.Math.random;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Observable;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -15,21 +17,40 @@ import java.util.Scanner;
  *
  * @author Pierre
  */
-public class Plateau implements Serializable {
-    
+public class Plateau extends Observable implements Serializable {
+    private ArrayList<Integer> mouv = new ArrayList<Integer>();
+    private int nb=-1;
     private int taille;
     private Case plateau[][];
     private int xCaseVide,yCaseVide;
     private int score=0;
-    
-    public Plateau(){
-        
+    private int sec = 0;
+    private int min = 0;
+
+    public Plateau() {
     }
     
     public Plateau(int t){
         this.taille = t;
         this.plateau= new Case[taille][taille];
     }
+    
+    public int getSec(){
+        return this.sec;
+    }
+    
+    public void setSec(int i){
+        this.sec = i;
+    }
+    
+    public int getMin(){
+        return this.min;
+    }
+    
+    public void setMin(int m){
+        this.min=m;
+    }
+    
     public void initialize(int t){
         this.taille = t;
         this.plateau= new Case[taille][taille];
@@ -72,6 +93,9 @@ public class Plateau implements Serializable {
             getPlateau()[xCaseVide][yCaseVide-1]=tmp;
             this.setXYcaseVide(xCaseVide, yCaseVide-1);  
             score++;
+            mouv.add(3);
+            setChanged();
+            notifyObservers();
             return true;
         }else{return false;}
     }
@@ -82,26 +106,35 @@ public class Plateau implements Serializable {
             getPlateau()[xCaseVide][yCaseVide+1]=tmp;
             this.setXYcaseVide(xCaseVide, yCaseVide+1);
             score++;
+            mouv.add(4);
+        setChanged();
+        notifyObservers();
             return true;
         }else{return false;}
     }
-    public boolean moveUp(){
+    public boolean moveDown(){
         if(xCaseVide>0){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
             getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide-1][yCaseVide];
             getPlateau()[xCaseVide-1][yCaseVide]=tmp;
             this.setXYcaseVide(xCaseVide-1, yCaseVide);
             score++;
+            mouv.add(2);
+        setChanged();
+        notifyObservers();
             return true;
         }else{return false;}
     }
-    public boolean moveDown(){
+    public boolean moveUp(){
         if(xCaseVide<getTaille()-1){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
             getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide+1][yCaseVide];
             getPlateau()[xCaseVide+1][yCaseVide]=tmp;
             this.setXYcaseVide(xCaseVide+1, yCaseVide);  
             score++;
+            mouv.add(1);
+        setChanged();
+        notifyObservers();
             return true;
         }else{return false;}
     }
@@ -214,5 +247,10 @@ public class Plateau implements Serializable {
     }
     public void setScore(int i){
         this.score = i;
+    }
+
+    int getNextMouv() {
+        nb++;
+        return this.mouv.get(nb);
     }
 }
