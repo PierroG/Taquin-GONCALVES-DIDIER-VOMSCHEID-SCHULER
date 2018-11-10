@@ -33,7 +33,7 @@ public class Jdbc {
        System.out.println("la connexion a la base est cree");
      }
      else {
-       System.out.println("la connexion a la base a echouee");
+       System.out.println("la connexion est deja existante");
      }
      return con;   
    }
@@ -43,7 +43,7 @@ public class Jdbc {
         if(con != null){
             try {
                 con.close();
-                System.out.println("connexion a la base close");
+                System.out.println("deconexion de la base reussie");
             } catch(Exception e){ 
                 e.printStackTrace();
             }
