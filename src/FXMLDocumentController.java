@@ -4,11 +4,8 @@
  * and open the template in the editor.
  */
 
-import java.awt.Button;
-import java.awt.Color;
-import java.awt.Font;
+
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
@@ -19,10 +16,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -78,7 +73,7 @@ public class FXMLDocumentController implements Initializable, Observer {
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("Inistialize");
+        System.out.println("Initialise");
         //menuPane.setVisible(true);
         //Gére le menu
         tailleTaquin.getItems().addAll(list);
@@ -100,9 +95,9 @@ public class FXMLDocumentController implements Initializable, Observer {
     @FXML
     private void HandleButtonLancerJeuAction(ActionEvent event){
         if(!SerialiserPlateau.existePlateau()){
-            String taille = tailleTaquin.getValue().toString().substring(0, 1); //récupére le premier nombre écrit dans le choiceBox (4 si 4x4 est selectionné etc)
-            this.destroyPlateayView(); //Détruit l'ancienne partie si il y en avais une
-            plateau.initialize(Integer.parseInt(taille)); //intiailise la plateau est la vue
+            String taille = tailleTaquin.getValue().toString().substring(0, 1); //récupère le premier nombre écrit dans le choiceBox (4 si 4x4 est selectionné etc)
+            this.destroyPlateayView(); //Détruit l'ancienne partie si il y en avait une
+            plateau.initialize(Integer.parseInt(taille)); //intiailise le plateau et la vue
             this.initializePlateauView();
             this.AnimMenuOut();
         }else{
@@ -138,6 +133,7 @@ public class FXMLDocumentController implements Initializable, Observer {
     private void handleButtonClose(ActionEvent event) {
         SerialiserPlateau.enregistrerPlateau(plateau);
         Platform.exit();
+        Jdbc.closeInstance();
     }
     @FXML
     private void handleButtonHome(ActionEvent event){
