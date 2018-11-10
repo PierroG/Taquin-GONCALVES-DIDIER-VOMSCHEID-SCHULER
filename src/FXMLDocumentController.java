@@ -141,6 +141,14 @@ public class FXMLDocumentController implements Initializable, Observer {
         
         this.AnimMenuIn();
     }
+    @FXML
+    private void handleButtonConnexion(ActionEvent event){
+        System.out.println("Connexion pressed");
+    }
+    @FXML
+    private void handleButtonInscription(ActionEvent event){
+        System.out.println("Inscription pressed");
+    }
 
     public void AnimMenuIn(){
         this.canPlay=false;

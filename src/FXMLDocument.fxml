@@ -120,6 +120,8 @@
                </textFill>
             </Label>
             <Button layoutX="341.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleButtonClose" prefHeight="31.0" prefWidth="59.0" style="-fx-background-color: #9e4d4d; -fx-background-radius: 0;" text="Close" textFill="WHITE" />
+            <Button layoutX="47.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleButtonConnexion" text="Connexion" />
+            <Button layoutX="281.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleButtonInscription" text="Inscription" />
          </children>
       </Pane>
     </children>
