@@ -12,9 +12,9 @@ import java.sql.*;
 
 public class Jdbc {
     
-    private String username = "";
-    private String connectUrl = "";
-    private String mdp = "";
+    private String username = "taquin";
+    private String connectUrl = "jdbc:mysql://localhost/taquin";
+    private String mdp = "taquin_mdp";
     private static Connection con = null;
     
     //Constructeur privé
