@@ -8,7 +8,10 @@
  *
  * @author Gwendolyn
  */
-import java.sql.*;
+ 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Jdbc {
     
@@ -20,6 +23,7 @@ public class Jdbc {
     //Constructeur privé
     private Jdbc(){
       try {
+          //Class.forName("com.mysql.jdbc.Driver").newInstance();
           con = DriverManager.getConnection(connectUrl, username, mdp);
       } catch (SQLException e) {
         e.printStackTrace();
@@ -43,7 +47,7 @@ public class Jdbc {
         if(con != null){
             try {
                 con.close();
-                System.out.println("deconexion de la base reussie");
+                System.out.println("deconnexion de la base reussie");
             } catch(Exception e){ 
                 e.printStackTrace();
             }
