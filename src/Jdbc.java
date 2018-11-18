@@ -11,6 +11,8 @@
  
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Jdbc {
@@ -54,11 +56,34 @@ public class Jdbc {
         }
     }
     
-    public void inscription(){
+public void inscription(String nom, String mdp){
         try {
-        
-        } catch(Exception e){
-            System.out.println("Erreur");
+            PreparedStatement prepare = this.con.prepareStatement("INSERT INTO joueur(nomJoueur, mdpJoueur) VALUES (?, ?)");
+            prepare.setString(1, nom);
+            prepare.setString(2, mdp);
+            prepare.executeUpdate();
+        } catch(SQLException e){
+            e.printStackTrace();
+            System.out.println("Erreur dans inscription");
         }
+    }
+    
+    public String connexion(String nom, String mdp){
+        String connexion= "";
+        try {
+            PreparedStatement prepare = con.prepareStatement("SELECT * from Joueur WHERE nomJoueur = ? AND mdpJoueur = ?");
+            prepare.setString(1, nom);
+            prepare.setString(2, mdp);
+            ResultSet result = prepare.executeQuery();
+            while(result.next()){
+                System.out.println(result.getString(1));
+                System.out.println(result.getString(2));
+                connexion = connexion + result.getString(1) + " " + result.getString(2) + "\n";
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+            System.out.println("Erreur dans connexion");
+        }
+        return connexion;
     }
 }
