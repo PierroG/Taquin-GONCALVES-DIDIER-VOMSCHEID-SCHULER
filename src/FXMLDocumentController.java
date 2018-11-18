@@ -55,7 +55,7 @@ public class FXMLDocumentController implements Initializable, Observer {
     
     //tableau qui contiendras les panes constituant le jeu pour l'affichage
     private Pane paneTab[][];
-    
+    private int enCour, nbThread;
     private float objectifX,objectifY;
     //boolean pour savoir si le joueur peux effectuer des mouvement ou non , pour éviter tous probléme
     private boolean canPlay=false;
@@ -94,6 +94,9 @@ public class FXMLDocumentController implements Initializable, Observer {
     }
     @FXML
     private void HandleButtonLancerJeuAction(ActionEvent event){
+        this.enCour=0;
+        this.nbThread=-1;
+        plateau = new Plateau();
         if(!SerialiserPlateau.existePlateau()){
             String taille = tailleTaquin.getValue().toString().substring(0, 1); //récupère le premier nombre écrit dans le choiceBox (4 si 4x4 est selectionné etc)
             this.destroyPlateayView(); //Détruit l'ancienne partie si il y en avait une
@@ -137,6 +140,7 @@ public class FXMLDocumentController implements Initializable, Observer {
     }
     @FXML
     private void handleButtonHome(ActionEvent event){
+        SerialiserPlateau.enregistrerPlateau(plateau);
         System.out.println("Home");
         
         this.AnimMenuIn();
@@ -332,7 +336,7 @@ public class FXMLDocumentController implements Initializable, Observer {
     
     public void moveLeft(){
         //récupére la pane a déplacer qui est a la place de la case vide dans le plateau , et la dépalce
-        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
+        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY,++nbThread);
         //met a jour l'objectif pour le prochain déplacement
         objectifX = (float)objectifX+((float)350/this.plateau.getTaille());
         //met a jour le tableau des Pane
@@ -340,26 +344,26 @@ public class FXMLDocumentController implements Initializable, Observer {
         paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
     }
     public void moveRight(){
-        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
+        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY,++nbThread);
         objectifX = (float)objectifX-((float)350/this.plateau.getTaille());
         paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()+1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
         paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
     }
     public void moveDown(){
-        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
+        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY,++nbThread);
         objectifY =(float) objectifY-((float)350/this.plateau.getTaille());
         paneTab[this.plateau.getXCaseVide()+1][this.plateau.getYCaseVide()]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
         paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
 
     }
     public void moveUp(){
-        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY);
+        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY,++nbThread);
         objectifY =(float) objectifY+((float)350/this.plateau.getTaille());
         paneTab[this.plateau.getXCaseVide()-1][this.plateau.getYCaseVide()]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
         paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
             
 }
-    public void createThread(Pane p,float toX,float toY){
+    public void createThread(Pane p,float toX,float toY, int num){
         System.out.println(toX+"/"+toY);
         Task task = new Task<Void>() { // on définit une tâche parallèle pour mettre à jour la vue 
             //récupére la postion du pane a dépalacer
@@ -370,7 +374,13 @@ public class FXMLDocumentController implements Initializable, Observer {
             float objY=toY;
             @Override
             public Void call() throws Exception { // implémentation de la méthode protected abstract V call() dans la classe Task
-                
+                while(enCour!=num){
+                    Thread.sleep(1);
+                }
+                x=(float)p.getLayoutX();
+                y=(float)p.getLayoutY();
+                objX=toX;
+                objY=toY;
                 while (x != objX || y != objY) { // si la tuile n'est pas à la place qu'on souhaite attendre en abscisse
                     if (x < objX) {
                         x += .25; // si on va vers la droite, on modifie la position de la tuile pixel par pixel vers la droite
@@ -389,17 +399,20 @@ public class FXMLDocumentController implements Initializable, Observer {
                             p.relocate(x, y); // on déplace la tuile d'un pixel sur la vue, on attend 5ms et on recommence jusqu'à atteindre l'objectif
                             p.setVisible(true);    
                         }
-                    }
-                    );
+                    });
                     Thread.sleep(1);
                 } // end while
+                enCour++;
                 return null; // la méthode call doit obligatoirement retourner un objet. Ici on n'a rien de particulier à retourner. Du coup, on utilise le type Void (avec un V majuscule) : c'est un type spécial en Java auquel on ne peut assigner que la valeur null
             } // end call
 
         };
+        factoryThread.lancer(task);
+        /*
         Thread th = new Thread(task); // on crée un contrôleur de Thread
         th.setDaemon(true); // le Thread s'exécutera en arrière-plan (démon informatique)
         th.start(); // et on exécute le Thread pour mettre à jour la vue (déplacement continu de la tuile horizontalement) 
+    */
     }
     //Cherche la position du pane dans paneTab et retourne la Case associé dans le plateau qui est au méme coordonnés
     public Case chercheCase(){
