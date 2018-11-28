@@ -52,6 +52,8 @@ public class FXMLDocumentController implements Initializable, Observer {
     @FXML
     private Pane menuPane,taquinPane,classementPane; // Pane représentant le menu , et l'affichage du taquin
     @FXML
+    private Pane connexionPane,notLogPane,inscriptionPane,logPane;
+    @FXML
     private ChoiceBox tailleTaquin;
     ObservableList list = FXCollections.observableArrayList("2x2","3x3","4x4","5x5","6x6","7x7","8x8");
     @FXML
@@ -152,13 +154,37 @@ public class FXMLDocumentController implements Initializable, Observer {
         
         this.AnimMenuIn();
     }
+    //Action du bouton inscription sur le menu
     @FXML
     private void handleButtonConnexion(ActionEvent event){
         System.out.println("Connexion pressed");
+        notLogPane.setVisible(false);
+        connexionPane.setVisible(true);
     }
+    //Action du bouton connexion sur le menu
     @FXML
     private void handleButtonInscription(ActionEvent event){
         System.out.println("Inscription pressed");
+        notLogPane.setVisible(false);
+        inscriptionPane.setVisible(true);
+    }
+    //Action du bouton Inscription sur le formulaire d'inscription
+    @FXML
+    private void handleButtonInscription2(ActionEvent event){
+        System.out.println("Inscription pressed");
+        //Code Ici
+        
+        logPane.setVisible(true);
+        inscriptionPane.setVisible(false);
+    }
+    //Action du bouton connexion sur le formulaire de connexion
+    @FXML
+    private void handleButtonConnexion2(ActionEvent event){
+        System.out.println("Connexion pressed");
+        //Code Ici 
+        
+        logPane.setVisible(true);
+        connexionPane.setVisible(false);
     }
     @FXML
     private void handleButtonRanking(ActionEvent event){
