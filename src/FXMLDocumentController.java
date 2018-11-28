@@ -48,7 +48,7 @@ public class FXMLDocumentController implements Initializable, Observer {
     @FXML
     private GridPane grille;
     @FXML
-    private Label lScore,lTimer;
+    private Label lScore,lTimer,lName;
     @FXML
     private Pane menuPane,taquinPane,classementPane; // Pane représentant le menu , et l'affichage du taquin
     @FXML
@@ -174,6 +174,8 @@ public class FXMLDocumentController implements Initializable, Observer {
         System.out.println("Inscription pressed");
         //Code Ici
         
+        
+        //lName.setText(); //Pour afficher le nom a la place de NAME
         logPane.setVisible(true);
         inscriptionPane.setVisible(false);
     }
@@ -183,6 +185,8 @@ public class FXMLDocumentController implements Initializable, Observer {
         System.out.println("Connexion pressed");
         //Code Ici 
         
+        
+        //lName.setText(); //Pour afficher le nom a la place de NAME
         logPane.setVisible(true);
         connexionPane.setVisible(false);
     }
