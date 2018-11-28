@@ -186,8 +186,8 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="188.0" layoutY="18.0" />
-                  <TextField layoutX="188.0" layoutY="57.0" />
+                  <TextField fx:id="textFieldUsername" layoutX="188.0" layoutY="18.0" />
+                  <TextField fx:id="textFieldPassWord" layoutX="188.0" layoutY="57.0" />
                </children>
             </Pane>
             <Pane fx:id="inscriptionPane" layoutX="6.0" layoutY="118.0" prefHeight="134.0" prefWidth="388.0" visible="false">
@@ -203,14 +203,14 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="188.0" layoutY="6.0" prefWidth="149.0" />
-                  <TextField layoutX="187.0" layoutY="37.0" />
+                  <TextField fx:id="textFieldUsername" layoutX="188.0" layoutY="6.0" prefWidth="149.0" />
+                  <TextField fx:id="textFieldPassWord" layoutX="187.0" layoutY="37.0" />
                   <Label layoutX="5.0" layoutY="64.0" prefHeight="30.0" prefWidth="170.0" text="Confirm Password" textFill="WHITE">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="187.0" layoutY="68.0" />
+                  <TextField fx:id="textFieldConfirmPassWord" layoutX="187.0" layoutY="68.0" />
                </children>
             </Pane>
             <Pane fx:id="logPane" layoutX="7.0" layoutY="124.0" prefHeight="96.0" prefWidth="388.0" visible="false">

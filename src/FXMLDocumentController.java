@@ -6,6 +6,7 @@
 
 
 import Classement.Classement;
+import java.awt.TextField;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
@@ -53,6 +54,8 @@ public class FXMLDocumentController implements Initializable, Observer {
     private Pane menuPane,taquinPane,classementPane; // Pane représentant le menu , et l'affichage du taquin
     @FXML
     private Pane connexionPane,notLogPane,inscriptionPane,logPane;
+    @FXML
+    private TextField textFieldUsername,textFieldPassWord,textFieldConfirmPassWord;
     @FXML
     private ChoiceBox tailleTaquin;
     ObservableList list = FXCollections.observableArrayList("2x2","3x3","4x4","5x5","6x6","7x7","8x8");
