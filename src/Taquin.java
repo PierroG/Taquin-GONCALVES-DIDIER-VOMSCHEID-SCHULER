@@ -23,7 +23,7 @@ public class Taquin extends Application {
     public void start(Stage stage) throws Exception {
         
         Jdbc.getInstance();
-        Parent root = FXMLLoader.load(getClass().getResource("GamePackage/FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/GamePackage/FXMLDocument.fxml"));
         
  
         Scene scene = new Scene(root);
