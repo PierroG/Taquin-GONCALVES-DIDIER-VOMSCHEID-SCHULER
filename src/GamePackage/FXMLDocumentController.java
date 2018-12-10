@@ -1,11 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
+package GamePackage;
 
 import Classement.Classement;
+import GamePackage.Case;
+
+import GamePackage.factoryThread;
+import Login.FXMLFormulaireInscriptionController;
 import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,7 +20,10 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -172,8 +175,18 @@ public class FXMLDocumentController implements Initializable, Observer {
     @FXML
     private void handleButtonInscription(ActionEvent event){
         System.out.println("Inscription pressed");
-        notLogPane.setVisible(false);
-        inscriptionPane.setVisible(true);
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login/FXMLFormulaireInscription.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            FXMLFormulaireInscriptionController controller = fxmlLoader.getController();
+            controller.init(this);
+            Stage stage = new Stage();
+            Scene scene = new Scene(root1);
+            stage.setScene(scene);  
+            stage.show();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
     //Action du bouton Inscription sur le formulaire d'inscription
     @FXML

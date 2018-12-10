@@ -1,3 +1,5 @@
+package GamePackage;
+
 import java.util.LinkedList;
 import java.io.Serializable;
 

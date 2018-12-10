@@ -9,6 +9,7 @@
  * @author Gwendolyn
  */
 
+package GamePackage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,13 +25,14 @@ public class SerialiserPlateau {
     public static void enregistrerPlateau(Plateau plateau) {
         ObjectOutputStream oos = null;
         try {
-            File fichier = new File("src/plateau/plateau.ser");
+            File fichier = new File("src/plateau.ser");//"src/plateau/plateau.ser"
             oos = new ObjectOutputStream(new FileOutputStream(fichier));
             oos.writeObject(plateau);
             oos.flush();
         } 
         catch(final java.io.IOException e) {
             e.printStackTrace();
+            
         } 
         
         
@@ -48,7 +50,7 @@ public class SerialiserPlateau {
 
     public static void EffacerPlateau() {
         try {
-            File fichier = new File("src/plateau/plateau.ser");
+            File fichier = new File("src/plateau.ser");
             fichier.delete();
         } 
         catch(Exception e) {
@@ -57,18 +59,19 @@ public class SerialiserPlateau {
     }
     
     public static Plateau RecupPlateau(){
-        File fichier = new File("src/plateau/plateau.ser");
+        File fichier = new File("src/plateau.ser");
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fichier));
             return (Plateau)ois.readObject();
         } catch (Exception ex) {
             Logger.getLogger(SerialiserPlateau.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
         return null;
     }
     
     public static boolean existePlateau(){
-        File fichier = new File("src/plateau/plateau.ser");
+        File fichier = new File("src/plateau.ser");
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fichier));
             return true;

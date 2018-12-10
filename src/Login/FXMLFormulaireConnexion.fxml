@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="229.0" prefWidth="271.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Login.FXMLFormulaireConnexionController">
+   <children>
+      <Label alignment="CENTER_RIGHT" layoutX="18.0" layoutY="92.0" prefHeight="25.0" prefWidth="77.0" text="Username">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER_RIGHT" layoutX="18.0" layoutY="127.0" prefHeight="25.0" prefWidth="77.0" text="PassWord">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="usernameTF" layoutX="108.0" layoutY="92.0" />
+      <Button fx:id="cancelButton" layoutX="32.0" layoutY="171.0" mnemonicParsing="false" onAction="#handleButtonCancel" prefHeight="34.0" prefWidth="70.0" style="-fx-background-radius: 20; -fx-background-color: #9e4d4d;" text="cancel">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button layoutX="166.0" layoutY="171.0" mnemonicParsing="false" onAction="#handleButtonInscription" prefHeight="34.0" prefWidth="86.0" style="-fx-background-radius: 20;" text="Connexion">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Label fx:id="linfo" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="53.0" prefHeight="25.0" prefWidth="244.0" textFill="#9e4d4d">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <PasswordField fx:id="passwordTF" layoutX="109.0" layoutY="127.0" />
+      <Label alignment="CENTER" layoutX="23.0" layoutY="14.0" prefHeight="34.0" prefWidth="234.0" text="Hello ! Please sign in">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

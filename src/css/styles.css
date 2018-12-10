@@ -27,16 +27,94 @@
     /*-fx-halignment: center;
     -fx-alignment: CENTER;*/
 }
-.rankingTable{
+.rankTable{
+    -fx-background-color: transparent;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+}
+
+.rankTable .cell{
+    -fx-background-color: transparent;
+    -fx-font-color: white;
+    -fx-alignment: CENTER;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+}
+.rankTable .column-header{
+    -fx-background-color: white;
+    -fx-font-size: 15;
+    
+}
+/*.rankingTable{
     -fx-background-color: white;
 
-}
-.rankingTableColumn{
+}*/
+
+/*.rankingTableColumn{
     -fx-alignment: CENTER;
     -fx-font-size: 15px;
-}
+}*/
 
-.bouton{
-    -fx-background-color: grey;
-    -fx-border-color: black;
+.buttonSignUp{
+    -fx-background-color:  linear-gradient(#00558d 0%,#91ffd7 100%);
+    -fx-background-radius : 20;
+    
 }
+.buttonSignUp:hover{
+    -fx-text-fill: #3d3d3d;
+    -fx-background-color: linear-gradient(white 0%,#91ffd7 100%);
+}
+.buttonSignIn{
+    -fx-background-color: transparent;
+    -fx-background-radius : 20;
+}
+.buttonSignIn:hover{
+    -fx-text-fill: white;
+}
+/*----------------Apparence Des boutons principaux-----------------*/
+.buttonMenu{
+    -fx-background-color: transparent;
+    -fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%);
+    -fx-background-radius: 40;
+    -fx-border-radius: 40;
+    -fx-border-width: 4;
+    
+    -fx-text-fill: white;
+}
+.buttonMenu:hover{
+    -fx-background-color: linear-gradient(#00558d 0%,#91ffd7 100%);
+    /*-fx-text-fill: #3d3d3d;*/
+}
+.buttonMenu:pressed{
+    -fx-background-color: linear-gradient(#00558d 10%,#91ffd7 90%);
+    -fx-text-fill: white
+     
+}
+.paneMenu{
+    -fx-border-width: 5;
+    -fx-border-color: white;
+    -fx-background-color:
+        linear-gradient(#3d3d3d 0%, black 100%);
+}
+/*-----------------------------------*/
+.buttonClose{
+    -fx-background-color:  #9e4d4d;
+    -fx-background-radius: 0;  
+}
+.buttonClose:hover{
+    -fx-background-color: #9b2626;
+    -fx-background-radius: 0;
+}
+/*-----------------------------------*/
+.choiceBoxTaille{
+    -fx-text-fill: #3d3d3d;
+    -fx-mark-color: #3d3d3d;
+    -fx-background-color : white;
+    -fx-background-radius: 30;
+    -fx-font-weight: bold;
+}
+.choiceBoxTaille > .label {  
+    -fx-alignment: CENTER;
+    -fx-font-size: 20px;
+}
+/*-----------------------------------*/
