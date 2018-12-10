@@ -5,7 +5,10 @@
  */
 
 
+import Classement.Classement;
+import javafx.scene.control.TextField;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
@@ -23,6 +26,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -46,16 +50,22 @@ public class FXMLDocumentController implements Initializable, Observer {
     @FXML
     private GridPane grille;
     @FXML
-    private Label lScore,lTimer;
+    private Label lScore,lTimer,lName;
     @FXML
-    private Pane menuPane,taquinPane; // Pane représentant le menu , et l'affichage du taquin
+    private Pane menuPane,taquinPane,classementPane; // Pane représentant le menu , et l'affichage du taquin
+    @FXML
+    private Pane connexionPane,notLogPane,inscriptionPane,logPane;
+    @FXML
+    private TextField textFieldUsername,textFieldPassWord,textFieldConfirmPassWord;
     @FXML
     private ChoiceBox tailleTaquin;
     ObservableList list = FXCollections.observableArrayList("2x2","3x3","4x4","5x5","6x6","7x7","8x8");
-    
+    @FXML
+    private TableView tableClassement;
     //tableau qui contiendras les panes constituant le jeu pour l'affichage
     private Pane paneTab[][];
     private int enCour, nbThread;
+    private ArrayList<Pane> tab;
     private float objectifX,objectifY;
     //boolean pour savoir si le joueur peux effectuer des mouvement ou non , pour éviter tous probléme
     private boolean canPlay=false;
@@ -81,11 +91,13 @@ public class FXMLDocumentController implements Initializable, Observer {
         //tailleTaquin.getValue() pour récupérer la valeur;
         
     } 
+    //Event Pour bouger la fenétre
     @FXML
     private void OnMousePressed(MouseEvent event) {
                 xOffset = event.getSceneX();
                 yOffset = event.getSceneY();
     }
+    //Event Pour bouger la fenétre
     @FXML
     private void OnMouseDrag(MouseEvent event) {
                 Stage stage = (Stage) menuPane.getScene().getWindow();
@@ -94,6 +106,7 @@ public class FXMLDocumentController implements Initializable, Observer {
     }
     @FXML
     private void HandleButtonLancerJeuAction(ActionEvent event){
+        this.tab=new ArrayList<Pane>();
         this.enCour=0;
         this.nbThread=-1;
         plateau = new Plateau();
@@ -104,6 +117,7 @@ public class FXMLDocumentController implements Initializable, Observer {
             this.initializePlateauView();
             this.AnimMenuOut();
         }else{
+            System.out.println("tewst");
             //si il existe une partie en cours, une boite de dialogue est cree 
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle(null);
@@ -132,12 +146,14 @@ public class FXMLDocumentController implements Initializable, Observer {
         plateau.addObserver(this);
         
     }
+    //Event pour le bouton Close
     @FXML
     private void handleButtonClose(ActionEvent event) {
         SerialiserPlateau.enregistrerPlateau(plateau);
         Platform.exit();
         Jdbc.closeInstance();
     }
+    //Sevent pour le bouton Home
     @FXML
     private void handleButtonHome(ActionEvent event){
         SerialiserPlateau.enregistrerPlateau(plateau);
@@ -145,13 +161,50 @@ public class FXMLDocumentController implements Initializable, Observer {
         
         this.AnimMenuIn();
     }
+    //Action du bouton inscription sur le menu
     @FXML
     private void handleButtonConnexion(ActionEvent event){
         System.out.println("Connexion pressed");
+        notLogPane.setVisible(false);
+        connexionPane.setVisible(true);
     }
+    //Action du bouton connexion sur le menu
     @FXML
     private void handleButtonInscription(ActionEvent event){
         System.out.println("Inscription pressed");
+        notLogPane.setVisible(false);
+        inscriptionPane.setVisible(true);
+    }
+    //Action du bouton Inscription sur le formulaire d'inscription
+    @FXML
+    private void handleButtonInscription2(ActionEvent event){
+        System.out.println("Inscription pressed");
+        //Code Ici
+        
+        
+        //lName.setText(); //Pour afficher le nom a la place de NAME
+        logPane.setVisible(true);
+        inscriptionPane.setVisible(false);
+    }
+    //Action du bouton connexion sur le formulaire de connexion
+    @FXML
+    private void handleButtonConnexion2(ActionEvent event){
+        System.out.println("Connexion pressed");
+        //Code Ici 
+        
+        
+        //lName.setText(); //Pour afficher le nom a la place de NAME
+        logPane.setVisible(true);
+        connexionPane.setVisible(false);
+    }
+    @FXML
+    private void handleButtonRanking(ActionEvent event){
+        this.initRank();
+        classementPane.setVisible(true);
+    }
+    @FXML
+    private void handleButtonRankingBack(ActionEvent event){
+        classementPane.setVisible(false);
     }
 
     public void AnimMenuIn(){
@@ -374,9 +427,12 @@ public class FXMLDocumentController implements Initializable, Observer {
             float objY=toY;
             @Override
             public Void call() throws Exception { // implémentation de la méthode protected abstract V call() dans la classe Task
-                while(enCour!=num){
-                    Thread.sleep(1);
+                if(tab.contains(p)){
+                    while(enCour!=num){
+                        Thread.sleep(1);
+                    }
                 }
+                tab.add(p);
                 x=(float)p.getLayoutX();
                 y=(float)p.getLayoutY();
                 objX=toX;
@@ -403,6 +459,7 @@ public class FXMLDocumentController implements Initializable, Observer {
                     Thread.sleep(1);
                 } // end while
                 enCour++;
+                tab.remove(p);
                 return null; // la méthode call doit obligatoirement retourner un objet. Ici on n'a rien de particulier à retourner. Du coup, on utilise le type Void (avec un V majuscule) : c'est un type spécial en Java auquel on ne peut assigner que la valeur null
             } // end call
 
@@ -494,7 +551,15 @@ public class FXMLDocumentController implements Initializable, Observer {
         }
     }
     
-    
-   
+   //Initialise la tableau de classement 
+   public void initRank(){
+       System.out.println("initRank");
+       //Classement de Test ( a enlever )
+       Classement c = new Classement("1","billy","50",tableClassement);
+       
+       //il faudras créer un classement avec en entré la list des joueur et tableClassement
+       //Classement c = new Classement(list,tableClassement);
+       
+   }
     
 }
