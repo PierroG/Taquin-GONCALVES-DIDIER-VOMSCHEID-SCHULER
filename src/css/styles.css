@@ -27,8 +27,13 @@
     /*-fx-halignment: center;
     -fx-alignment: CENTER;*/
 }
-.titre{
+.rankingTable{
+    -fx-background-color: white;
 
+}
+.rankingTableColumn{
+    -fx-alignment: CENTER;
+    -fx-font-size: 15px;
 }
 
 .bouton{
