@@ -45,7 +45,7 @@ public class FXMLFormulaireInscriptionController implements Initializable {
     private void handleButtonInscription(ActionEvent event){
         System.out.println("Inscription");
         String regex = "[a-zA-Z0-9]+";
-        if(passwordTF.getText().length()<3){
+        if(passwordTF.getText().length()<4){
             linfo.setText("Password trop court, 4 char mini");
         }else if(!passwordTF.getText().equals(confirmPasswordTF.getText())){
             linfo.setText("Ereur de confirmation du Password");

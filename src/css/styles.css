@@ -1,20 +1,19 @@
 .case {
-    /*-fx-background-color: #5fa4ea;*/
     -fx-background-color: 
        
         linear-gradient(#00558d,white),
         radial-gradient(center 50% -40%, radius 400%,#00558d 10%,#002c49 50%);
-    /*-fx-border-width: 3;*/
     -fx-border-radius: 0;
     -fx-background-radius: 0;
     -fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%);
 }
+.case:hover {
+    -fx-background-color: #00558d;
+}
 .caseSelection {
-    -fx-background-color: #619bff;
-        
-    -fx-border-radius: 2;
-    -fx-background-radius: 2;
-    -fx-border-color: black;
+    /*-fx-background-color: linear-gradient(#00558d 0%,#91ffd7 100%);*/
+    -fx-border-color: #91ffd7;
+    -fx-border-width: 6;
 }
 .caseVide {
     -fx-background-color: white;
