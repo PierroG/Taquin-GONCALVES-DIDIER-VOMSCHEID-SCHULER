@@ -102,7 +102,7 @@
                </textFill>
             </Button>
             <ChoiceBox fx:id="tailleTaquin" layoutX="206.0" layoutY="363.0" prefHeight="31.0" prefWidth="82.0" styleClass="choiceBoxTaille" />
-            <Label fx:id="labelTestAnimation" layoutX="73.0" layoutY="14.0" style="-fx-border-color: white; -fx-border-width: 0 0 0 0;" text="TAQUIN" textAlignment="CENTER">
+            <Label fx:id="labelTestAnimation" layoutX="73.0" layoutY="1.0" style="-fx-border-color: white; -fx-border-width: 0 0 0 0;" text="TAQUIN" textAlignment="CENTER">
                <font>
                   <Font size="70.0" />
                </font>
@@ -130,9 +130,9 @@
                   <Font size="25.0" />
                </font>
             </Button>
-            <Pane fx:id="notLogPane" layoutX="6.0" layoutY="107.0" prefHeight="142.0" prefWidth="388.0">
+            <Pane fx:id="notLogPane" layoutX="21.0" layoutY="107.0" prefHeight="142.0" prefWidth="357.0" style="-fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%); -fx-border-width: 5; -fx-border-radius: 10;">
                <children>
-                  <Button alignment="CENTER" layoutX="221.0" layoutY="86.0" mnemonicParsing="false" onAction="#handleButtonInscription" prefHeight="39.0" prefWidth="82.0" styleClass="buttonSignIn" text="Sign In">
+                  <Button alignment="CENTER" layoutX="178.0" layoutY="86.0" mnemonicParsing="false" onAction="#handleButtonInscription" prefHeight="39.0" prefWidth="82.0" styleClass="buttonSignIn" text="Sign In">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -145,22 +145,22 @@
                            </stops>
                         </LinearGradient>
                      </textFill></Button>
-                  <Button layoutX="312.0" layoutY="49.0" mnemonicParsing="false" onAction="#handleButtonConnexion" styleClass="buttonSignUp" text="Sign up" textFill="#3d3d3d">
+                  <Button layoutX="269.0" layoutY="49.0" mnemonicParsing="false" onAction="#handleButtonConnexion" styleClass="buttonSignUp" text="Sign up" textFill="#3d3d3d">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <TextField fx:id="UsernameField" layoutX="103.0" layoutY="14.0" prefHeight="31.0" prefWidth="180.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: white; -fx-text-fill: white;">
+                  <TextField fx:id="UsernameField" layoutX="60.0" layoutY="14.0" prefHeight="31.0" prefWidth="180.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: white; -fx-text-fill: white;">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <Label layoutX="83.0" layoutY="97.0" text="Don't have account ? " textFill="WHITE">
+                  <Label layoutX="40.0" layoutY="97.0" text="Don't have account ? " textFill="WHITE">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <PasswordField fx:id="PassWordField" layoutX="103.0" layoutY="55.0" prefHeight="25.0" prefWidth="180.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: white; -fx-text-fill: white;">
+                  <PasswordField fx:id="PassWordField" layoutX="60.0" layoutY="55.0" prefHeight="25.0" prefWidth="180.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: white; -fx-text-fill: white;">
                      <font>
                         <Font size="15.0" />
                      </font>
