@@ -44,13 +44,22 @@ public class FXMLFormulaireInscriptionController implements Initializable {
     @FXML
     private void handleButtonInscription(ActionEvent event){
         System.out.println("Inscription");
-            
-        if(!passwordTF.getText().equals(confirmPasswordTF.getText())){
-            linfo.setText("Confirmation non identique");
-        }else if(passwordTF.getText().length()<3){
+        String regex = "[a-zA-Z0-9]+";
+        if(passwordTF.getText().length()<3){
             linfo.setText("Password trop court, 4 char mini");
+        }else if(!passwordTF.getText().equals(confirmPasswordTF.getText())){
+            linfo.setText("Ereur de confirmation du Password");
+        }else if((usernameTF.getText().matches(regex) && passwordTF.getText().matches(regex))==false){
+            linfo.setText("Ereur a-z / A-Z / 0-9 Uniquement");
+        
+        }else if(usernameTF.getText().equals(passwordTF.getText())){
+            linfo.setText("Username et Password ne peuvent pas étre identique");
             
+        }else{
+            linfo.setText("Correct");
         }
+            
+        
     }
     @FXML
     private void handleButtonCancel(ActionEvent event){

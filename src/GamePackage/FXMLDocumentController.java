@@ -29,6 +29,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -53,13 +54,15 @@ public class FXMLDocumentController implements Initializable, Observer {
     @FXML
     private GridPane grille;
     @FXML
-    private Label lScore,lTimer,lName;
+    private Label lScore,lTimer,linfo;
     @FXML
     private Pane menuPane,taquinPane,classementPane; // Pane représentant le menu , et l'affichage du taquin
     @FXML
     private Pane connexionPane,notLogPane,inscriptionPane,logPane;
     @FXML
-    private TextField textFieldUsername,textFieldPassWord,textFieldConfirmPassWord;
+    private TextField UsernameField;
+    @FXML
+    private PasswordField PassWordField;
     @FXML
     private ChoiceBox tailleTaquin;
     ObservableList list = FXCollections.observableArrayList("2x2","3x3","4x4","5x5","6x6","7x7","8x8");
@@ -72,6 +75,8 @@ public class FXMLDocumentController implements Initializable, Observer {
     private float objectifX,objectifY;
     //boolean pour savoir si le joueur peux effectuer des mouvement ou non , pour éviter tous probléme
     private boolean canPlay=false;
+    //permet d'activer ou desaciver laction des bouton pour éviter des bug/spam
+    private boolean buttonActive=true;
     private double xOffset = 0;
     private double yOffset = 0;
     private Pane caseSelectionne=null;
@@ -89,6 +94,7 @@ public class FXMLDocumentController implements Initializable, Observer {
         System.out.println("Initialise");
         //menuPane.setVisible(true);
         //Gére le menu
+        classementPane.setLayoutY(classementPane.getLayoutY()+415);
         tailleTaquin.getItems().addAll(list);
         tailleTaquin.setValue("4x4");
         //tailleTaquin.getValue() pour récupérer la valeur;
@@ -109,6 +115,7 @@ public class FXMLDocumentController implements Initializable, Observer {
     }
     @FXML
     private void HandleButtonLancerJeuAction(ActionEvent event){
+        if(buttonActive){
         this.tab=new ArrayList<Pane>();
         this.enCour=0;
         this.nbThread=-1;
@@ -146,7 +153,9 @@ public class FXMLDocumentController implements Initializable, Observer {
                 this.AnimMenuOut();
             }
         }
+        
         plateau.addObserver(this);
+        }
         
     }
     //Event pour le bouton Close
@@ -167,13 +176,23 @@ public class FXMLDocumentController implements Initializable, Observer {
     //Action du bouton inscription sur le menu
     @FXML
     private void handleButtonConnexion(ActionEvent event){
+        if(buttonActive){
         System.out.println("Connexion pressed");
-        notLogPane.setVisible(false);
-        connexionPane.setVisible(true);
+        String regex = "[a-zA-Z0-9]+";
+        System.out.println(UsernameField.getText().matches(regex));
+        if((UsernameField.getText().matches(regex) && PassWordField.getText().matches(regex))==false){
+            linfo.setText("Ereur de saisie");
+        }else{
+            linfo.setText("");
+        }
+        }
+        /*notLogPane.setVisible(false);
+        connexionPane.setVisible(true);*/
     }
     //Action du bouton connexion sur le menu
     @FXML
     private void handleButtonInscription(ActionEvent event){
+        if(buttonActive){
         System.out.println("Inscription pressed");
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login/FXMLFormulaireInscription.fxml"));
@@ -187,40 +206,24 @@ public class FXMLDocumentController implements Initializable, Observer {
         } catch (Exception e){
             e.printStackTrace();
         }
-    }
-    //Action du bouton Inscription sur le formulaire d'inscription
-    @FXML
-    private void handleButtonInscription2(ActionEvent event){
-        System.out.println("Inscription pressed");
-        //Code Ici
-        
-        
-        //lName.setText(); //Pour afficher le nom a la place de NAME
-        logPane.setVisible(true);
-        inscriptionPane.setVisible(false);
-    }
-    //Action du bouton connexion sur le formulaire de connexion
-    @FXML
-    private void handleButtonConnexion2(ActionEvent event){
-        System.out.println("Connexion pressed");
-        //Code Ici 
-        
-        
-        //lName.setText(); //Pour afficher le nom a la place de NAME
-        logPane.setVisible(true);
-        connexionPane.setVisible(false);
+        }
     }
     @FXML
     private void handleButtonRanking(ActionEvent event){
-        this.initRank();
-        classementPane.setVisible(true);
+        if(buttonActive){
+            this.initRank();
+            this.AnimRankIn();
+        }
     }
     @FXML
     private void handleButtonRankingBack(ActionEvent event){
-        classementPane.setVisible(false);
+        if(buttonActive){
+            this.AnimRankOut();
+        }
     }
 
     public void AnimMenuIn(){
+        buttonActive=false;
         this.canPlay=false;
         TranslateTransition t = new TranslateTransition();
         t.setDuration(Duration.seconds(2));
@@ -229,9 +232,11 @@ public class FXMLDocumentController implements Initializable, Observer {
         t.play();
         t.setOnFinished((e)->{
             this.destroyPlateayView();
+            buttonActive=true;
         }); 
     }
     public void AnimMenuOut(){
+        buttonActive=false;
         TranslateTransition t = new TranslateTransition();
         t.setDuration(Duration.seconds(2));
         t.setNode(menuPane);
@@ -240,8 +245,34 @@ public class FXMLDocumentController implements Initializable, Observer {
         t.setOnFinished((e)->{
             this.canPlay=true;
             this.createTimer();
+            buttonActive=true;
         }); 
     }
+    public void AnimRankIn(){
+        buttonActive=false;
+        classementPane.setVisible(true);
+        TranslateTransition t = new TranslateTransition();
+        t.setDuration(Duration.seconds(1));
+        t.setNode(classementPane);
+        t.setToY(-415);
+        t.play();
+        t.setOnFinished((e)->{
+            buttonActive=true;
+        }); 
+    }
+    public void AnimRankOut(){
+        buttonActive=false;
+        TranslateTransition t = new TranslateTransition();
+        t.setDuration(Duration.seconds(1));
+        t.setNode(classementPane);
+        t.setToY(0);
+        t.play();
+        t.setOnFinished((e)->{
+            classementPane.setVisible(false);
+            buttonActive=true;
+        }); 
+    }
+    
     public void destroyPlateayView(){
         if (paneTab!=null){
             lTimer.setText("0 : 00");

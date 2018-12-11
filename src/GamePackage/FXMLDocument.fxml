@@ -19,7 +19,7 @@
 <AnchorPane id="AnchorPane" onKeyPressed="#keyPressed" prefHeight="520.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GamePackage.FXMLDocumentController">
     <children>
       <AnchorPane prefHeight="37.0" prefWidth="400.0" style="-fx-background-color: grey;" visible="false" />
-      <Pane fx:id="taquinPane" layoutY="30.0" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="taquinPane" layoutY="30.0" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: white; -fx-border-width: 5; -fx-border-color: linear-gradient(#3d3d3d 0%,#27343d 90%);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Pane layoutY="-2.0" onMouseDragged="#OnMouseDrag" onMousePressed="#OnMousePressed" prefHeight="37.0" prefWidth="400.0" style="-fx-background-color: #3d3d3d;">
                <children>
@@ -27,8 +27,8 @@
                   <Button layoutX="341.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleButtonClose" prefHeight="37.0" prefWidth="59.0" styleClass="buttonClose" text="Close" textFill="WHITE" />
                </children>
             </Pane>
-            <Pane layoutX="25.0" layoutY="142.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: #3d3d3d;" />
-            <Pane layoutX="316.0" layoutY="49.0" prefHeight="75.0" prefWidth="59.0">
+            <Pane layoutX="25.0" layoutY="142.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: linear-gradient(#3d3d3d 0%,#27343d 90%);" />
+            <Pane layoutX="316.0" layoutY="49.0" prefHeight="75.0" prefWidth="59.0" style="-fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%); -fx-border-width: 3; -fx-border-radius: 10;">
                <children>
                   <Label fx:id="lScore" alignment="CENTER" layoutX="8.0" layoutY="38.0" prefHeight="30.0" prefWidth="41.0" text="0" textAlignment="CENTER" textFill="#3d3d3d">
                      <font>
@@ -61,19 +61,10 @@
               </points>
             </Polygon>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3d3d3d" height="50.0" layoutX="150.0" layoutY="35.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="100.0" />
-              <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="107.0" layoutY="-1.0" minHeight="16" minWidth="63.0" onMouseDragged="#OnMouseDrag" onMousePressed="#OnMousePressed" prefHeight="75.0" prefWidth="180.0" text="TAQUIN" textAlignment="CENTER">
+              <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="107.0" layoutY="-1.0" minHeight="16" minWidth="63.0" onMouseDragged="#OnMouseDrag" onMousePressed="#OnMousePressed" prefHeight="75.0" prefWidth="180.0" text="TAQUIN" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="42.0" />
                </font>
-               <textFill>
-                  <LinearGradient endX="1.0" endY="0.6796116504854368" startX="1.0">
-                     <stops>
-                        <Stop color="#619bff" />
-                        <Stop color="#619bff" offset="0.007246376811594203" />
-                        <Stop color="WHITE" offset="1.0" />
-                     </stops>
-                  </LinearGradient>
-               </textFill>
             </Label>
             <Label fx:id="lTimer" alignment="CENTER" layoutX="145.0" layoutY="93.0" prefHeight="37.0" prefWidth="111.0" text="0 : 00" textFill="#3b3b3b">
                <font>
@@ -141,7 +132,7 @@
             </Button>
             <Pane fx:id="notLogPane" layoutX="6.0" layoutY="107.0" prefHeight="142.0" prefWidth="388.0">
                <children>
-                  <Button alignment="CENTER" layoutX="221.0" layoutY="79.0" mnemonicParsing="false" onAction="#handleButtonInscription" prefHeight="39.0" prefWidth="82.0" styleClass="buttonSignIn" text="Sign In">
+                  <Button alignment="CENTER" layoutX="221.0" layoutY="86.0" mnemonicParsing="false" onAction="#handleButtonInscription" prefHeight="39.0" prefWidth="82.0" styleClass="buttonSignIn" text="Sign In">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -154,32 +145,36 @@
                            </stops>
                         </LinearGradient>
                      </textFill></Button>
-                  <Button layoutX="312.0" layoutY="42.0" mnemonicParsing="false" onAction="#handleButtonConnexion" styleClass="buttonSignUp" text="Sign up" textFill="#3d3d3d">
+                  <Button layoutX="312.0" layoutY="49.0" mnemonicParsing="false" onAction="#handleButtonConnexion" styleClass="buttonSignUp" text="Sign up" textFill="#3d3d3d">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <TextField layoutX="103.0" layoutY="7.0" prefHeight="31.0" prefWidth="180.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: white; -fx-text-fill: white;">
+                  <TextField fx:id="UsernameField" layoutX="103.0" layoutY="14.0" prefHeight="31.0" prefWidth="180.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: white; -fx-text-fill: white;">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <Label layoutX="83.0" layoutY="90.0" text="Don't have account ? " textFill="WHITE">
+                  <Label layoutX="83.0" layoutY="97.0" text="Don't have account ? " textFill="WHITE">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <PasswordField layoutX="103.0" layoutY="48.0" prefHeight="25.0" prefWidth="180.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: white; -fx-text-fill: white;">
+                  <PasswordField fx:id="PassWordField" layoutX="103.0" layoutY="55.0" prefHeight="25.0" prefWidth="180.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: white; -fx-text-fill: white;">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </PasswordField>
+                  <Label fx:id="linfo" alignment="CENTER" layoutX="121.0" layoutY="-5.0" prefHeight="17.0" prefWidth="143.0" textFill="#ee4a4a">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
-            <Pane fx:id="classementPane" layoutX="6.0" layoutY="107.0" prefHeight="407.0" prefWidth="388.0" style="-fx-background-color: #3d3d3d;" visible="false">
+            <Pane fx:id="classementPane" layoutY="107.0" prefHeight="413.0" prefWidth="400.0" style="-fx-background-color: #3d3d3d; -fx-border-width: 10; -fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%);" visible="false">
                <children>
-                  <TableView fx:id="tableClassement" layoutX="7.0" layoutY="65.0" prefHeight="334.0" prefWidth="374.0" styleClass="rankTable" />
-                  <ToolBar layoutX="6.0" layoutY="14.0" prefHeight="40.0" prefWidth="374.0" style="-fx-background-color: invisble;">
+                  <ToolBar layoutX="10.0" layoutY="8.0" prefHeight="62.0" prefWidth="380.0" style="-fx-background-color: #27343d;">
                     <items>
                       <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleButtonRankingBack" prefHeight="39.0" prefWidth="69.0" styleClass="buttonMenu" text="Back">
                            <font>
@@ -199,6 +194,7 @@
                         </Button>
                     </items>
                   </ToolBar>
+                  <TableView fx:id="tableClassement" layoutX="10.0" layoutY="69.0" prefHeight="334.0" prefWidth="380.0" styleClass="rankTable" />
                </children>
             </Pane>
          </children>
