@@ -1,6 +1,9 @@
 package Classement;
 
 
+import static GamePackage.Jdbc.getInstance;
+import static GamePackage.Jdbc.getReqClassement;
+import java.sql.Connection;
 import java.util.LinkedList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,23 +23,27 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class Classement {
     
-    private final ObservableList<Player> data = FXCollections.observableArrayList();
+    private ObservableList<Player> data = FXCollections.observableArrayList();
     
     //Constructeur de Test
     public Classement(String r,String n,String s,TableView table){
         Player p=new Player(r,n,s);
         data.add(p);
-        this.initScoreRank(table);
+        this.initRankTab(table);
     }
     //Constructeur
-    public Classement(LinkedList<Player> list,TableView table){
-        for(int i=0;i<list.size();i++){
-            data.add(list.get(i));
+    public Classement(TableView table){
+        this.setData();
+        this.initRankTab(table);
+    }
+    public void setData(){
+        if(data!=null){
+            data = getReqClassement();
         }
-        this.initScoreRank(table);
+        else{System.out.println("Erreur , classement Vide");}
     }
     //Crée les colonne et set les Data dans la table
-    public void initScoreRank(TableView table){
+    public void initRankTab(TableView table){
         table.setEditable(false);
         table.getStyleClass().add("rankingTable");
  
@@ -63,5 +70,9 @@ public class Classement {
         table.getColumns().addAll(RankCol, NameCol, ScoreCol);
             
     } 
+    
+    public void refreshRank(){
+        
+    }
     
 }

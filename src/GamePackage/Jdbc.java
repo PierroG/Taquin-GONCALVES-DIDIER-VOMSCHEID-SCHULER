@@ -9,11 +9,14 @@
  * @author Gwendolyn
  */
 package GamePackage;
+import Classement.Player;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Jdbc {
     
@@ -56,7 +59,7 @@ public class Jdbc {
         }
     }
     
-public void inscription(String nom, String mdp){
+    public void inscription(String nom, String mdp){
         try {
             PreparedStatement prepare = this.con.prepareStatement("INSERT INTO joueur(nomJoueur, mdpJoueur) VALUES (?, ?)");
             prepare.setString(1, nom);
@@ -85,5 +88,21 @@ public void inscription(String nom, String mdp){
             System.out.println("Erreur dans connexion");
         }
         return connexion;
+    }
+    
+    public static ObservableList<Player> getReqClassement(){
+        ObservableList<Player> list = null;//
+        try{
+            PreparedStatement prepare = con.prepareStatement("SELECT * FROM Classement WHERE rank < 50");
+            ResultSet result = prepare.executeQuery();
+            while(result.next()){
+                Player p = new Player(result.getString(1),result.getString(2),result.getString(3));
+                list.add(p);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+            System.out.println("Erreur dans la requéte du Classement");
+        }
+        return list;
     }
 }

@@ -80,6 +80,7 @@ public class FXMLDocumentController implements Initializable, Observer {
     private double xOffset = 0;
     private double yOffset = 0;
     private Pane caseSelectionne=null;
+    private Classement rank = null;
     @FXML
     private Label labelTestAnimation;
     
@@ -608,7 +609,11 @@ public class FXMLDocumentController implements Initializable, Observer {
    public void initRank(){
        System.out.println("initRank");
        //Classement de Test ( a enlever )
-       Classement c = new Classement("1","billy","50",tableClassement);
+       if(rank==null){
+           rank = new Classement("1","billy","50",tableClassement);
+       }
+      
+       
        
        //il faudras créer un classement avec en entré la list des joueur et tableClassement
        //Classement c = new Classement(list,tableClassement);
