@@ -317,21 +317,25 @@ public class FXMLDocumentController implements Initializable, Observer {
                     //Set l'event du clique sur une tuile , pour gérer le déplacement de plusieur case avec les fléche
                     p.setOnMouseClicked((MouseEvent e) -> {
                         if(caseSelectionne==null){
+                            System.out.println("Selec First Time");
                             caseSelectionne = (Pane)e.getSource();
                             caseSelectionne.getStyleClass().add("caseSelection");
                         }
-                        else if(caseSelectionne!=null){
-                            caseSelectionne.getStyleClass().remove(1);
-                            caseSelectionne = (Pane)e.getSource();
-                            caseSelectionne.getStyleClass().add("caseSelection");
-                        }else if(caseSelectionne == ((Pane)e.getSource())){
+                        else if(caseSelectionne == ((Pane)e.getSource())){
+                            System.out.println("Deselec ");
                             caseSelectionne.getStyleClass().remove(1);
                             caseSelectionne = null;
                         }
+                        else if(caseSelectionne!=null){
+                            System.out.println("Selec ");
+                            caseSelectionne.getStyleClass().remove(1);
+                            caseSelectionne = (Pane)e.getSource();
+                            caseSelectionne.getStyleClass().add("caseSelection");
+                        
                         
                         /*caseSelectionne = (Pane)e.getSource();
                         caseSelectionne.getStyleClass().add("caseSelection");*/
-                    });
+                        }});
                     taquinPane.getChildren().add(p);
                     int num = this.plateau.getPlateau()[i][j].getNum();
                     l.setText(Integer.toString(num));

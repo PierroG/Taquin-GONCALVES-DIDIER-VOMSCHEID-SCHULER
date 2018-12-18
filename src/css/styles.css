@@ -8,10 +8,13 @@
     -fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%);
 }
 .case:hover {
-    -fx-background-color: #00558d;
+    /*-fx-background-color: #00558d;*/
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
 }
+     
 .caseSelection {
-    /*-fx-background-color: linear-gradient(#00558d 0%,#91ffd7 100%);*/
+    -fx-background-color: #00558d;
     -fx-border-color: #91ffd7;
     -fx-border-width: 6;
 }
@@ -84,7 +87,7 @@
 }
 .buttonMenu:hover{
     -fx-background-color: linear-gradient(#00558d 0%,#91ffd7 100%);
-    /*-fx-text-fill: #3d3d3d;*/
+    
 }
 .buttonMenu:pressed{
     -fx-background-color: linear-gradient(#00558d 10%,#91ffd7 90%);
