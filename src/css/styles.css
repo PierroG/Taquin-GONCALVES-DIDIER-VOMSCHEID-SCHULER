@@ -59,20 +59,20 @@
     -fx-font-size: 15px;
 }*/
 
-.buttonSignUp{
+.buttonSignIn{
     -fx-background-color:  linear-gradient(#00558d 0%,#91ffd7 100%);
     -fx-background-radius : 20;
     
 }
-.buttonSignUp:hover{
+.buttonSignIn:hover{
     -fx-text-fill: #3d3d3d;
     -fx-background-color: linear-gradient(white 0%,#91ffd7 100%);
 }
-.buttonSignIn{
+.buttonSignUp{
     -fx-background-color: transparent;
     -fx-background-radius : 20;
 }
-.buttonSignIn:hover{
+.buttonSignUp:hover{
     -fx-text-fill: white;
 }
 /*----------------Apparence Des boutons principaux-----------------*/

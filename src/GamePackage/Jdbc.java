@@ -20,9 +20,9 @@ import javafx.collections.ObservableList;
 
 public class Jdbc {
     
-    private String username = "taquin";
-    private String connectUrl = "jdbc:mysql://localhost/taquin";
-    private String mdp = "taquin_mdp";
+    private String username = "root";
+    private String connectUrl = "jdbc:mysql://localhost:3306/taquin";
+    private String mdp = "";
     private static Connection con = null;
     
     //Constructeur privé
@@ -59,35 +59,46 @@ public class Jdbc {
         }
     }
     
-    public void inscription(String nom, String mdp){
+    public static boolean inscription(String nom, String mdp){
+        boolean reussi=false;
         try {
-            PreparedStatement prepare = this.con.prepareStatement("INSERT INTO joueur(nomJoueur, mdpJoueur) VALUES (?, ?)");
+            PreparedStatement prepare = Jdbc.con.prepareStatement("INSERT INTO joueur(nomJoueur, mdpJoueur) VALUES (?, ?)");
             prepare.setString(1, nom);
             prepare.setString(2, mdp);
             prepare.executeUpdate();
+            reussi=true;
         } catch(SQLException e){
             e.printStackTrace();
             System.out.println("Erreur dans inscription");
+            reussi=false;
         }
+        return reussi;
     }
     
-    public String connexion(String nom, String mdp){
-        String connexion= "";
+    public static String connexion(String nom, String mdp){
+        String retourUsername= null;
         try {
             PreparedStatement prepare = con.prepareStatement("SELECT * from Joueur WHERE nomJoueur = ? AND mdpJoueur = ?");
             prepare.setString(1, nom);
             prepare.setString(2, mdp);
             ResultSet result = prepare.executeQuery();
-            while(result.next()){
-                System.out.println(result.getString(1));
-                System.out.println(result.getString(2));
-                connexion = connexion + result.getString(1) + " " + result.getString(2) + "\n";
+            //si il n'y a pas de retour , le compte n'existe pas
+            if(!result.next()){
+                
+            }//sinon le compte existe est la connexion est possible
+            else{
+                /*System.out.println(result.getString(2));
+                System.out.println(result.getString(3));
+                connexion = connexion + result.getString(2) + " " + result.getString(3) + "\n";*/
+                retourUsername=result.getString(2);
             }
+                
+            //}
         }catch(SQLException e){
             e.printStackTrace();
             System.out.println("Erreur dans connexion");
         }
-        return connexion;
+        return retourUsername;
     }
     
     public static ObservableList<Player> getReqClassement(){

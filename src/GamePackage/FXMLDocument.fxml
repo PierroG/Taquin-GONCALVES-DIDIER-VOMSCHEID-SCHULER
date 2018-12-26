@@ -117,7 +117,7 @@
                </textFill>
             </Label>
             <Button layoutX="341.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleButtonClose" prefHeight="31.0" prefWidth="59.0" styleClass="buttonClose" text="Close" textFill="WHITE" />
-            <Button layoutX="73.0" layoutY="260.0" mnemonicParsing="false" onAction="#handleButtonRanking" prefHeight="63.0" prefWidth="254.0" styleClass="buttonMenu" text="Voir Classement" textAlignment="CENTER">
+            <Button layoutX="73.0" layoutY="271.0" mnemonicParsing="false" onAction="#handleButtonRanking" prefHeight="63.0" prefWidth="254.0" styleClass="buttonMenu" text="Voir Classement" textAlignment="CENTER">
                <textFill>
                   <LinearGradient endX="1.0" endY="0.3640776699029126" startX="1.0" startY="1.0">
                      <stops>
@@ -130,46 +130,85 @@
                   <Font size="25.0" />
                </font>
             </Button>
-            <Pane fx:id="notLogPane" layoutX="21.0" layoutY="107.0" prefHeight="142.0" prefWidth="357.0" style="-fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%); -fx-border-width: 5; -fx-border-radius: 10;">
+            <Pane layoutX="21.0" layoutY="107.0" prefHeight="152.0" prefWidth="357.0" style="-fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%); -fx-border-width: 5; -fx-border-radius: 10;">
                <children>
-                  <Button alignment="CENTER" layoutX="178.0" layoutY="86.0" mnemonicParsing="false" onAction="#handleButtonInscription" prefHeight="39.0" prefWidth="82.0" styleClass="buttonSignIn" text="Sign In">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                     <textFill>
-                        <LinearGradient endX="1.0" endY="0.7572815533980582" startX="1.0">
-                           <stops>
-                              <Stop color="#00558d" />
-                              <Stop color="#00558d" offset="0.007662835249042145" />
-                              <Stop color="#91ffd6" offset="1.0" />
-                           </stops>
-                        </LinearGradient>
-                     </textFill></Button>
-                  <Button layoutX="269.0" layoutY="49.0" mnemonicParsing="false" onAction="#handleButtonConnexion" styleClass="buttonSignUp" text="Sign up" textFill="#3d3d3d">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Button>
-                  <TextField fx:id="UsernameField" layoutX="60.0" layoutY="14.0" prefHeight="31.0" prefWidth="180.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: white; -fx-text-fill: white;">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </TextField>
-                  <Label layoutX="40.0" layoutY="97.0" text="Don't have account ? " textFill="WHITE">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <PasswordField fx:id="PassWordField" layoutX="60.0" layoutY="55.0" prefHeight="25.0" prefWidth="180.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: white; -fx-text-fill: white;">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </PasswordField>
-                  <Label fx:id="linfo" alignment="CENTER" layoutX="121.0" layoutY="-5.0" prefHeight="17.0" prefWidth="143.0" textFill="#ee4a4a">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
+                  <Pane fx:id="isLogPane" prefHeight="152.0" prefWidth="357.0" visible="false">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="3.0" prefHeight="64.0" prefWidth="357.0" text="Hello" textFill="WHITE">
+                           <font>
+                              <Font size="43.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lUsername" alignment="CENTER" contentDisplay="CENTER" layoutY="35.0" prefHeight="37.0" prefWidth="357.0" text="Test">
+                           <font>
+                              <Font size="77.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="0.7572815533980582" startX="1.0">
+                                 <stops>
+                                    <Stop color="#00558d" />
+                                    <Stop color="#00558d" offset="0.007662835249042145" />
+                                    <Stop color="#91ffd7" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                        <Button layoutX="142.0" layoutY="126.0" mnemonicParsing="false" onAction="#handleButtonDisconnect" styleClass="buttonSignUp" text="Disconnect">
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0" startX="1.0">
+                                 <stops>
+                                    <Stop color="#00558d" />
+                                    <Stop color="#00558d" offset="0.007662835249042145" />
+                                    <Stop color="#91ffd6" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Button>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="notLogPane" prefHeight="152.0" prefWidth="357.0">
+                     <children>
+                        <Button alignment="CENTER" layoutX="197.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleButtonInscription" prefHeight="39.0" prefWidth="82.0" styleClass="buttonSignUp" text="Sign Up">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="0.7572815533980582" startX="1.0">
+                                 <stops>
+                                    <Stop color="#00558d" />
+                                    <Stop color="#00558d" offset="0.007662835249042145" />
+                                    <Stop color="#91ffd6" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Button>
+                        <Button layoutX="263.0" layoutY="59.0" mnemonicParsing="false" onAction="#handleButtonConnexion" styleClass="buttonSignIn" text="Sign In" textFill="#3d3d3d">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <TextField fx:id="UsernameField" layoutX="51.0" layoutY="29.0" prefHeight="31.0" prefWidth="180.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: white; -fx-text-fill: white;">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <Label layoutX="54.0" layoutY="117.0" text="Don't have account ? " textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <PasswordField fx:id="PassWordField" layoutX="51.0" layoutY="74.0" prefHeight="25.0" prefWidth="180.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: white; -fx-text-fill: white;">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </PasswordField>
+                        <Label fx:id="linfo" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="8.0" prefHeight="25.0" prefWidth="337.0" textFill="#ee4a4a">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                </children>
             </Pane>
             <Pane fx:id="classementPane" layoutY="107.0" prefHeight="413.0" prefWidth="400.0" style="-fx-background-color: #3d3d3d; -fx-border-width: 10; -fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%);" visible="false">

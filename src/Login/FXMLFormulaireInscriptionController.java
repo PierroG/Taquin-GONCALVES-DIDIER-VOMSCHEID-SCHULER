@@ -6,7 +6,10 @@
 package Login;
 
 import GamePackage.FXMLDocumentController;
+import GamePackage.Jdbc;
+import static GamePackage.Jdbc.getInstance;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -40,6 +43,7 @@ public class FXMLFormulaireInscriptionController implements Initializable {
 
     public void init(FXMLDocumentController c){
         mainController = c;
+        
     }
     @FXML
     private void handleButtonInscription(ActionEvent event){
@@ -54,9 +58,18 @@ public class FXMLFormulaireInscriptionController implements Initializable {
         
         }else if(usernameTF.getText().equals(passwordTF.getText())){
             linfo.setText("Username et Password ne peuvent pas étre identique");
-            
+        //Si on passe toute les vérification c'est que c'est correcte
         }else{
             linfo.setText("Correct");
+            //on lance la requéte d'inscription
+            boolean b = Jdbc.inscription(usernameTF.getText(),passwordTF.getText());
+            //si elle a bien était effectuer on ferme le formulaire
+            if(b){
+                System.out.println("Inscription Réussie");
+                this.close();
+            }else{
+                System.out.println("erreurd'inscription");
+            }
         }
             
         
@@ -64,6 +77,9 @@ public class FXMLFormulaireInscriptionController implements Initializable {
     @FXML
     private void handleButtonCancel(ActionEvent event){
         System.out.println("Cancel");
+        this.close();
+    }
+    private void close(){
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }

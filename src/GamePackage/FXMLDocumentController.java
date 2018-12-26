@@ -54,11 +54,11 @@ public class FXMLDocumentController implements Initializable, Observer {
     @FXML
     private GridPane grille;
     @FXML
-    private Label lScore,lTimer,linfo;
+    private Label lScore,lTimer,linfo,lUsername;
     @FXML
     private Pane menuPane,taquinPane,classementPane; // Pane représentant le menu , et l'affichage du taquin
     @FXML
-    private Pane connexionPane,notLogPane,inscriptionPane,logPane;
+    private Pane isLogPane,notLogPane;
     @FXML
     private TextField UsernameField;
     @FXML
@@ -83,6 +83,8 @@ public class FXMLDocumentController implements Initializable, Observer {
     private Classement rank = null;
     @FXML
     private Label labelTestAnimation;
+    private boolean isConnect;
+    private String Username;
     
     
     //Constructeur de la class
@@ -180,17 +182,27 @@ public class FXMLDocumentController implements Initializable, Observer {
         if(buttonActive){
         System.out.println("Connexion pressed");
         String regex = "[a-zA-Z0-9]+";
-        System.out.println(UsernameField.getText().matches(regex));
         if((UsernameField.getText().matches(regex) && PassWordField.getText().matches(regex))==false){
             linfo.setText("Ereur de saisie");
         }else{
-            linfo.setText("");
+            
+            String s = Jdbc.connexion(UsernameField.getText(),PassWordField.getText());
+            if(s!=null){
+                linfo.setText("Bienvenu "+s);
+                lUsername.setText(s);
+                notLogPane.setVisible(false);
+                isLogPane.setVisible(true);
+                isConnect=true;
+                Username = s;
+            }else{
+                linfo.setText("Le compte n'existe pas");
+            }
         }
         }
         /*notLogPane.setVisible(false);
         connexionPane.setVisible(true);*/
     }
-    //Action du bouton connexion sur le menu
+    //Action du Bouton Sign In , lance le formualrie d'inscriptions
     @FXML
     private void handleButtonInscription(ActionEvent event){
         if(buttonActive){
@@ -215,6 +227,16 @@ public class FXMLDocumentController implements Initializable, Observer {
             this.initRank();
             this.AnimRankIn();
         }
+    }
+    @FXML
+    private void handleButtonDisconnect(ActionEvent event){
+        if(buttonActive){
+            System.out.println("Disconect");
+            notLogPane.setVisible(true);
+            isLogPane.setVisible(false);
+            isConnect=false;
+        }
+        
     }
     @FXML
     private void handleButtonRankingBack(ActionEvent event){
@@ -585,6 +607,7 @@ public class FXMLDocumentController implements Initializable, Observer {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Bien ouéj");
         alert.show();
+        //Vérif positon dans classement
     }
     public void setPlateau(Plateau p){
         this.plateau=p;
