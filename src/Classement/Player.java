@@ -22,7 +22,11 @@ public class Player {
         this.name=N;
         this.score=S;
     }
-
+    
+    
+    public void affiche(){
+        System.out.println(this.rank+"/"+this.name+"/"+this.score);
+    }
     public String getRank() {
         return rank;
     }

@@ -32,17 +32,17 @@
     -fx-alignment: CENTER;*/
 }
 .rankTable{
-    -fx-background-color: transparent;
+    /*-fx-background-color: transparent;
     -fx-border-color: white;
-    -fx-border-width: 2;
+    -fx-border-width: 2;*/
 }
 
 .rankTable .cell{
-    -fx-background-color: transparent;
-    -fx-font-color: white;
+    /*-fx-background-color: transparent;*/
+    -fx-font-color: #3d3d3d;
     -fx-alignment: CENTER;
     -fx-font-size: 20;
-    -fx-text-fill: white;
+    -fx-text-fill: #3d3d3d;
 }
 .rankTable .column-header{
     -fx-background-color: white;
@@ -63,6 +63,10 @@
     -fx-background-color:  linear-gradient(#00558d 0%,#91ffd7 100%);
     -fx-background-radius : 20;
     
+}
+.buttonSignIn:focused{
+    -fx-text-fill: #3d3d3d;
+    -fx-background-color: linear-gradient(white 0%,#91ffd7 100%); 
 }
 .buttonSignIn:hover{
     -fx-text-fill: #3d3d3d;
@@ -120,5 +124,17 @@
 .choiceBoxTaille > .label {  
     -fx-alignment: CENTER;
     -fx-font-size: 20px;
+}
+.choiceBoxTaille2 > .label {  
+    -fx-alignment: CENTER;
+    
+}
+.choiceBoxTaille2{
+    -fx-font-size: 15px;
+    -fx-text-fill: #3d3d3d;
+    -fx-mark-color: #3d3d3d;
+    -fx-background-color : white;
+    -fx-background-radius: 30;
+    -fx-font-weight: bold;
 }
 /*-----------------------------------*/

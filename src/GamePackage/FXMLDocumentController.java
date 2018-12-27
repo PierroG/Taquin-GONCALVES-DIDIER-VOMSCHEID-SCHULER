@@ -64,7 +64,7 @@ public class FXMLDocumentController implements Initializable, Observer {
     @FXML
     private PasswordField PassWordField;
     @FXML
-    private ChoiceBox tailleTaquin;
+    private ChoiceBox tailleTaquin,tailleTaquin2;
     ObservableList list = FXCollections.observableArrayList("2x2","3x3","4x4","5x5","6x6","7x7","8x8");
     @FXML
     private TableView tableClassement;
@@ -329,7 +329,7 @@ public class FXMLDocumentController implements Initializable, Observer {
                     objectifY=142+(((float)350/taille)*i);
                 }else{
                     
-                    //Crée une tuile et la place dans la fenétre
+                    //Crée une tuile au bonne dimension, set sont style,  et la place dans la fenétre
                     Pane p = new Pane();
                     p.setPrefSize((double)350/taille,(double)350/taille);
                     p.getStyleClass().add("case");
@@ -551,7 +551,7 @@ public class FXMLDocumentController implements Initializable, Observer {
         th.start(); // et on exécute le Thread pour mettre à jour la vue (déplacement continu de la tuile horizontalement) 
     */
     }
-    //Cherche la position du pane dans paneTab et retourne la Case associé dans le plateau qui est au méme coordonnés
+    //Cherche la position du paneSelectionné dans paneTab et retourne la Case associé dans le plateau qui est au méme coordonnés
     public Case chercheCase(){
         Case retour=null;
         int posX=-1;
@@ -604,8 +604,13 @@ public class FXMLDocumentController implements Initializable, Observer {
         th.start();
     }
     public void endEvent(){
+        if(isConnect){
+            this.addScore();
+            
+        }
+        
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Bien ouéj");
+        alert.setHeaderText("Bravo!");
         alert.show();
         //Vérif positon dans classement
     }
@@ -637,14 +642,57 @@ public class FXMLDocumentController implements Initializable, Observer {
        System.out.println("initRank");
        //Classement de Test ( a enlever )
        if(rank==null){
-           rank = new Classement("1","billy","50",tableClassement);
+           tailleTaquin2.getItems().addAll("2","4","5","6","7","8");
+           tailleTaquin2.setValue("4");
+           //Crée le classement
+           rank = new Classement(tableClassement,tailleTaquin2.getValue().toString());
+           //Initialise la choiceBox de la taille
+           
+           
        }
-      
-       
+    }   
+    @FXML
+    private void HandleButtonPersoRankBestTimer(ActionEvent event){
+        if(isConnect){
+            rank.initTimerRankTab(tableClassement,tailleTaquin2.getValue().toString());
+            rank.setDataPersonalBestTimer(tailleTaquin2.getValue().toString(),this.Username);
+        }else{
+            rank.clear();
+            tableClassement.setPlaceholder(new Label("You need to be connected"));
+            
+        }
+    }
+    @FXML
+    private void HandleButtonRankBestTimer(ActionEvent event){
+        rank.initTimerRankTab(tableClassement,tailleTaquin2.getValue().toString());
+    }
+    @FXML
+    private void HandleButtonRankBestScore(ActionEvent event){
+        rank.initScoreRankTab(tableClassement,tailleTaquin2.getValue().toString());
+        //rank.setDataBestScore(tailleTaquin2.getValue().toString());
+    }
+    @FXML
+    private void HandleButtonPersoRankBestScore(ActionEvent event){
+        if(isConnect){
+            rank.initScoreRankTab(tableClassement,tailleTaquin2.getValue().toString());
+            rank.setDataPersonalBestScore(tailleTaquin2.getValue().toString(),this.Username);
+            System.out.println(Username);
+        }else{
+            rank.clear();
+            tableClassement.setPlaceholder(new Label("You need to be connected"));
+            
+        }
+        
+    }
        
        //il faudras créer un classement avec en entré la list des joueur et tableClassement
        //Classement c = new Classement(list,tableClassement);
        
-   }
+   
+    public void addScore(){
+        String id =Jdbc.getIdByName(Username);
+        boolean b = Jdbc.scoreReq(plateau.getSec(), plateau.getMin(), plateau.getScore(), 0 , id, plateau.getTaille());
+       
+    }
     
 }

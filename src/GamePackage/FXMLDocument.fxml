@@ -7,7 +7,6 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.LinearGradient?>
@@ -211,28 +210,71 @@
                   </Pane>
                </children>
             </Pane>
-            <Pane fx:id="classementPane" layoutY="107.0" prefHeight="413.0" prefWidth="400.0" style="-fx-background-color: #3d3d3d; -fx-border-width: 10; -fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%);" visible="false">
+            <Pane fx:id="classementPane" layoutY="107.0" prefHeight="413.0" prefWidth="400.0" style="-fx-background-color: #3d3d3d; -fx-border-width: 10; -fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%);">
                <children>
-                  <ToolBar layoutX="10.0" layoutY="8.0" prefHeight="62.0" prefWidth="380.0" style="-fx-background-color: #27343d;">
-                    <items>
-                      <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleButtonRankingBack" prefHeight="39.0" prefWidth="69.0" styleClass="buttonMenu" text="Back">
+                  <Pane layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="380.0">
+                     <children>
+                      <Button alignment="CENTER" layoutX="1.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleButtonRankingBack" prefHeight="50.0" prefWidth="53.0" styleClass="buttonMenu" text="Back">
                            <font>
-                              <Font name="System Bold" size="16.0" />
+                              <Font name="System Bold" size="10.0" />
                            </font>
                         </Button>
-                        <Label prefHeight="17.0" prefWidth="23.0" />
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="94.0" styleClass="buttonMenu" text="Best Score" textAlignment="CENTER">
+                        <Label alignment="CENTER" layoutX="145.0" layoutY="1.0" prefHeight="17.0" prefWidth="74.0" text="WORLD">
                            <font>
-                              <Font name="System Bold" size="15.0" />
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0" startX="1.0">
+                                 <stops>
+                                    <Stop color="BLACK" />
+                                    <Stop color="#00558d" offset="0.007662835249042145" />
+                                    <Stop color="#91ffd7" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                        <Button alignment="CENTER" layoutX="123.0" layoutY="29.0" mnemonicParsing="false" onAction="#HandleButtonRankBestScore" prefHeight="24.0" prefWidth="56.0" styleClass="buttonSignIn" text="By Score" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="10.0" />
                            </font>
                         </Button>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="38.0" prefWidth="109.0" styleClass="buttonMenu" text="Best Timer" textAlignment="CENTER">
+                        <Button alignment="CENTER" layoutX="190.0" layoutY="29.0" mnemonicParsing="false" onAction="#HandleButtonRankBestTimer" prefHeight="24.0" prefWidth="56.0" styleClass="buttonSignIn" text="By Timer" textAlignment="CENTER">
                            <font>
-                              <Font name="System Bold" size="15.0" />
+                              <Font name="System Bold" size="10.0" />
                            </font>
                         </Button>
-                    </items>
-                  </ToolBar>
+                        <Button alignment="CENTER" layoutX="256.0" layoutY="29.0" mnemonicParsing="false" onAction="#HandleButtonPersoRankBestScore" prefHeight="24.0" prefWidth="56.0" styleClass="buttonSignIn" text="By Score" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="10.0" />
+                           </font>
+                        </Button>
+                        <Button alignment="CENTER" layoutX="322.0" layoutY="29.0" mnemonicParsing="false" onAction="#HandleButtonPersoRankBestTimer" prefHeight="24.0" prefWidth="56.0" styleClass="buttonSignIn" text="By Timer" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="10.0" />
+                           </font>
+                        </Button>
+                        <Label alignment="CENTER" layoutX="262.0" layoutY="1.0" prefHeight="30.0" prefWidth="111.0" text="PERSONAL">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0" startX="1.0">
+                                 <stops>
+                                    <Stop color="BLACK" />
+                                    <Stop color="#00558d" offset="0.007662835249042145" />
+                                    <Stop color="#91ffd7" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                        <ChoiceBox fx:id="tailleTaquin2" layoutX="66.0" layoutY="22.0" prefHeight="31.0" prefWidth="13.0" styleClass="choiceBoxTaille2" />
+                        <Label alignment="CENTER" layoutX="51.0" layoutY="-4.0" prefHeight="17.0" prefWidth="74.0" text="Taille" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                   <TableView fx:id="tableClassement" layoutX="10.0" layoutY="69.0" prefHeight="334.0" prefWidth="380.0" styleClass="rankTable" />
                </children>
             </Pane>
