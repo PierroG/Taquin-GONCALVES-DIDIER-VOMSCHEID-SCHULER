@@ -124,7 +124,7 @@ public class Classement {
     public void setDataPersonalBestTimer(String taille,String Username){
         data = Jdbc.personalRankBTimeReq(taille,Username);
         if(data.isEmpty()){
-            
+            System.out.println("no data");
             table.setPlaceholder(new Label("No data"));
         }else{
             table.setItems(data);
@@ -134,6 +134,7 @@ public class Classement {
     public void setDataBestTimer(String taille){
         data = Jdbc.rankBTimeReq(taille);
         if(data.isEmpty()){
+            System.out.println("no data");
             table.setPlaceholder(new Label("No data"));
         }else{
             table.setItems(data);
