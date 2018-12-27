@@ -123,7 +123,7 @@ public class Jdbc {
         ObservableList<Player> list = FXCollections.observableArrayList();//AND score.idScore = grille.idScore grille.nomGrille = 2
         try{
             System.out.println(taille);
-            PreparedStatement prepare = con.prepareStatement("SELECT nbMouv,nomJoueur FROM score,joueur,grille WHERE joueur.idJoueur=score.idJoueur AND (score.idScore = grille.idScore AND grille.nomGrille = ?) ORDER BY nbMouv DESC");
+            PreparedStatement prepare = con.prepareStatement("SELECT nbMouv,nomJoueur FROM score,joueur,grille WHERE joueur.idJoueur=score.idJoueur AND (score.idScore = grille.idScore AND grille.nomGrille = ?) ORDER BY nbMouv ASC");
             prepare.setString(1, taille);
             ResultSet result = prepare.executeQuery();
             int rank=1;
@@ -194,7 +194,7 @@ public class Jdbc {
         ObservableList<Player> list = FXCollections.observableArrayList();//AND score.idScore = grille.idScore grille.nomGrille = 2
         try{
             System.out.println(taille);
-            PreparedStatement prepare = con.prepareStatement("SELECT nbMouv,nomJoueur FROM score,joueur,grille WHERE joueur.idJoueur=score.idJoueur AND (score.idScore = grille.idScore AND grille.nomGrille = ? AND joueur.nomJoueur = ?) ORDER BY nbMouv DESC");
+            PreparedStatement prepare = con.prepareStatement("SELECT nbMouv,nomJoueur FROM score,joueur,grille WHERE joueur.idJoueur=score.idJoueur AND (score.idScore = grille.idScore AND grille.nomGrille = ? AND joueur.nomJoueur = ?) ORDER BY nbMouv ASC");
             prepare.setString(1, taille);
             prepare.setString(2, name);
             ResultSet result = prepare.executeQuery();
