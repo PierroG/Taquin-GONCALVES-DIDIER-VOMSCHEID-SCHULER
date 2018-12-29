@@ -203,7 +203,7 @@ public class Plateau extends Observable implements Serializable {
         }
         //Si le coefficient de désordre n'est pas paire le taquin est impossible donc on le remélange
         System.out.println(this.coefDesordre());
-        if(this.coefDesordre()%2!=0){
+        if(this.coefDesordre()%2!=0 || this.coefDesordre()==0){
             this.melange();
         }
     }

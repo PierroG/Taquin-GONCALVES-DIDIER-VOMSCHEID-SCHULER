@@ -210,7 +210,7 @@
                   </Pane>
                </children>
             </Pane>
-            <Pane fx:id="classementPane" layoutY="107.0" prefHeight="413.0" prefWidth="400.0" style="-fx-background-color: #3d3d3d; -fx-border-width: 10; -fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%);">
+            <Pane fx:id="classementPane" layoutY="107.0" prefHeight="413.0" prefWidth="400.0" style="-fx-background-color: #3d3d3d; -fx-border-width: 10; -fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%);" visible="false">
                <children>
                   <Pane layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="380.0">
                      <children>
