@@ -22,8 +22,8 @@
          <children>
             <Pane layoutY="-2.0" onMouseDragged="#OnMouseDrag" onMousePressed="#OnMousePressed" prefHeight="37.0" prefWidth="400.0" style="-fx-background-color: #3d3d3d;">
                <children>
-                  <Button layoutY="-1.0" mnemonicParsing="false" onAction="#handleButtonHome" prefHeight="37.0" prefWidth="72.0" style="-fx-background-color: #3d3d3d; -fx-border-width: 0 2 0 0; -fx-border-color: #3d3d3d;" text="Home" textFill="WHITE" />
-                  <Button layoutX="341.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleButtonClose" prefHeight="37.0" prefWidth="59.0" styleClass="buttonClose" text="Close" textFill="WHITE" />
+                  <Button layoutY="-1.0" mnemonicParsing="false" onAction="#handleButtonHome" prefHeight="37.0" prefWidth="72.0" style="-fx-background-color: #3d3d3d; -fx-border-width: 0 2 0 0; -fx-border-color: #3d3d3d;" text="Menu" textFill="WHITE" />
+                  <Button layoutX="341.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleButtonClose" prefHeight="37.0" prefWidth="59.0" styleClass="buttonClose" text="Fermer" textFill="WHITE" />
                </children>
             </Pane>
             <Pane layoutX="25.0" layoutY="142.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: linear-gradient(#3d3d3d 0%,#27343d 90%);" />
@@ -87,7 +87,7 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <Button layoutX="145.0" layoutY="428.0" mnemonicParsing="false" onAction="#HandleButtonLancerJeuAction" prefHeight="60.0" prefWidth="121.0" styleClass="buttonMenu" text="PLAY">
+            <Button layoutX="139.0" layoutY="432.0" mnemonicParsing="false" onAction="#HandleButtonLancerJeuAction" prefHeight="60.0" prefWidth="134.0" styleClass="buttonMenu" text="JOUER">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
@@ -115,7 +115,7 @@
                   </LinearGradient>
                </textFill>
             </Label>
-            <Button layoutX="341.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleButtonClose" prefHeight="31.0" prefWidth="59.0" styleClass="buttonClose" text="Close" textFill="WHITE" />
+            <Button layoutX="341.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleButtonClose" prefHeight="31.0" prefWidth="59.0" styleClass="buttonClose" text="Femer" textFill="WHITE" />
             <Button layoutX="73.0" layoutY="271.0" mnemonicParsing="false" onAction="#handleButtonRanking" prefHeight="63.0" prefWidth="254.0" styleClass="buttonMenu" text="Voir Classement" textAlignment="CENTER">
                <textFill>
                   <LinearGradient endX="1.0" endY="0.3640776699029126" startX="1.0" startY="1.0">
@@ -167,7 +167,7 @@
                   </Pane>
                   <Pane fx:id="notLogPane" prefHeight="152.0" prefWidth="357.0">
                      <children>
-                        <Button alignment="CENTER" layoutX="197.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleButtonInscription" prefHeight="39.0" prefWidth="82.0" styleClass="buttonSignUp" text="Sign Up">
+                        <Button alignment="CENTER" layoutX="197.0" layoutY="108.0" mnemonicParsing="false" onAction="#handleButtonInscription" prefHeight="39.0" prefWidth="100.0" styleClass="buttonSignUp" text="S'inscrire">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -181,7 +181,7 @@
                               </LinearGradient>
                            </textFill>
                         </Button>
-                        <Button layoutX="263.0" layoutY="59.0" mnemonicParsing="false" onAction="#handleButtonConnexion" styleClass="buttonSignIn" text="Sign In" textFill="#3d3d3d">
+                        <Button layoutX="255.0" layoutY="59.0" mnemonicParsing="false" onAction="#handleButtonConnexion" styleClass="buttonSignIn" text="Connexion" textFill="#3d3d3d">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -191,7 +191,7 @@
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <Label layoutX="54.0" layoutY="117.0" text="Don't have account ? " textFill="WHITE">
+                        <Label layoutX="54.0" layoutY="117.0" text="Pas encore inscrit ?" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>

@@ -60,7 +60,25 @@ public class Jdbc {
             }
         }
     }
-    
+    public static String verifInscription(String nom){
+        String messageRetour;
+        try {
+            PreparedStatement prepare = Jdbc.con.prepareStatement("SELECT nomJoueur from Joueur WHERE nomJoueur = ?");
+            prepare.setString(1, nom);
+            ResultSet result = prepare.executeQuery();
+            if(!result.next()){
+                System.out.println("Pas de retour");
+                messageRetour = "";
+            }else{
+                System.out.println("Username déja utilisé");
+                messageRetour = "Username déja utilisé";
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+            messageRetour="Probléme d'inscription , réessayer plus tard";
+        }
+        return messageRetour;
+    }
     public static boolean inscription(String nom, String mdp){
         boolean reussi=false;
         try {

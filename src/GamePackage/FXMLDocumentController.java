@@ -653,12 +653,11 @@ public class FXMLDocumentController implements Initializable, Observer {
     }   
     @FXML
     private void HandleButtonPersoRankBestTimer(ActionEvent event){
-        if(isConnect){
-            rank.initTimerRankTab(tableClassement,tailleTaquin2.getValue().toString());
-            rank.setDataPersonalBestTimer(tailleTaquin2.getValue().toString(),this.Username);
+        if(isConnect){ 
+            rank.initPersonalTimerRankTab(tableClassement,tailleTaquin2.getValue().toString(),this.Username);
         }else{
             rank.clear();
-            tableClassement.setPlaceholder(new Label("You need to be connected"));
+            tableClassement.setPlaceholder(new Label("Vous devez être connecté"));
             
         }
     }
@@ -674,12 +673,10 @@ public class FXMLDocumentController implements Initializable, Observer {
     @FXML
     private void HandleButtonPersoRankBestScore(ActionEvent event){
         if(isConnect){
-            rank.initScoreRankTab(tableClassement,tailleTaquin2.getValue().toString());
-            rank.setDataPersonalBestScore(tailleTaquin2.getValue().toString(),this.Username);
-            System.out.println(Username);
+            rank.initPersonalScoreRankTab(tableClassement,tailleTaquin2.getValue().toString(),this.Username);
         }else{
             rank.clear();
-            tableClassement.setPlaceholder(new Label("You need to be connected"));
+            tableClassement.setPlaceholder(new Label("Vous devez être connecté"));
             
         }
         

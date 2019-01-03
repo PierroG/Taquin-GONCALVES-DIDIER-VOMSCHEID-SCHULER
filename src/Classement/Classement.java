@@ -34,14 +34,19 @@ public class Classement {
         
     }
     
-    //Crée les colonne et set les Data dans la table
+    //Crée les colonne pour le classement par Score et set les Data dans la table
     public void initScoreRankTab(TableView table,String taille){
         System.out.println("Initialize Score Rank");
+        //Lance la requéte
         data = Jdbc.rankBScoreReq(taille);
+        //si il n'y a pas de donnée retourné on clear le classement , et on écrit qu'il n'y a pas de donnée
         if(data.isEmpty()){
             this.clear();
             table.setPlaceholder(new Label("No data"));
-        }else{
+            table.refresh();
+        }
+        //Sinon il y en a , et on initialise la table
+        else{
             
         table.setEditable(false);
         table.getStyleClass().add("rankingTable");
@@ -64,12 +69,13 @@ public class Classement {
         ScoreCol.getStyleClass().add("rankingTableColumn");
         ScoreCol.setCellValueFactory(
                 new PropertyValueFactory<Player,String>("score"));
- 
-        table.setItems(data);
-        table.getColumns().setAll(RankCol, NameCol, ScoreCol);
+        //set les data dans la table
+        this.table.setItems(data);
+        //set les différente colonne crée juste avant
+        this.table.getColumns().setAll(RankCol, NameCol, ScoreCol);
         }
     } 
-    
+    //Crée les colonne pour le classement par Time et set les Data dans la table
     public void initTimerRankTab(TableView table,String taille){
         System.out.println("Initialize Timer Rank");
         data = Jdbc.rankBTimeReq(taille);
@@ -100,48 +106,83 @@ public class Classement {
         ScoreCol.setCellValueFactory(
                 new PropertyValueFactory<Player,String>("score"));
  
-        table.setItems(data);
-        table.getColumns().setAll(RankCol, NameCol, ScoreCol);
+        this.table.setItems(data);
+        this.table.getColumns().setAll(RankCol, NameCol, ScoreCol);
         }
     } 
-    //Lance la requéte associé et set les data qui en retourne
-    public void setDataBestScore(String taille){
-        data = Jdbc.rankBScoreReq(taille);
-        if(data.isEmpty()){
-            table.setPlaceholder(new Label("No data"));
-        }else{
-            table.setItems(data);
-        }
-    }
-    public void setDataPersonalBestScore(String taille,String Username){
-        data = Jdbc.PersonalrankBScoreReq(taille,Username);
-        if(data.isEmpty()){
-            table.setPlaceholder(new Label("No data"));
-        }else{
-            table.setItems(data);
-        }
-    }
-    public void setDataPersonalBestTimer(String taille,String Username){
+    public void initPersonalTimerRankTab(TableView table,String taille,String Username){
+        System.out.println("Initialize Personal Timer Rank");
         data = Jdbc.personalRankBTimeReq(taille,Username);
         if(data.isEmpty()){
-            System.out.println("no data");
+            this.clear();
             table.setPlaceholder(new Label("No data"));
         }else{
-            table.setItems(data);
+            
+        table.setEditable(false);
+        table.getStyleClass().add("rankingTable");
+ 
+        TableColumn RankCol = new TableColumn("RANK");
+        RankCol.setMinWidth(50);
+        RankCol.getStyleClass().add("rankingTableColumn");
+        RankCol.setCellValueFactory(
+                new PropertyValueFactory<Player,String>("rank"));
+ 
+        TableColumn NameCol = new TableColumn("NAME");
+        NameCol.setMinWidth(170);
+        NameCol.getStyleClass().add("rankingTableColumn");
+        NameCol.setCellValueFactory(
+                new PropertyValueFactory<Player,String>("name"));
+        NameCol.getStyleClass().add("-fx-alignment: CENTER-RIGHT;");
+ 
+        TableColumn ScoreCol = new TableColumn("TIME");
+        ScoreCol.setMinWidth(150);
+        ScoreCol.getStyleClass().add("rankingTableColumn");
+        ScoreCol.setCellValueFactory(
+                new PropertyValueFactory<Player,String>("score"));
+ 
+        this.table.setItems(data);
+        this.table.getColumns().setAll(RankCol, NameCol, ScoreCol);
         }
-        
-    }
-    public void setDataBestTimer(String taille){
-        data = Jdbc.rankBTimeReq(taille);
+    } 
+    public void initPersonalScoreRankTab(TableView table,String taille,String Username){
+        System.out.println("Initialize Score Rank");
+        data = Jdbc.PersonalrankBScoreReq(taille,Username);
         if(data.isEmpty()){
-            System.out.println("no data");
+            this.clear();
             table.setPlaceholder(new Label("No data"));
+            table.refresh();
         }else{
-            table.setItems(data);
+            
+        table.setEditable(false);
+        table.getStyleClass().add("rankingTable");
+ 
+        TableColumn RankCol = new TableColumn("RANK");
+        RankCol.setMinWidth(50);
+        RankCol.getStyleClass().add("rankingTableColumn");
+        RankCol.setCellValueFactory(
+                new PropertyValueFactory<Player,String>("rank"));
+ 
+        TableColumn NameCol = new TableColumn("NAME");
+        NameCol.setMinWidth(170);
+        NameCol.getStyleClass().add("rankingTableColumn");
+        NameCol.setCellValueFactory(
+                new PropertyValueFactory<Player,String>("name"));
+        NameCol.getStyleClass().add("-fx-alignment: CENTER-RIGHT;");
+ 
+        TableColumn ScoreCol = new TableColumn("SCORE");
+        ScoreCol.setMinWidth(150);
+        ScoreCol.getStyleClass().add("rankingTableColumn");
+        ScoreCol.setCellValueFactory(
+                new PropertyValueFactory<Player,String>("score"));
+ 
+        this.table.setItems(data);
+        this.table.getColumns().setAll(RankCol, NameCol, ScoreCol);
         }
-    }
-    //détruit les données contenu dans datas
+    } 
+    //détruit les données contenu dans data
     public void clear(){
-        data.setAll();
+        this.table.getItems().clear();
+        this.data.setAll();
+        this.table.refresh();
     }
 }

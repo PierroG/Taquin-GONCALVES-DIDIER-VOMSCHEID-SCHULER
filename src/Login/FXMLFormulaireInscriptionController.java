@@ -61,14 +61,20 @@ public class FXMLFormulaireInscriptionController implements Initializable {
         //Si on passe toute les vérification c'est que c'est correcte
         }else{
             linfo.setText("Correct");
-            //on lance la requéte d'inscription
-            boolean b = Jdbc.inscription(usernameTF.getText(),passwordTF.getText());
-            //si elle a bien était effectuer on ferme le formulaire
-            if(b){
-                System.out.println("Inscription Réussie");
-                this.close();
-            }else{
-                System.out.println("erreurd'inscription");
+            //Derniére vérification , si l'Username est déja utiliser par un autre compte ou non
+            String s = Jdbc.verifInscription(usernameTF.getText());
+            if(s!=""){
+                linfo.setText(s);
+                }else{
+                //on lance la requéte d'inscription
+                boolean b = Jdbc.inscription(usernameTF.getText(),passwordTF.getText());
+                //si elle a bien était effectuer on ferme le formulaire
+                if(b){
+                    System.out.println("Inscription Réussie");
+                    this.close();
+                }else{
+                   System.out.println("erreurd'inscription");
+                }
             }
         }
             
@@ -79,6 +85,7 @@ public class FXMLFormulaireInscriptionController implements Initializable {
         System.out.println("Cancel");
         this.close();
     }
+    //Ferme la fenétre
     private void close(){
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
