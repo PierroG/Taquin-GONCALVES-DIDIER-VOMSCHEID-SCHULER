@@ -33,7 +33,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -50,10 +49,6 @@ public class FXMLDocumentController implements Initializable, Observer {
     
     private Plateau plateau;
     @FXML
-    private Label label;
-    @FXML
-    private GridPane grille;
-    @FXML
     private Label lScore,lTimer,linfo,lUsername;
     @FXML
     private Pane menuPane,taquinPane,classementPane; // Pane représentant le menu , et l'affichage du taquin
@@ -68,26 +63,23 @@ public class FXMLDocumentController implements Initializable, Observer {
     ObservableList list = FXCollections.observableArrayList("2x2","3x3","4x4","5x5","6x6","7x7","8x8");
     @FXML
     private TableView tableClassement;
-    //tableau qui contiendras les panes constituant le jeu pour l'affichage
+    //tableau qui contiendra les panes constituant le jeu pour l'affichage
     private Pane paneTab[][];
     private int enCour, nbThread;
     private ArrayList<Pane> tab;
     private float objectifX,objectifY;
-    //boolean pour savoir si le joueur peux effectuer des mouvement ou non , pour éviter tous probléme
+    //boolean pour savoir si le joueur peux effectuer des mouvement ou non , pour eviter tous problemes
     private boolean canPlay=false;
-    //permet d'activer ou desaciver laction des bouton pour éviter des bug/spam
+    //permet d'activer ou desaciver l'action des bouton pour eviter des bug/spam
     private boolean buttonActive=true;
     private double xOffset = 0;
     private double yOffset = 0;
     private Pane caseSelectionne=null;
     private Classement rank = null;
-    @FXML
-    private Label labelTestAnimation;
     private boolean isConnect;
     private String Username;
     
     
-    //Constructeur de la class
     public FXMLDocumentController(){
         System.out.println("Construct");
         this.plateau = new Plateau(); 
@@ -95,21 +87,20 @@ public class FXMLDocumentController implements Initializable, Observer {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("Initialise");
-        //menuPane.setVisible(true);
-        //Gére le menu
+        //gere le menu
         classementPane.setLayoutY(classementPane.getLayoutY()+415);
         tailleTaquin.getItems().addAll(list);
         tailleTaquin.setValue("4x4");
-        //tailleTaquin.getValue() pour récupérer la valeur;
+        //tailleTaquin.getValue() pour recuperer la valeur;
         
     } 
-    //Event Pour bouger la fenétre
+    //Event pour bouger la fenetre
     @FXML
     private void OnMousePressed(MouseEvent event) {
                 xOffset = event.getSceneX();
                 yOffset = event.getSceneY();
     }
-    //Event Pour bouger la fenétre
+    //Event pour bouger la fenetre
     @FXML
     private void OnMouseDrag(MouseEvent event) {
                 Stage stage = (Stage) menuPane.getScene().getWindow();
@@ -124,13 +115,13 @@ public class FXMLDocumentController implements Initializable, Observer {
         this.nbThread=-1;
         plateau = new Plateau();
         if(!SerialiserPlateau.existePlateau()){
-            String taille = tailleTaquin.getValue().toString().substring(0, 1); //récupère le premier nombre écrit dans le choiceBox (4 si 4x4 est selectionné etc)
-            this.destroyPlateayView(); //Détruit l'ancienne partie si il y en avait une
+            String taille = tailleTaquin.getValue().toString().substring(0, 1); //recupere le premier nombre ecrit dans le choiceBox (4 si 4x4 est selectionne etc)
+            this.destroyPlateayView(); //detruit l'ancienne partie si il y en avait une
             plateau.initialize(Integer.parseInt(taille)); //intiailise le plateau et la vue
             this.initializePlateauView();
             this.AnimMenuOut();
         }else{
-            System.out.println("tewst");
+            System.out.println("test");
             //si il existe une partie en cours, une boite de dialogue est cree 
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle(null);
@@ -149,9 +140,9 @@ public class FXMLDocumentController implements Initializable, Observer {
             }
             //sinon on cree une nouvelle partie
             else {
-                String taille = tailleTaquin.getValue().toString().substring(0, 1); //récupére le premier nombre écrit dans le choiceBox (4 si 4x4 est selectionné etc)
-                this.destroyPlateayView(); //Détruit l'ancienne partie si il y en avais une
-                plateau.initialize(Integer.parseInt(taille)); //intiailise la plateau est la vue
+                String taille = tailleTaquin.getValue().toString().substring(0, 1); //recupere le premier nombre ecrit dans le choiceBox (4 si 4x4 est selectionné etc)
+                this.destroyPlateayView(); //detruit l'ancienne partie si il y en avait une
+                plateau.initialize(Integer.parseInt(taille)); //initialise la plateau et la vue
                 this.initializePlateauView();
                 this.AnimMenuOut();
             }
@@ -164,15 +155,20 @@ public class FXMLDocumentController implements Initializable, Observer {
     //Event pour le bouton Close
     @FXML
     private void handleButtonClose(ActionEvent event) {
-        SerialiserPlateau.enregistrerPlateau(plateau);
+        if(!this.plateau.isOver()){
+            SerialiserPlateau.enregistrerPlateau(plateau);
+        }
+        
         Platform.exit();
         Jdbc.closeInstance();
     }
     //Sevent pour le bouton Home
     @FXML
     private void handleButtonHome(ActionEvent event){
-        SerialiserPlateau.enregistrerPlateau(plateau);
-        System.out.println("Home");
+        if(!this.plateau.isOver()){
+            SerialiserPlateau.enregistrerPlateau(plateau);
+        }
+        System.out.println("Accueil");
         
         this.AnimMenuIn();
     }
@@ -183,12 +179,12 @@ public class FXMLDocumentController implements Initializable, Observer {
         System.out.println("Connexion pressed");
         String regex = "[a-zA-Z0-9]+";
         if((UsernameField.getText().matches(regex) && PassWordField.getText().matches(regex))==false){
-            linfo.setText("Ereur de saisie");
+            linfo.setText("Erreur de saisie");
         }else{
             
             String s = Jdbc.connexion(UsernameField.getText(),PassWordField.getText());
             if(s!=null){
-                linfo.setText("Bienvenu "+s);
+                linfo.setText("Bienvenue "+s);
                 lUsername.setText(s);
                 notLogPane.setVisible(false);
                 isLogPane.setVisible(true);
@@ -199,10 +195,9 @@ public class FXMLDocumentController implements Initializable, Observer {
             }
         }
         }
-        /*notLogPane.setVisible(false);
-        connexionPane.setVisible(true);*/
+
     }
-    //Action du Bouton Sign In , lance le formualrie d'inscriptions
+    //action du bouton s'inscrire , lance le formulaire d'inscription
     @FXML
     private void handleButtonInscription(ActionEvent event){
         if(buttonActive){
@@ -316,7 +311,7 @@ public class FXMLDocumentController implements Initializable, Observer {
         this.paneTab = new Pane[taille][taille];
         float x = 25;
         float y = 142;
-        //objectifX et objectifY corresponde a l'emplacement de la case vide
+        //objectifX et objectifY correspondent a l'emplacement de la case vide
         objectifX=x+(((float)350/taille)*(taille-1));
         objectifY=y+(((float)350/taille)*(taille-1));
         System.out.println(taille);
@@ -329,14 +324,14 @@ public class FXMLDocumentController implements Initializable, Observer {
                     objectifY=142+(((float)350/taille)*i);
                 }else{
                     
-                    //Crée une tuile au bonne dimension, set sont style,  et la place dans la fenétre
+                    //cree une tuile au bonne dimension, set son style,  et la place dans la fenetre
                     Pane p = new Pane();
                     p.setPrefSize((double)350/taille,(double)350/taille);
                     p.getStyleClass().add("case");
                     Label l = new Label();
                     l.getStyleClass().add("num");
                     p.getChildren().add(l);
-                    //Set l'event du clique sur une tuile , pour gérer le déplacement de plusieur case avec les fléche
+                    //Set l'event du clique sur une tuile , pour gérer le deplacement de plusieurs cases avec les fleches
                     p.setOnMouseClicked((MouseEvent e) -> {
                         if(caseSelectionne==null){
                             System.out.println("Selec First Time");
@@ -354,14 +349,12 @@ public class FXMLDocumentController implements Initializable, Observer {
                             caseSelectionne = (Pane)e.getSource();
                             caseSelectionne.getStyleClass().add("caseSelection");
                         
-                        
-                        /*caseSelectionne = (Pane)e.getSource();
-                        caseSelectionne.getStyleClass().add("caseSelection");*/
+              
                         }});
                     taquinPane.getChildren().add(p);
                     int num = this.plateau.getPlateau()[i][j].getNum();
                     l.setText(Integer.toString(num));
-                    //Centre la label en fonction de la taille du pane
+                    //centre le label en fonction de la taille du pane
                     l.layoutXProperty().bind(p.widthProperty().divide(2).subtract(l.widthProperty().divide(2)));
                     l.layoutYProperty().bind(p.heightProperty().divide(2).subtract(l.heightProperty().divide(2)));
                     p.setLayoutX((double)x);
@@ -412,9 +405,9 @@ public class FXMLDocumentController implements Initializable, Observer {
         
         if (ke.getCode().toString() == "DOWN" ) {
             System.out.println("DOWN Pressed");
-            //récupére la Case Selectionné
+            //recupere la case selectionne
             Case c = chercheCase();
-            //récupére le nombre de case a bouger si on peux
+            //recupere le nombre de case a bouger si on peut
             int nbCaseToMove = c.isCaseVideDown(plateau);
             //fait les déplacements
             for(int i=0;i<nbCaseToMove;i++){
@@ -460,7 +453,7 @@ public class FXMLDocumentController implements Initializable, Observer {
         lScore.setText(Integer.toString(plateau.getScore()));
         plateau.affichePlateauConsole();
         if(this.plateau.isOver()){
-            System.out.println("Bien ouéj ta fini");
+            System.out.println("Bien joué tu as fini");
             this.canPlay=false;
             endEvent();
         }
@@ -468,11 +461,11 @@ public class FXMLDocumentController implements Initializable, Observer {
     }
     
     public void moveLeft(){
-        //récupére la pane a déplacer qui est a la place de la case vide dans le plateau , et la dépalce
+        //recupére le pane a deplacer qui est a la place de la case vide dans le plateau et la déplace
         this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY,++nbThread);
-        //met a jour l'objectif pour le prochain déplacement
+        //met a jour l'objectif pour le prochain deplacement
         objectifX = (float)objectifX+((float)350/this.plateau.getTaille());
-        //met a jour le tableau des Pane
+        //met a jour le tableau des panes
         paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()-1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
         paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
     }
@@ -498,20 +491,25 @@ public class FXMLDocumentController implements Initializable, Observer {
 }
     public void createThread(Pane p,float toX,float toY, int num){
         System.out.println(toX+"/"+toY);
-        Task task = new Task<Void>() { // on définit une tâche parallèle pour mettre à jour la vue 
-            //récupére la postion du pane a dépalacer
+        Task task = new Task<Void>() { // on definit une tache parallele pour mettre a jour la vue 
+            //recupere la position du pane a deplacer
             float x=(float)p.getLayoutX();
             float y=(float)p.getLayoutY();
-            //récupére les valeur de objetifX et objectifY car elle peuvent étre modifier en cours de thread pour déplacer une autre tuile si le jouer fait un autre déplacement avant que celui ci soit fini
+            //recupere les valeurs de objetifX et objectifY car elles peuvent etre modifiees en cours de thread pour deplacer une autre tuile si le joueur fait un autre déplacement avant que celui ci soit fini
             float objX=toX;
             float objY=toY;
             @Override
-            public Void call() throws Exception { // implémentation de la méthode protected abstract V call() dans la classe Task
+            public Void call() throws Exception { // implementation de la méthode protected abstract V call() dans la classe Task
+                int attente;
                 if(tab.contains(p)){
+                    //enCour++;
                     while(enCour!=num){
+                    //while(tab.contains(p)){
+                    //System.out.println("tetetetete");
                         Thread.sleep(1);
                     }
                 }
+                
                 tab.add(p);
                 x=(float)p.getLayoutX();
                 y=(float)p.getLayoutY();
@@ -519,39 +517,63 @@ public class FXMLDocumentController implements Initializable, Observer {
                 objY=toY;
                 while (x != objX || y != objY) { // si la tuile n'est pas à la place qu'on souhaite attendre en abscisse
                     if (x < objX) {
-                        x += .25; // si on va vers la droite, on modifie la position de la tuile pixel par pixel vers la droite
+                        if(objX-x <0.25){
+                            x += objX-x;
+                        }else{
+                            x += .25; // si on va vers la droite, on modifie la position de la tuile pixel par pixel vers la droite
+                        }
+                        
                     } else if(x> objX){
-                        x -= .25; // si on va vers la gauche, idem en décrémentant la valeur de x
+                        if(x-objX <0.25){
+                            x -= objX-x;
+                        }else{
+                            x -= .25; // si on va vers la gauche, idem en décrémentant la valeur de x
+                        }
+                        
                     } else if(y < objY){
-                        y +=.25;
+                        if(objY-y <0.25){
+                            y += objY-y;
+                        }else{
+                            y +=.25;
+                        }
+                        
                     } else if(y >objY){
-                        y-=.25;
+                        if(y-objY <0.25){
+                            y -= objY-y;
+                        }else{
+                            y-=.25;
+                        }
+                        
                     }
-                    // Platform.runLater est nécessaire en JavaFX car la GUI ne peut être modifiée que par le Thread courant, contrairement à Swing où on peut utiliser un autre Thread pour ça
+                    // Platform.runLater est necessaire en JavaFX car la GUI ne peut être modifiée que par le Thread courant, contrairement à Swing où on peut utiliser un autre Thread pour ça
                     Platform.runLater(new Runnable() { // classe anonyme
                         @Override
                         public void run() {
                             //javaFX operations should go here
-                            p.relocate(x, y); // on déplace la tuile d'un pixel sur la vue, on attend 5ms et on recommence jusqu'à atteindre l'objectif
+                            p.relocate(x, y); // on deplace la tuile d'un pixel sur la vue, on attend 5ms et on recommence jusqu'à atteindre l'objectif
                             p.setVisible(true);    
                         }
                     });
                     Thread.sleep(1);
                 } // end while
+                while(enCour!=(num)){
+                System.out.println(enCour + " : " + num);
+                }
                 enCour++;
+               // System.out.println(enCour + " : " + num);
                 tab.remove(p);
-                return null; // la méthode call doit obligatoirement retourner un objet. Ici on n'a rien de particulier à retourner. Du coup, on utilise le type Void (avec un V majuscule) : c'est un type spécial en Java auquel on ne peut assigner que la valeur null
+                return null; // la methode call doit obligatoirement retourner un objet. Ici on n'a rien de particulier a retourner. Du coup, on utilise le type Void (avec un V majuscule) : c'est un type special en Java auquel on ne peut assigner que la valeur null
             } // end call
 
         };
         factoryThread.lancer(task);
         /*
-        Thread th = new Thread(task); // on crée un contrôleur de Thread
-        th.setDaemon(true); // le Thread s'exécutera en arrière-plan (démon informatique)
-        th.start(); // et on exécute le Thread pour mettre à jour la vue (déplacement continu de la tuile horizontalement) 
+        Thread th = new Thread(task); // on cree un controleur de Thread
+        th.setDaemon(true); // le Thread s'executera en arriere-plan (demon informatique)
+        th.start(); // et on execute le Thread pour mettre a jour la vue (deplacement continu de la tuile horizontalement) 
     */
     }
-    //Cherche la position du paneSelectionné dans paneTab et retourne la Case associé dans le plateau qui est au méme coordonnés
+    //Cherche la position du paneSelectionne dans paneTab et retourne la Case associee dans le plateau qui est aux memes coordonnees
     public Case chercheCase(){
         Case retour=null;
         int posX=-1;
@@ -606,9 +628,9 @@ public class FXMLDocumentController implements Initializable, Observer {
     public void endEvent(){
         if(isConnect){
             this.addScore();
-            
         }
         
+        SerialiserPlateau.EffacerPlateau();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Bravo!");
         alert.show();
@@ -642,13 +664,11 @@ public class FXMLDocumentController implements Initializable, Observer {
        System.out.println("initRank");
        //Classement de Test ( a enlever )
        if(rank==null){
-           tailleTaquin2.getItems().addAll("2","4","5","6","7","8");
+           tailleTaquin2.getItems().addAll("2","3","4","5","6","7","8");
            tailleTaquin2.setValue("4");
            //Crée le classement
            rank = new Classement(tableClassement,tailleTaquin2.getValue().toString());
            //Initialise la choiceBox de la taille
-           
-           
        }
     }   
     @FXML
@@ -668,7 +688,6 @@ public class FXMLDocumentController implements Initializable, Observer {
     @FXML
     private void HandleButtonRankBestScore(ActionEvent event){
         rank.initScoreRankTab(tableClassement,tailleTaquin2.getValue().toString());
-        //rank.setDataBestScore(tailleTaquin2.getValue().toString());
     }
     @FXML
     private void HandleButtonPersoRankBestScore(ActionEvent event){
@@ -682,14 +701,9 @@ public class FXMLDocumentController implements Initializable, Observer {
         
     }
        
-       //il faudras créer un classement avec en entré la list des joueur et tableClassement
-       //Classement c = new Classement(list,tableClassement);
-       
-   
     public void addScore(){
         String id =Jdbc.getIdByName(Username);
-        boolean b = Jdbc.scoreReq(plateau.getSec(), plateau.getMin(), plateau.getScore(), 0 , id, plateau.getTaille());
-       
+        boolean b = Jdbc.scoreReq(plateau.getSec(), plateau.getMin(), plateau.getScore(), 0 , id, plateau.getTaille());    
     }
     
 }
