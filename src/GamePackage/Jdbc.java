@@ -23,7 +23,7 @@ import javafx.collections.ObservableList;
 public class Jdbc {
     
     private String username = "root";
-    private String connectUrl = "jdbc:mysql://127.0.0.1/taquin";//"jdbc:mysql://localhost:3306/taquin";
+    private String connectUrl = "jdbc:mysql://localhost:3306/taquin";//"jdbc:mysql://localhost:3306/taquin";
     private String mdp = "";
     private static Connection con = null;
     
