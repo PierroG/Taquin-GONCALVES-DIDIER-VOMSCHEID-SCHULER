@@ -249,6 +249,9 @@ public class FXMLDocumentController implements Initializable, Observer {
         t.setNode(menuPane);
         t.setToY(0);
         t.play();
+        UsernameField.setDisable(false);
+        PassWordField.setDisable(false);
+        tailleTaquin.setDisable(false);
         t.setOnFinished((e)->{
             this.destroyPlateayView();
             buttonActive=true;
@@ -261,6 +264,9 @@ public class FXMLDocumentController implements Initializable, Observer {
         t.setNode(menuPane);
         t.setToY(-520);
         t.play();
+        UsernameField.setDisable(true);
+        PassWordField.setDisable(true);
+        tailleTaquin.setDisable(true);
         t.setOnFinished((e)->{
             this.canPlay=true;
             this.createTimer();
@@ -467,32 +473,40 @@ public class FXMLDocumentController implements Initializable, Observer {
     }
     
     public void moveLeft(){
-        //recupére le pane a deplacer qui est a la place de la case vide dans le plateau et la déplace
-        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY,++nbThread);
-        //met a jour l'objectif pour le prochain deplacement
+        //récupère les coordonnées de la case vide
+        int x = this.plateau.getXCaseVide();
+        int y = this.plateau.getYCaseVide();
+        //crée le Thread pour l'affichage du déplacement, avec en entrée , le pane a déplacé qui se situe au coordonnée de la case vide dans le plateau, l'ojectif , les coordonnée a atteindre pour le pane
+        this.createThread(paneTab[x][y],this.objectifX,this.objectifY,++nbThread);
+        //met a jour l'objectif pour le prochain deplacement = l'ancien objectif - la taille d'un pane
         objectifX = (float)objectifX+((float)350/this.plateau.getTaille());
         //met a jour le tableau des panes
-        paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()-1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
-        paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
+        paneTab[x][y-1]=paneTab[x][y];
+        paneTab[x][y]=null;
     }
     public void moveRight(){
+        int x = this.plateau.getXCaseVide();
+        int y = this.plateau.getYCaseVide();
         this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY,++nbThread);
         objectifX = (float)objectifX-((float)350/this.plateau.getTaille());
         paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()+1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
         paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
     }
     public void moveDown(){
-        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY,++nbThread);
+        int x = this.plateau.getXCaseVide();
+        int y = this.plateau.getYCaseVide();
+        this.createThread(paneTab[x][y],this.objectifX,this.objectifY,++nbThread);
         objectifY =(float) objectifY-((float)350/this.plateau.getTaille());
-        paneTab[this.plateau.getXCaseVide()+1][this.plateau.getYCaseVide()]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
-        paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
-
+        paneTab[x+1][y]=paneTab[x][y];
+        paneTab[x][y]=null;
     }
     public void moveUp(){
-        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY,++nbThread);
+        int x = this.plateau.getXCaseVide();
+        int y = this.plateau.getYCaseVide();
+        this.createThread(paneTab[x][y],this.objectifX,this.objectifY,++nbThread);
         objectifY =(float) objectifY+((float)350/this.plateau.getTaille());
-        paneTab[this.plateau.getXCaseVide()-1][this.plateau.getYCaseVide()]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
-        paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
+        paneTab[x-1][y]=paneTab[x][y];
+        paneTab[x][y]=null;
             
 }
     public void createThread(Pane p,float toX,float toY, int num){
