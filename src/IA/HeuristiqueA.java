@@ -14,6 +14,6 @@ import GamePackage.Case;
 public interface HeuristiqueA {
     
     // interface pour toutes les heuristiques qu'on peut implémenter
-    public int heuristique(Case plateau[][] , int dimension);
+    public int heuristique(Case plateau[][] , int taille);
     
 }

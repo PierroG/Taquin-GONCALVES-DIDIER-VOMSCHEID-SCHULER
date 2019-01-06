@@ -76,4 +76,65 @@ public class ActionIA {
     // SMA* : bon compromis entre mémoire et rapidité. (plus lent que A*)
     
     
+    
+    //Test d'un IA non adapté
+    public void MimaxIA(Plateau plat){
+        
+        int minvaleur = 1000;
+        int tempo = 0;
+        int profondeur = 20;
+        int deplacement = 0;
+        
+        if(plat.getYCaseVide()>0){
+            plat.moveRight();
+            tempo = max(plat,profondeur-1);
+            if(tempo < minvaleur){
+                minvaleur = tempo;
+                deplacement = 1;
+            }
+            plat.moveLeft();
+        }
+        else if(plat.getYCaseVide() < plat.getTaille()){
+            plat.moveLeft();
+            tempo = max(plat,profondeur-1);
+            if(tempo < minvaleur){
+                minvaleur = tempo;
+                deplacement = 1;
+            }
+            plat.moveRight();
+        }
+        else if(plat.getXCaseVide() > 0){
+            plat.moveUp();
+            tempo = max(plat,profondeur-1);
+            if(tempo < minvaleur){
+                minvaleur = tempo;
+                deplacement = 1;
+            }
+            plat.moveDown();
+        }
+        else if(plat.getXCaseVide() < plat.getTaille()){
+            plat.moveDown();
+            tempo = max(plat,profondeur-1);
+            if(tempo < minvaleur){
+                minvaleur = tempo;
+                deplacement = 1;
+            }
+            plat.moveUp();
+        }
+        
+        
+    }
+    
+    public int max(Plateau plat, int profondeur){
+        int bla=0;
+        
+        return bla;
+    }
+    
+    
+    
+    
+    
+    
+    
 }

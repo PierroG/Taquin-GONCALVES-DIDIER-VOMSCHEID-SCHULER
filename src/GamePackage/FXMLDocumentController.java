@@ -5,6 +5,7 @@ import Classement.Classement;
 import GamePackage.Case;
 
 import GamePackage.factoryThread;
+import IA.ActionIA;
 import Login.FXMLFormulaireInscriptionController;
 import javafx.scene.control.TextField;
 import java.net.URL;
@@ -401,6 +402,11 @@ public class FXMLDocumentController implements Initializable, Observer {
                 //mouv.add(2);
             }
             //moveDown();
+        }
+        
+        ActionIA ia = new ActionIA();
+        if (touche.compareTo("n")==0) {
+            ia.IAPerformed(plateau);
         }
         
         if (ke.getCode().toString() == "DOWN" ) {

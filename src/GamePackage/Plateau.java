@@ -230,19 +230,19 @@ public class Plateau extends Observable implements Serializable {
 	ArrayList<Plateau> list = new ArrayList<Plateau>();
 	if (this.moveUp()) {
             list.add(this);
-            this.moveUp();
+            this.moveDown();
 	}
 	if (this.moveDown()) {
             list.add(this);
-            this.moveDown();
+            this.moveUp();
 	}
 	if (this.moveLeft()) {
             list.add(this);
-            this.moveLeft();
+            this.moveRight();
 	}
         if (this.moveRight()) {
             list.add(this);
-            this.moveRight();
+            this.moveLeft();
 	}
 	return list;
     }
