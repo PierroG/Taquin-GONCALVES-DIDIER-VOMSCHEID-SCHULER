@@ -17,12 +17,14 @@ public class ActionIA {
     ArrayList<Plateau> List_successeurs = new ArrayList<Plateau>();
     ArrayList<Plateau> Chemin = new ArrayList<Plateau>();
     HeuristiqueA heuristique;
+    private int jeu = 0;
     
     
     // Implémentation de l'algorithme A* (essai)
     // A* est très rapide mais trop gourmand en mémoire
     public void IAPerformed(Plateau plat) {
-	Chemin.clear();
+	jeu = 0;
+        Chemin.clear();
 	List_successeurs.clear();
 	boolean solution_trouvee = false;
         Plateau meilleure = null;
@@ -32,37 +34,51 @@ public class ActionIA {
         while (List_successeurs.size() > 0 && !solution_trouvee) {
             meilleure = List_successeurs.get(0);
             meilleure.setheuristique(heuristique);
-            for (int i = 1; i < List_successeurs.size(); i++) {
+            for (int i = 0; i < List_successeurs.size(); i++) {
 		Plateau p = List_successeurs.get(i);
                 p.setheuristique(heuristique);
+                // si à l'endroit i de list_successeurs, on a un heuristique plus bas, on garde
 		if (p.heuristique() < meilleure.heuristique()) {
                     meilleure = p;
 		}
-            } // si on a trouvé, on termine  
+            } // si on a trouvé, on termine la boucle 
             if (meilleure.isOver()) {
             solution_trouvee = true;
 		Chemin.add(meilleure);
-            } else { // sinon on continue d'ajouter un mouvement
-                if (existDansChemin(meilleure) >= 0) {
+            } else { // si il existe déjà le même chemin enregistré on l'enlève
+                if (existMemeChemin(meilleure) >= 0) {
                     List_successeurs.remove(meilleure);
-                } else {
+                } else { // sinon on continue d'ajouter des mouvements
                     Chemin.add(meilleure);
                     List_successeurs.clear();
                     List_successeurs = meilleure.Successeurs();
                 }
             }
 	}
+        jouerIA(plat);
     }
 
-    //
-    private int existDansChemin(Plateau p) {
+    // verifie dans le chemin si il n'existe pas déjà le même chemin
+    private int existMemeChemin(Plateau plat) {
         for (int i = 0; i < Chemin.size() - 1; i++) {
-            if (p.equals(Chemin.get(i))) {
+            if (plat.equals(Chemin.get(i))) {
 		return i;		
             }	
         }
 	return -1;
     }
+    
+    public void actionIAPerformed(Plateau plat) {
+	if (jeu < Chemin.size() - 1) {
+		jeu++;
+		jouerIA(plat);
+	}
+    }
+    
+    private void jouerIA(Plateau plat) {
+        plat.setPlateau(Chemin.get(jeu).getPlateau());
+    }
+    
     
     
     // Informations supplémentaires :
@@ -86,7 +102,7 @@ public class ActionIA {
         
         int minvaleur = 1000;
         int tempo = 0;
-        int profondeur = 10;
+        int profondeur = 8;
         String memo = "";
         
         // si la case vide est n'est pas situé sur le bord gauche
@@ -142,6 +158,10 @@ public class ActionIA {
             // ça n'a pas marché
         }
         
+        System.out.println(plat.coefDesordre());
+        
+        System.out.println(minvaleur);
+        
     }
     
     // une fois descendu en profondeur on continue et on alterne entre deux algo
@@ -151,7 +171,6 @@ public class ActionIA {
         } else if (platcopie.coefDesordre()==0){
             return platcopie.coefDesordre();
         }
-        System.out.println(platcopie.coefDesordre());
         
         int valmin1 = 1000;
         int tempo = 0;
@@ -196,7 +215,7 @@ public class ActionIA {
             platcopie.moveDownIA();
         }
         
-        // si le jeu n'a réussi à faire aucune action :
+        // si le jeu n'a réussi à faire aucune action ou qu'il n'a plus d'action à faire :
         if(valmin1 != 1000){
             return valmin1;
         } else {
