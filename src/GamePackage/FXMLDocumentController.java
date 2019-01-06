@@ -249,9 +249,7 @@ public class FXMLDocumentController implements Initializable, Observer {
         t.setNode(menuPane);
         t.setToY(0);
         t.play();
-        UsernameField.setDisable(false);
-        PassWordField.setDisable(false);
-        tailleTaquin.setDisable(false);
+        menuPane.setDisable(false);
         t.setOnFinished((e)->{
             this.destroyPlateayView();
             buttonActive=true;
@@ -264,9 +262,7 @@ public class FXMLDocumentController implements Initializable, Observer {
         t.setNode(menuPane);
         t.setToY(-520);
         t.play();
-        UsernameField.setDisable(true);
-        PassWordField.setDisable(true);
-        tailleTaquin.setDisable(true);
+        menuPane.setDisable(true);
         t.setOnFinished((e)->{
             this.canPlay=true;
             this.createTimer();
