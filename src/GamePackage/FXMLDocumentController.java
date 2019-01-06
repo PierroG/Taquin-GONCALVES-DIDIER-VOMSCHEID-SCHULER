@@ -277,6 +277,7 @@ public class FXMLDocumentController implements Initializable, Observer {
         t.setNode(classementPane);
         t.setToY(-415);
         t.play();
+        classementPane.setDisable(false);
         t.setOnFinished((e)->{
             buttonActive=true;
         }); 
@@ -291,6 +292,7 @@ public class FXMLDocumentController implements Initializable, Observer {
         t.setOnFinished((e)->{
             classementPane.setVisible(false);
             buttonActive=true;
+            classementPane.setDisable(true);
         }); 
     }
     
