@@ -1,5 +1,6 @@
 package GamePackage;
 import GamePackage.Case;
+import IA.HeuristiqueA;
 import java.io.Serializable;
 import static java.lang.Math.random;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class Plateau extends Observable implements Serializable {
     private int score=0;
     private int sec = 0;
     private int min = 0;
+    private HeuristiqueA heuristique;
 
     public Plateau() {
     }
@@ -222,6 +224,29 @@ public class Plateau extends Observable implements Serializable {
         return retour;
     }
 
+    // Liste pour L'algorithme A* de l'IA.
+    public ArrayList<Plateau> Successeurs() {
+
+	ArrayList<Plateau> list = new ArrayList<Plateau>();
+	if (this.moveUp()) {
+            list.add(this);
+            this.moveUp();
+	}
+	if (this.moveDown()) {
+            list.add(this);
+            this.moveDown();
+	}
+	if (this.moveLeft()) {
+            list.add(this);
+            this.moveLeft();
+	}
+        if (this.moveRight()) {
+            list.add(this);
+            this.moveRight();
+	}
+	return list;
+    }
+    
     public int getTaille() {
         return taille;
     }
@@ -248,6 +273,13 @@ public class Plateau extends Observable implements Serializable {
     }
     public void setScore(int i){
         this.score = i;
+    }
+    
+    public int heuristique() {
+	return heuristique.heuristique(this.plateau, this.taille);
+    }
+    public void setheuristique(HeuristiqueA h) {
+	this.heuristique = h;
     }
 
     int getNextMouv() {
