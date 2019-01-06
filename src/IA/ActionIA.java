@@ -80,61 +80,135 @@ public class ActionIA {
     //Test d'un IA non adapté
     public void MimaxIA(Plateau plat){
         
+        //Plateau platcopie = new Plateau();
+        //platcopie = plat;
+        
+        
         int minvaleur = 1000;
         int tempo = 0;
-        int profondeur = 20;
-        int deplacement = 0;
+        int profondeur = 10;
+        String memo = "";
         
-        if(plat.getYCaseVide()>0){
-            plat.moveRight();
-            tempo = max(plat,profondeur-1);
+        // si la case vide est n'est pas situé sur le bord gauche
+        // on effectue un mouvement à gauche puis on descend en profondeur
+        if(plat.getYCaseVide() > 0){
+            plat.moveRightIA();
+            tempo = min1(plat,profondeur-1);
+            // si la valeur remonté de la feuille est inférieur à minvaleur on garde en mémoire le mouvement à faire
             if(tempo < minvaleur){
                 minvaleur = tempo;
-                deplacement = 1;
-            }
-            plat.moveLeft();
-        }
-        else if(plat.getYCaseVide() < plat.getTaille()){
-            plat.moveLeft();
-            tempo = max(plat,profondeur-1);
+                memo = "D";
+            } // mouvement inverse
+            plat.moveLeftIA();
+        }// si la case vide est n'est pas situé sur le bord droit
+        if(plat.getYCaseVide() < plat.getTaille()-1){
+            plat.moveLeftIA();
+            tempo = min1(plat,profondeur-1);
             if(tempo < minvaleur){
                 minvaleur = tempo;
-                deplacement = 1;
-            }
-            plat.moveRight();
-        }
-        else if(plat.getXCaseVide() > 0){
-            plat.moveUp();
-            tempo = max(plat,profondeur-1);
+                memo = "Q";
+            } // mouvement inverse
+            plat.moveRightIA();
+        } // si la case vide est n'est pas situé sur le bord haut
+        if(plat.getXCaseVide() > 0){
+            plat.moveDownIA();
+            tempo = min1(plat,profondeur-1);
             if(tempo < minvaleur){
                 minvaleur = tempo;
-                deplacement = 1;
-            }
-            plat.moveDown();
-        }
-        else if(plat.getXCaseVide() < plat.getTaille()){
-            plat.moveDown();
-            tempo = max(plat,profondeur-1);
+                memo = "S";
+            } // mouvement inverse
+            plat.moveUpIA();
+        } // si la case vide est n'est pas situé sur le bord bas
+        if(plat.getXCaseVide() < plat.getTaille()-1){
+            plat.moveUpIA();
+            tempo = min1(plat,profondeur-1);
             if(tempo < minvaleur){
                 minvaleur = tempo;
-                deplacement = 1;
-            }
-            plat.moveUp();
+                memo = "Z";
+            } // mouvement inverse
+            plat.moveDownIA();
         }
         
+        // on effectue le meilleur mouvement à effectuer pour arriver au résultat
+        if (memo == "Z"){
+            plat.moveUp();
+        } else if (memo == "Q"){
+            plat.moveLeft();
+        } else if (memo == "S"){
+            plat.moveDown();
+        } else if (memo == "D") {
+            plat.moveRight();
+        } else {
+            // ça n'a pas marché
+        }
         
     }
     
-    public int max(Plateau plat, int profondeur){
-        int bla=0;
+    // une fois descendu en profondeur on continue et on alterne entre deux algo
+    public int min1(Plateau platcopie, int profondeur){
+        if (profondeur == 0){
+            return platcopie.coefDesordre();
+        } else if (platcopie.coefDesordre()==0){
+            return platcopie.coefDesordre();
+        }
+        System.out.println(platcopie.coefDesordre());
         
-        return bla;
+        int valmin1 = 1000;
+        int tempo = 0;
+        
+        // si la case vide est n'est pas situé sur le bord gauche
+        // on effectue un mouvement à gauche puis on descend en profondeur
+        if(platcopie.isOver()){
+            valmin1 = -1000;
+            return valmin1;
+        }
+        if(platcopie.getYCaseVide() > 0){
+            platcopie.moveRightIA();
+            tempo = min1(platcopie,profondeur-1);
+            // si tempo est supérieur à valmax, on enregistre tempo dans valmax
+            if(tempo < valmin1){
+                valmin1 = tempo;
+            } // mouvement inverse
+            platcopie.moveLeftIA();
+        }
+        if(platcopie.getYCaseVide() < platcopie.getTaille()-1){
+            platcopie.moveLeftIA();
+            tempo = min1(platcopie,profondeur-1);
+            if(tempo < valmin1){
+                valmin1 = tempo;
+            }
+            platcopie.moveRightIA();
+        }
+        if(platcopie.getXCaseVide() > 0){
+            platcopie.moveDownIA();
+            tempo = min1(platcopie,profondeur-1);
+            if(tempo < valmin1){
+                valmin1 = tempo;
+            }
+            platcopie.moveUpIA();
+        }
+        if(platcopie.getXCaseVide() < platcopie.getTaille()-1){
+            platcopie.moveUpIA();
+            tempo = min1(platcopie,profondeur-1);
+            if(tempo < valmin1){
+                valmin1 = tempo;
+            }
+            platcopie.moveDownIA();
+        }
+        
+        // si le jeu n'a réussi à faire aucune action :
+        if(valmin1 != 1000){
+            return valmin1;
+        } else {
+            return platcopie.coefDesordre();
+        }
     }
     
+    // fonction qui va évaluer la score a donner à chaque feuille :
+    // coefDesordre() présent dans plateau.java
     
-    
-    
-    
-    
+    // cette IA a un gros problème, si deux pieces sont inversé sur la même ligne
+    // il ne va pas pouvoir défaire une autre ligne car cela va augmenter le coefficient de désordre
+    // l'IA va donc rester bloqué car il ne trouvera pas de solution pour résoudre le taquin.
     
 }

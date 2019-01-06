@@ -141,6 +141,42 @@ public class Plateau extends Observable implements Serializable {
             return true;
         }else{return false;}
     }
+    public boolean moveRightIA(){
+        if(yCaseVide>0){
+            Case tmp = getPlateau()[xCaseVide][yCaseVide];
+            getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide][yCaseVide-1];
+            getPlateau()[xCaseVide][yCaseVide-1]=tmp;
+            this.setXYcaseVide(xCaseVide, yCaseVide-1);
+            return true;
+        }else{return false;}
+    }
+    public boolean moveLeftIA(){
+        if(yCaseVide<getTaille()-1){
+            Case tmp = getPlateau()[xCaseVide][yCaseVide];
+            getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide][yCaseVide+1];
+            getPlateau()[xCaseVide][yCaseVide+1]=tmp;
+            this.setXYcaseVide(xCaseVide, yCaseVide+1);
+            return true;
+        }else{return false;}
+    }
+    public boolean moveDownIA(){
+        if(xCaseVide>0){
+            Case tmp = getPlateau()[xCaseVide][yCaseVide];
+            getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide-1][yCaseVide];
+            getPlateau()[xCaseVide-1][yCaseVide]=tmp;
+            this.setXYcaseVide(xCaseVide-1, yCaseVide);
+            return true;
+        }else{return false;}
+    }
+    public boolean moveUpIA(){
+        if(xCaseVide<getTaille()-1){
+            Case tmp = getPlateau()[xCaseVide][yCaseVide];
+            getPlateau()[xCaseVide][yCaseVide]=getPlateau()[xCaseVide+1][yCaseVide];
+            getPlateau()[xCaseVide+1][yCaseVide]=tmp;
+            this.setXYcaseVide(xCaseVide+1, yCaseVide);
+            return true;
+        }else{return false;}
+    }
     
     public int coefDesordre(){
         int retour=0;

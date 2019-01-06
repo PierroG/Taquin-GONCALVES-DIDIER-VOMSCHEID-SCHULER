@@ -409,8 +409,12 @@ public class FXMLDocumentController implements Initializable, Observer {
         }
         
         ActionIA ia = new ActionIA();
-        if (touche.compareTo("n")==0) {
-            ia.IAPerformed(plateau);
+        //if (touche.compareTo("n")==0) {
+        //    ia.IAPerformed(plateau);
+        //}
+        
+        if (touche.compareTo("o")==0) {
+            ia.MimaxIA(plateau);
         }
         
         if (ke.getCode().toString() == "DOWN" ) {
