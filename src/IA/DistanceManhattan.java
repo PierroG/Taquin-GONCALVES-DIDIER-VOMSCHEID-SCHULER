@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,6 +15,10 @@ import GamePackage.Case;
 public class DistanceManhattan implements HeuristiqueA {
     
     // L'heuristique la plus utile et appréciée pour le taquin
+    /**
+     * Calcule la distance de chaque case entre ça place actuelle et ça position finale
+     * @return 
+     */
     @Override
     public int heuristique(Case[][] plateau, int dimension) {
 	int sommes = 0, c = 0;

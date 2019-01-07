@@ -8,7 +8,9 @@ package IA;
 import GamePackage.Case;
 
 /**
- *
+ * L'heuristique est une évaluation qui a chaque état (neaud) va estimer le nombre de coup
+ * qu'auras le meilleur chemin de résolution
+ * 
  * @author Axel Didier
  */
 public interface HeuristiqueA {

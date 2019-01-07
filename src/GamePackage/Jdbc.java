@@ -5,8 +5,9 @@
  */
 
 /**
- *
- * @author Gwendolyn
+ * Crée et gére la connection a une base de donnée
+ * 
+ * @author Gwendolyn,Pierre
  */
 package GamePackage;
 import Classement.Player;
@@ -21,13 +22,27 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Jdbc {
-    
+    /**
+     * Nom de compte pour se connecter a la Bdd
+     */
     private String username = "root";
+    /**
+     * Url de la Bdd
+     */
     private String connectUrl = "jdbc:mysql://localhost:3306/taquin";//"jdbc:mysql://localhost:3306/taquin";
+    /**
+     * Mot de passe pour se connecter a la Bdd
+     */
     private String mdp = "";
+    /**
+     * référence de la Conection
+     */
     private static Connection con = null;
     
     //Constructeur privé
+    /**
+     * Crée une connection
+     */
     private Jdbc(){
       try {
           //Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -38,6 +53,11 @@ public class Jdbc {
     }
     
     //methode qui va nous retourner notre instance et la créer si elle n'existe pas
+    /**
+     * methode qui va nous retourner notre instance et la créer si elle n'existe pas
+     * @return 
+     *      La connection
+     */
     public static Connection getInstance(){
      if(con == null){
        new Jdbc();
@@ -50,6 +70,9 @@ public class Jdbc {
    }
     
     //methode qui ferme la connexion a la base si elle a ete auparavant ouverte
+    /**
+     * methode qui ferme la connexion a la base si elle a ete auparavant ouverte
+     */
     public static void closeInstance(){
         if(con != null){
             try {
@@ -60,6 +83,13 @@ public class Jdbc {
             }
         }
     }
+    /**
+     * Vérifi si l'username rentré lors de l'inscription est déja utilisé 
+     * @param nom
+     *      Username a vérfier
+     * @return 
+     *      Retourne le message a afficher
+     */
     public static String verifInscription(String nom){
         String messageRetour;
         try {
@@ -79,6 +109,15 @@ public class Jdbc {
         }
         return messageRetour;
     }
+    /**
+     * Inscrit l'utilisateur dans la Bdd
+     * @param nom
+     *      Nom de compte
+     * @param mdp
+     *      Mot de passe
+     * @return 
+     *      Si l'inscription a été correctement effectuer ou non
+     */
     public static boolean inscription(String nom, String mdp){
         boolean reussi=false;
         try {
@@ -94,7 +133,15 @@ public class Jdbc {
         }
         return reussi;
     }
-    
+    /**
+     * Vérfie si le compte rentré par l'utilisateur est valide dans la bdd
+     * @param nom
+     *      Usernmae
+     * @param mdp
+     *      Mot de passe
+     * @return 
+     *      Retourne le nom
+     */
     public static String connexion(String nom, String mdp){
         String retourUsername= null;
         try {
@@ -120,7 +167,7 @@ public class Jdbc {
         }
         return retourUsername;
     }
-    
+    //Inutilisé
     public static ObservableList<Player> getReqClassement(){
         ObservableList<Player> list = null;//
         try{
@@ -137,6 +184,12 @@ public class Jdbc {
         return list;
     }
     //Requéte pour récupérer le classement by Score
+    /**
+     * Requéte pour récupérer le classement by Score
+     * @param taille
+     *          Pour quelle taille du taquin , recherche ton le classement
+     * @return Le classement a afficher
+     */
     public static ObservableList<Player> rankBScoreReq(String taille){
         ObservableList<Player> list = FXCollections.observableArrayList();//AND score.idScore = grille.idScore grille.nomGrille = 2
         try{
@@ -159,6 +212,12 @@ public class Jdbc {
         }
         return list;
     }//Requéte pour récupérer le classement by Time
+    /**
+     * Requéte pour récupérer le classement by Time
+     * @param taille
+     *          Pour quelle taille du taquin , recherche ton le classement
+     * @return Le classement a afficher
+     */
     public static ObservableList<Player> rankBTimeReq(String taille){
         ObservableList<Player> list = FXCollections.observableArrayList();
         try{
@@ -181,7 +240,22 @@ public class Jdbc {
         return list;
     }
     
-    //Requéte pour inséré un nouveau Score
+    /**
+     * Requéte pour inséré un nouveau Score
+     * @param chronoS
+     *   Valeur Seconde du Timer
+     * @param chronoM
+     *  Valeur Minute du Timer
+     * @param nbMouv
+     *  Nombre de mouvement effectué
+     * @param nbPoi
+     *  Nombre de Point
+     * @param idJoueur
+     *  Id du joueur
+     * @param nGrille
+     *  Taille de la grille sur le quelle se score a été fair
+     * @return Si l'insertion a bien été effectué ou non
+     */
     public static boolean scoreReq(int chronoS, int chronoM, int nbMouv, int nbPoi,String idJoueur, int nGrille){
         boolean reussi=false;
         try {
@@ -208,6 +282,14 @@ public class Jdbc {
         }
         return reussi;
     }
+    /**
+     * Récupére le classement Personel by Score
+     * @param taille
+     *          Pour quelle taille du taquin , recherche ton le classement
+     * @param name
+     *          Nom du joueur
+     * @return Le classement a afficher
+     */
     public static ObservableList<Player> PersonalrankBScoreReq(String taille,String name){
         ObservableList<Player> list = FXCollections.observableArrayList();//AND score.idScore = grille.idScore grille.nomGrille = 2
         try{
@@ -232,6 +314,14 @@ public class Jdbc {
         return list;
     }
     //Lance la requéte qui selectionne les score de temps d'un joueur précis
+    /**
+     * Lance la requéte qui selectionne les score de temps d'un joueur précis
+     * @param taille
+     *          Pour quelle taille du taquin , recherche ton le classement
+     * @param name
+     *          Nom du joueur
+     * @return Le classement a afficher
+     */
     public static ObservableList<Player> personalRankBTimeReq(String taille,String Username){
         ObservableList<Player> list = FXCollections.observableArrayList();
         try{

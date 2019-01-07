@@ -9,30 +9,57 @@ import java.util.Observable;
 import java.util.Random;
 import java.util.Scanner;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
- *
+ * 
+ * La class Plateau représente le corps du jeu et va contenir toute les méthodes
+ * permetants d'initialiser le plateau de jeu, effectuer les déplacements , gerer la condition de fin,
+ * et calculer le coéficient de désordre du taquin
+ * 
  * @author Pierre
  */
 public class Plateau extends Observable implements Serializable {
     private ArrayList<Integer> mouv = new ArrayList<Integer>();
     private int nb=-1;
+    /**
+     * La taille du taquin
+     */
     private int taille;
+    /**
+     * La tableau de Case modélisant notre plateau de jeu
+     */
     private Case plateau[][];
+    /**
+     * Les coordonnées de la case vide
+     */
     private int xCaseVide,yCaseVide;
+    /**
+     * Le score du joueur
+     */
     private int score=0;
+    /**
+     * Les secondes du Timer
+     */
     private int sec = 0;
+    /**
+     * Les minutes du Timer
+     */
     private int min = 0;
+    /**
+     * Référence a l'interface Heuristique
+     */
     private HeuristiqueA heuristique;
 
     public Plateau() {
     }
-    
+    /**
+     * Constructeur du Plteau
+     * Initialise la taille, ainsi que le tableau de case de taille "Taille x Taille", pour l'instant vide
+     * @see Plateau#taille
+     * @see Plateau#plateau
+     * @param t 
+     *          Taille du plateau a initialiser
+     */
     public Plateau(int t){
         this.taille = t;
         this.plateau= new Case[taille][taille];
@@ -53,12 +80,22 @@ public class Plateau extends Observable implements Serializable {
     public void setMin(int m){
         this.min=m;
     }
-    
+    /**
+     * Initialise la taille , ainsi que le tableau de case de taille "Taille x Taille", puis lance
+     * la méthode melange qui positionne les Cases dans ce tableau de façon aléatoire
+     * @see Plateau#melange() 
+     * 
+     * @param t 
+     *          taille du plateau
+     */
     public void initialize(int t){
         this.taille = t;
         this.plateau= new Case[taille][taille];
         this.melange();
     }
+    /**
+     * Initialise le plateau dans l'ordre
+     */
     public void intialisePlateauOrdre(){
         int k =1;
         for(int i=0;i<getTaille();i++){
@@ -71,6 +108,9 @@ public class Plateau extends Observable implements Serializable {
         getPlateau()[getTaille()-1][getTaille()-1].setNum(0);
         this.setXYcaseVide(getTaille()-1,getTaille()-1);
     }
+    /**
+     * Affiche le plateau de jeu dans la console
+     */
     public void affichePlateauConsole(){
         for(int i=0;i<getTaille();i++){
             System.out.println();
@@ -84,11 +124,26 @@ public class Plateau extends Observable implements Serializable {
         }
         System.out.println();
     }
+    /**
+     * Attribut les valeur x et de y de la case vide
+     * @param X
+     *          Valeur X, ligne
+     * @param Y 
+     *          Valeur Y, Colonne
+     */
     public void setXYcaseVide(int X, int Y){
         this.xCaseVide=X;
         this.yCaseVide=Y;
     }
-    
+    /**
+     * Echange la case vide avec la case a ça droite via le biais d'une case tempon ( Simule un déplacement ),
+     * Attribut les nouveau coordonné x et y de la case vide , poour toujours savoir ou elle est, et incrémente le score.
+     * A la fin , on notifie a l'observateur (nottre calsse DocumentController) qu'une action a été fait et qu'il doit actualiser la vue
+     * @see FXMLDocumentController#update(java.util.Observable, java.lang.Object) 
+     * @see Observable#setChanged() 
+     * @see Observable#notify() 
+     * @return Retourne True si le mouvement a été fait, False s'il il na pas été fait
+     */
     public boolean moveRight(){
         if(yCaseVide>0){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
@@ -102,6 +157,15 @@ public class Plateau extends Observable implements Serializable {
             return true;
         }else{return false;}
     }
+    /**
+     * Echange la case vide avec la case a ça gauche via le biais d'une case tempon ( Simule un déplacement ),
+     * Attribut les nouveau coordonné x et y de la case vide , poour toujours savoir ou elle est, et incrémente le score.
+     * A la fin , on notifie a l'observateur (nottre calsse DocumentController) qu'une action a été fait et qu'il doit actualiser la vue
+     * @see FXMLDocumentController#update(java.util.Observable, java.lang.Object) 
+     * @see Observable#setChanged() 
+     * @see Observable#notify() 
+     * @return Retourne True si le mouvement a été fait, False s'il il na pas été fait
+     */
     public boolean moveLeft(){
         if(yCaseVide<getTaille()-1){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
@@ -115,6 +179,15 @@ public class Plateau extends Observable implements Serializable {
             return true;
         }else{return false;}
     }
+    /**
+     * Echange la case vide avec la case au dessous via le biais d'une case tempon ( Simule un déplacement ),
+     * Attribut les nouveau coordonné x et y de la case vide , poour toujours savoir ou elle est, et incrémente le score.
+     * A la fin , on notifie a l'observateur (nottre calsse DocumentController) qu'une action a été fait et qu'il doit actualiser la vue
+     * @see FXMLDocumentController#update(java.util.Observable, java.lang.Object) 
+     * @see Observable#setChanged() 
+     * @see Observable#notify() 
+     * @return Retourne True si le mouvement a été fait, False s'il il na pas été fait
+     */
     public boolean moveDown(){
         if(xCaseVide>0){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
@@ -128,6 +201,15 @@ public class Plateau extends Observable implements Serializable {
             return true;
         }else{return false;}
     }
+    /**
+     * Echange la case vide avec la case au dessus via le biais d'une case tempon ( Simule un déplacement ),
+     * Attribut les nouveau coordonné x et y de la case vide , poour toujours savoir ou elle est, et incrémente le score.
+     * A la fin , on notifie a l'observateur (nottre calsse DocumentController) qu'une action a été fait et qu'il doit actualiser la vue
+     * @see FXMLDocumentController#update(java.util.Observable, java.lang.Object) 
+     * @see Observable#setChanged() 
+     * @see Observable#notify() 
+     * @return Retourne True si le mouvement a été fait, False s'il il na pas été fait
+     */
     public boolean moveUp(){
         if(xCaseVide<getTaille()-1){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
@@ -141,6 +223,7 @@ public class Plateau extends Observable implements Serializable {
             return true;
         }else{return false;}
     }
+    
     public boolean moveRightIA(){
         if(yCaseVide>0){
             Case tmp = getPlateau()[xCaseVide][yCaseVide];
@@ -177,7 +260,10 @@ public class Plateau extends Observable implements Serializable {
             return true;
         }else{return false;}
     }
-    
+    /**
+     * Calcul le coefficient de désordre du taquin
+     * @return retourne le coefficient
+     */
     public int coefDesordre(){
         int retour=0;
         //crée une liste de toute les Cases
@@ -198,6 +284,9 @@ public class Plateau extends Observable implements Serializable {
         }
         return retour;
     }
+    /**
+     * Demande a l'utilisateur le déplacement quil veut faire dans la console
+     */
     public void choix(){
         Scanner sc = new Scanner(System.in); 
         System.out.println("A vous de jouer");
@@ -215,7 +304,9 @@ public class Plateau extends Observable implements Serializable {
             this.moveUp();
         }   
     }
-    
+    /**
+     * Intialise le tableu de jeu de façon aléatoire
+     */
     public void melange(){
         //Crée une liste de int de 1 a taille*taille pour remplir le Plateau
         LinkedList<Integer> list = new LinkedList<Integer>();
@@ -245,6 +336,10 @@ public class Plateau extends Observable implements Serializable {
             this.melange();
         }
     }
+    /**
+     * Regarde si le jeu est fini , que les cases sont dans l'ordre
+     * @return true si le jeu est fini, sinon false
+     */
     public boolean isOver(){
         boolean retour = true;
         int k=1;
@@ -259,7 +354,11 @@ public class Plateau extends Observable implements Serializable {
         }
         return retour;
     }
-
+    /**
+     * Pour l'IA
+     * Ajoute dans une liste tout les états successeur a partir d'un état donné
+     * @return Retourne cette liste
+     */
     // Liste pour L'algorithme A* de l'IA.
     public ArrayList<Plateau> Successeurs() {
 
@@ -317,7 +416,10 @@ public class Plateau extends Observable implements Serializable {
     public void setheuristique(HeuristiqueA h) {
 	this.heuristique = h;
     }
-
+    /**
+     * récupére le prochain mouvement a effectuer
+     * @return 
+     */
     int getNextMouv() {
         nb++;
         return this.mouv.get(nb);

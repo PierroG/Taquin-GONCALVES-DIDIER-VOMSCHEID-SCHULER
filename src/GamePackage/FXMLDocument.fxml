@@ -129,7 +129,7 @@
                   <Font size="25.0" />
                </font>
             </Button>
-            <Pane layoutX="21.0" layoutY="107.0" prefHeight="152.0" prefWidth="357.0" style="-fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%); -fx-border-width: 5; -fx-border-radius: 10;">
+            <Pane layoutX="21.0" layoutY="107.0" prefHeight="152.0" prefWidth="357.0" style="-fx-border-color: linear-gradient(#00558d 0%,#91ffd7 100%); -fx-border-width: 4; -fx-border-radius: 10;">
                <children>
                   <Pane fx:id="isLogPane" prefHeight="152.0" prefWidth="357.0" visible="false">
                      <children>

@@ -5,7 +5,8 @@
  */
 
 /**
- *
+ * S'Occupe de gérer la sérialisation du Plateau
+ * 
  * @author Gwendolyn
  */
 
@@ -22,6 +23,11 @@ import java.util.logging.Logger;
 
 
 public class SerialiserPlateau {
+    /**
+     * Sérialise le plateau
+     * @param plateau 
+     *          Le Plateau a enregistrer
+     */
     public static void enregistrerPlateau(Plateau plateau) {
         ObjectOutputStream oos = null;
         try {
@@ -47,7 +53,9 @@ public class SerialiserPlateau {
             ex.printStackTrace();}
         }
     }
-
+    /**
+     * Détruit le fichier de sérialisation
+     */
     public static void EffacerPlateau() {
         try {
             File fichier = new File("src/plateau.ser");
@@ -57,7 +65,9 @@ public class SerialiserPlateau {
             e.printStackTrace();
         } 
     }
-    
+    /**
+     * Récupère le fichier de sérialisation
+     */
     public static Plateau RecupPlateau(){
         File fichier = new File("src/plateau.ser");
         try {
@@ -69,7 +79,9 @@ public class SerialiserPlateau {
         }
         return null;
     }
-    
+    /**
+     * Vérifie si un fichier de sérialisation existe
+     */
     public static boolean existePlateau(){
         File fichier = new File("src/plateau.ser");
         try {

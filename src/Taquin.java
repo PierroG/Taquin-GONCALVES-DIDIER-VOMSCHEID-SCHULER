@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- *
+ * 
  * @author Pierre
  */
 public class Taquin extends Application {

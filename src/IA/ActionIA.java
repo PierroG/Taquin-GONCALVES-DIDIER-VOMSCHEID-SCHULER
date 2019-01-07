@@ -9,7 +9,11 @@ import GamePackage.*;
 import java.util.ArrayList;
 
 /**
+ * regroupe les méthodes permettant de lancer l’IA et de calculer le meilleur chemin à prendre pour la résolution du taquin avec notamment l’algorithme A* 
  *
+ *   elle comprend 4 attributs : deux arraylist où vont être stocké des nœuds du plateau de taquin
+ *   une heuristique faisant appelle à l’interface permettant l’accès à toutes les heuristiques implémenté
+ *   et un int jeu qui va être incrémenter pour reconstituer le chemin à jouer.
  * @author Axel Didier
  */
 public class ActionIA {
@@ -19,9 +23,19 @@ public class ActionIA {
     HeuristiqueA heuristique;
     private int jeu = 0;
     
+    public ActionIA(HeuristiqueA h, Plateau plat){
+        heuristique = h;
+        plat.setheuristique(h);
+    }
     
-    // Implémentation de l'algorithme A* (essai)
-    // A* est très rapide mais trop gourmand en mémoire
+    /**
+     * IAPerformed est un algorithme A* pour la résolution du taquin.
+     *   Il prend l’état actuel du jeu de taquin et va chercher dans tous les successeurs de cet état l’état final (ou initial) d’un taquin résolu.
+     *   il n’a pas de retour car son but est de donner un heuristique.
+     * @param plat 
+     *          Notre Plateau
+     */
+    
     public void IAPerformed(Plateau plat) {
 	jeu = 0;
         Chemin.clear();
@@ -58,7 +72,13 @@ public class ActionIA {
         jouerIA(plat);
     }
 
-    // verifie dans le chemin si il n'existe pas déjà le même chemin
+    /**
+     * verifie si il n’existe pas déjà le même noeud dans une liste.
+     *   Il retourne un int pour être comparé.
+     * @param plat
+     *          Notre Plateau
+     * @return 
+     */
     private int existMemeChemin(Plateau plat) {
         for (int i = 0; i < Chemin.size() - 1; i++) {
             if (plat.equals(Chemin.get(i))) {
@@ -67,14 +87,22 @@ public class ActionIA {
         }
 	return -1;
     }
-    
+    /**
+     * méthode qui permet de lancer la résolution 
+     * @param plat 
+     *          Notre Plateau
+     */
     public void actionIAPerformed(Plateau plat) {
 	if (jeu < Chemin.size() - 1) {
 		jeu++;
 		jouerIA(plat);
 	}
     }
-    
+    /**
+     * prend le prochain état du jeu de taquin depuis l’état actuel et le set au plateau
+     * @param plat 
+     *          Notre Plateau
+     */
     private void jouerIA(Plateau plat) {
         plat.setPlateau(Chemin.get(jeu).getPlateau());
     }

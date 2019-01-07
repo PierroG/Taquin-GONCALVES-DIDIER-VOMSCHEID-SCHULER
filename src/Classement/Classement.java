@@ -19,15 +19,29 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 
 /**
- *
- * @author pg540
+ * Classe modélisant un classement,
+ * Posséde les méthode pour lancer les différence requétes sql et récupérer les données une TableView
+ * 
+ * @author Pierre
  */
 public class Classement {
-    
+    /**
+     * Liste a injecter dans la TableView , Initialiser lors de la récupération du résultat de la réquéte sql
+     */
     private ObservableList<Player> data = FXCollections.observableArrayList();
+    /**
+     * Référence de notre TableView
+     */
     TableView table;
 
     //Constructeur
+    /**
+     * Contructeur
+     * @param table
+     *          la tableView
+     * @param taille 
+     *          la taille du jeu pour quelle on veu le classement
+     */
     public Classement(TableView table,String  taille){
         this.table = table;
         this.initScoreRankTab(table,taille);
@@ -35,6 +49,13 @@ public class Classement {
     }
     
     //Crée les colonne pour le classement par Score et set les Data dans la table
+    /**
+     * Crée les colonne pour le classement par Score et set les Data dans la table
+     * @param table
+     *          la tableView
+     * @param taille 
+     *          la taille du jeu pour quelle on veu le classement
+     */
     public void initScoreRankTab(TableView table,String taille){
         System.out.println("Initialize Score Rank");
         //Lance la requéte
@@ -76,6 +97,13 @@ public class Classement {
         }
     } 
     //Crée les colonne pour le classement par Time et set les Data dans la table
+    /**
+     * Crée les colonne pour le classement par Time et set les Data dans la table
+     * @param table
+     *          la tableView
+     * @param taille 
+     *          la taille du jeu pour quelle on veu le classement
+     */
     public void initTimerRankTab(TableView table,String taille){
         System.out.println("Initialize Timer Rank");
         data = Jdbc.rankBTimeReq(taille);
@@ -180,6 +208,9 @@ public class Classement {
         }
     } 
     //détruit les données contenu dans data
+    /**
+     * détruit le Classement actuel
+     */
     public void clear(){
         this.table.getItems().clear();
         this.data.setAll();

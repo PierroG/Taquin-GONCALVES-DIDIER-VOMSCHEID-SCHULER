@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * 
  */
 package Login;
 
@@ -22,6 +20,12 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 
+/**
+ * Controller du formulaire d'inscription
+ * 
+ * 
+ * @author Pierre
+ */
 
 public class FXMLFormulaireInscriptionController implements Initializable {
 
@@ -33,6 +37,9 @@ public class FXMLFormulaireInscriptionController implements Initializable {
     private Label linfo;
     @FXML 
     private Button cancelButton;
+    /**
+     * référence de notre controller principal
+     */
     private FXMLDocumentController mainController;
     
     @Override
@@ -45,6 +52,11 @@ public class FXMLFormulaireInscriptionController implements Initializable {
         mainController = c;
         
     }
+    /**
+     * Action du bouton inscription,
+     * Vérifie que les donnée rentré sont valide, si oui lance la réquéte d'inscription
+     * @param event 
+     */
     @FXML
     private void handleButtonInscription(ActionEvent event){
         System.out.println("Inscription");
@@ -80,12 +92,19 @@ public class FXMLFormulaireInscriptionController implements Initializable {
             
         
     }
+    /**
+     * Action bouton CANCEL
+     * @param event 
+     */
     @FXML
     private void handleButtonCancel(ActionEvent event){
         System.out.println("Cancel");
         this.close();
     }
     //Ferme la fenétre
+    /**
+     * Ferme la fenétre
+     */
     private void close(){
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();

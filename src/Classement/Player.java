@@ -8,8 +8,11 @@ package Classement;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
- *
- * @author pg540
+ * Représente un Joueur,
+ * Contient les données a afficher dans le classement
+ * 
+ * 
+ * @author Pierre
  */
 public class Player {
     
@@ -23,7 +26,9 @@ public class Player {
         this.score=S;
     }
     
-    
+    /**
+     * Affiche les données dans la console
+     */
     public void affiche(){
         System.out.println(this.rank+"/"+this.name+"/"+this.score);
     }

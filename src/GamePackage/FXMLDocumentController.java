@@ -6,6 +6,8 @@ import GamePackage.Case;
 
 import GamePackage.factoryThread;
 import IA.ActionIA;
+import IA.DistanceManhattan;
+import IA.HeuristiqueA;
 import Login.FXMLFormulaireInscriptionController;
 import javafx.scene.control.TextField;
 import java.net.URL;
@@ -39,15 +41,18 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- *
- * @author Pierre
+ * Controller de notre Vue,
+ * Implémente et initialise toute les fonction graphique du jeux
+ * 
+ * @author Pierre,Gwendolyn
  */
 public class FXMLDocumentController implements Initializable, Observer {
     
     
-    //@FXML
-    //private Button[][] GrilleBoutons = new Button[7][8];
     
+    /**
+     * Référence de note Jeu
+     */
     private Plateau plateau;
     @FXML
     private Label lScore,lTimer,linfo,lUsername;
@@ -65,26 +70,61 @@ public class FXMLDocumentController implements Initializable, Observer {
     @FXML
     private TableView tableClassement;
     //tableau qui contiendra les panes constituant le jeu pour l'affichage
+    /**
+     * Tableu qui contiendra les Panes modélisant notre jeu graphiquement , un pane = une case
+     */
     private Pane paneTab[][];
+    /**
+     * 
+     */
     private int enCour, nbThread;
     private ArrayList<Pane> tab;
+    /**
+     * Coordonné de l'objectif a atteindre de notre pane , utile pour le déplacement via le Thread
+     */
     private float objectifX,objectifY;
     //boolean pour savoir si le joueur peux effectuer des mouvement ou non , pour eviter tous problemes
+    /**
+     * Permet de savoir si le joueur pour utiliser les input ou non
+     */
     private boolean canPlay=false;
     //permet d'activer ou desaciver l'action des bouton pour eviter des bug/spam
+    /**
+     * Permet d'activer/d'activer l'action des diverses boutons
+     */
     private boolean buttonActive=true;
-    private double xOffset = 0;
-    private double yOffset = 0;
+    /**
+     * Utile pour le DragAndDrop de la fenétre
+     */
+    private double xOffset,yOffset = 0;
+    /**
+     * Référence de la pane séléctionné lors d'un clique sur le jeu
+     */
     private Pane caseSelectionne=null;
+    /**
+     * référence de l'objet classement
+     */
     private Classement rank = null;
+    /**
+     * Savoir si l'utilisateur est connecté ou non
+     */
     private boolean isConnect;
+    /**
+     * Username de l'utilisateur connecté
+     */
     private String Username;
     
-    
+    /**
+     * Constructeur de notre Controller,
+     * Crée un Objet Plateau vide
+     */
     public FXMLDocumentController(){
         System.out.println("Construct");
         this.plateau = new Plateau(); 
     }
+    /**
+     * Methode Initialize du Controller,
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("Initialise");
@@ -96,18 +136,30 @@ public class FXMLDocumentController implements Initializable, Observer {
         
     } 
     //Event pour bouger la fenetre
+    /**
+     * Event pour bouger la fenétre
+     * @param event 
+     */
     @FXML
     private void OnMousePressed(MouseEvent event) {
                 xOffset = event.getSceneX();
                 yOffset = event.getSceneY();
     }
-    //Event pour bouger la fenetre
+    /**
+     * Event pour bouger la fenétre
+     * @param event 
+     */
     @FXML
     private void OnMouseDrag(MouseEvent event) {
                 Stage stage = (Stage) menuPane.getScene().getWindow();
                 stage.setX(event.getScreenX() - xOffset);
                 stage.setY(event.getScreenY() - yOffset);
     }
+    /**
+     * Action du bouton JOUER,
+     * Lance l'initialisation de la Vue et récupére la partie sérialiser si il y en a une
+     * @param event 
+     */
     @FXML
     private void HandleButtonLancerJeuAction(ActionEvent event){
         if(buttonActive){
@@ -153,7 +205,11 @@ public class FXMLDocumentController implements Initializable, Observer {
         }
         
     }
-    //Event pour le bouton Close
+    //Action pour le bouton Close
+    /**
+     * Event du bouton CLOSE
+     * @param event 
+     */
     @FXML
     private void handleButtonClose(ActionEvent event) {
         if(!this.plateau.isOver()){
@@ -163,7 +219,10 @@ public class FXMLDocumentController implements Initializable, Observer {
         Platform.exit();
         Jdbc.closeInstance();
     }
-    //Sevent pour le bouton Home
+    /**
+     * Event du bouton HOME
+     * @param event 
+     */
     @FXML
     private void handleButtonHome(ActionEvent event){
         if(!this.plateau.isOver()){
@@ -173,7 +232,10 @@ public class FXMLDocumentController implements Initializable, Observer {
         
         this.AnimMenuIn();
     }
-    //Action du bouton inscription sur le menu
+    /**
+     * Action du bouton inscription
+     * @param event 
+     */
     @FXML
     private void handleButtonConnexion(ActionEvent event){
         if(buttonActive){
@@ -199,6 +261,10 @@ public class FXMLDocumentController implements Initializable, Observer {
 
     }
     //action du bouton s'inscrire , lance le formulaire d'inscription
+    /**
+     * Action du bouton inscription
+     * @param event 
+     */
     @FXML
     private void handleButtonInscription(ActionEvent event){
         if(buttonActive){
@@ -240,7 +306,9 @@ public class FXMLDocumentController implements Initializable, Observer {
             this.AnimRankOut();
         }
     }
-
+    /**
+     * Animation de la page menu Descendant
+     */
     public void AnimMenuIn(){
         buttonActive=false;
         this.canPlay=false;
@@ -255,6 +323,9 @@ public class FXMLDocumentController implements Initializable, Observer {
             buttonActive=true;
         }); 
     }
+    /**
+     * Animation de la page menu Montant
+     */
     public void AnimMenuOut(){
         buttonActive=false;
         TranslateTransition t = new TranslateTransition();
@@ -269,6 +340,9 @@ public class FXMLDocumentController implements Initializable, Observer {
             buttonActive=true;
         }); 
     }
+    /**
+     * Animation de la page classement Montant
+     */
     public void AnimRankIn(){
         buttonActive=false;
         classementPane.setVisible(true);
@@ -282,6 +356,9 @@ public class FXMLDocumentController implements Initializable, Observer {
             buttonActive=true;
         }); 
     }
+    /**
+     * Animation de la page classement descendant
+     */
     public void AnimRankOut(){
         buttonActive=false;
         TranslateTransition t = new TranslateTransition();
@@ -295,7 +372,9 @@ public class FXMLDocumentController implements Initializable, Observer {
             classementPane.setDisable(true);
         }); 
     }
-    
+    /**
+     * Détruit toute les panes constiuant le jeux et reset le Label des Timer et Score
+     */
     public void destroyPlateayView(){
         if (paneTab!=null){
             lTimer.setText("0 : 00");
@@ -308,6 +387,9 @@ public class FXMLDocumentController implements Initializable, Observer {
             }
         }
     }
+    /**
+     * Initialize la Vue du Plateau avec les différent pane réprésentant une case
+     */
     public void initializePlateauView(){
         SerialiserPlateau.enregistrerPlateau(plateau);
         
@@ -372,7 +454,10 @@ public class FXMLDocumentController implements Initializable, Observer {
             y=y+((float)350/taille);
         }
     }
-
+    /**
+     * Gére les inputs de l'utilisateur
+     * @param ke 
+     */
     public void keyPressed(KeyEvent ke) {
         if(canPlay==true){
             
@@ -407,8 +492,8 @@ public class FXMLDocumentController implements Initializable, Observer {
             }
             //moveDown();
         }
-        
-        ActionIA ia = new ActionIA();
+        HeuristiqueA h = new DistanceManhattan();
+        ActionIA ia = new ActionIA(h, plateau);
         if (touche.compareTo("n")==0) {
             ia.IAPerformed(plateau);
         }
@@ -477,7 +562,9 @@ public class FXMLDocumentController implements Initializable, Observer {
         }
         }
     }
-    
+    /**
+     * Lance le déplacement graphique de la case vers la gauche via un Thread
+     */
     public void moveLeft(){
         //récupère les coordonnées de la case vide
         int x = this.plateau.getXCaseVide();
@@ -490,14 +577,20 @@ public class FXMLDocumentController implements Initializable, Observer {
         paneTab[x][y-1]=paneTab[x][y];
         paneTab[x][y]=null;
     }
+    /**
+     * Lance le déplacement graphique de la case vers la Droite via un Thread
+     */
     public void moveRight(){
         int x = this.plateau.getXCaseVide();
         int y = this.plateau.getYCaseVide();
-        this.createThread(paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()],this.objectifX,this.objectifY,++nbThread);
+        this.createThread(paneTab[x][y],this.objectifX,this.objectifY,++nbThread);
         objectifX = (float)objectifX-((float)350/this.plateau.getTaille());
-        paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()+1]=paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()];
-        paneTab[this.plateau.getXCaseVide()][this.plateau.getYCaseVide()]=null;
+        paneTab[x][y+1]=paneTab[x][y];
+        paneTab[x][y]=null;
     }
+    /**
+     * Lance le déplacement graphique de la case vers le bas via un Thread
+     */
     public void moveDown(){
         int x = this.plateau.getXCaseVide();
         int y = this.plateau.getYCaseVide();
@@ -506,6 +599,9 @@ public class FXMLDocumentController implements Initializable, Observer {
         paneTab[x+1][y]=paneTab[x][y];
         paneTab[x][y]=null;
     }
+    /**
+     * Lance le déplacement graphique de la case vers le haut via un Thread
+     */
     public void moveUp(){
         int x = this.plateau.getXCaseVide();
         int y = this.plateau.getYCaseVide();
@@ -514,7 +610,18 @@ public class FXMLDocumentController implements Initializable, Observer {
         paneTab[x-1][y]=paneTab[x][y];
         paneTab[x][y]=null;
             
-}
+    }
+    /**
+     * Crée le Thread pour effectuer le déplacement fluide dun pane(case)
+     * @param p
+     *          Le pane a déplacer
+     * @param toX
+     *          l'objectif x a atteindre
+     * @param toY
+     *          l'objectif y a atteindre
+     * @param num 
+     *          
+     */
     public void createThread(Pane p,float toX,float toY, int num){
         System.out.println(toX+"/"+toY);
         Task task = new Task<Void>() { // on definit une tache parallele pour mettre a jour la vue 
@@ -599,7 +706,10 @@ public class FXMLDocumentController implements Initializable, Observer {
         th.start(); // et on execute le Thread pour mettre a jour la vue (deplacement continu de la tuile horizontalement) 
     */
     }
-    //Cherche la position du paneSelectionne dans paneTab et retourne la Case associee dans le plateau qui est aux memes coordonnees
+    /**
+     * Cherche la position du paneSelectionne dans paneTab et retourne la Case associee dans le plateau qui est aux memes coordonnees
+     * @return 
+     */
     public Case chercheCase(){
         Case retour=null;
         int posX=-1;
@@ -614,6 +724,9 @@ public class FXMLDocumentController implements Initializable, Observer {
         
         return retour;
     }
+    /**
+     * Crée un Thread simulant un Timer
+     */
     public void createTimer(){
         Task task = new Task<Void>() {
             int minute = plateau.getMin();
@@ -651,6 +764,9 @@ public class FXMLDocumentController implements Initializable, Observer {
         th.setDaemon(true);
         th.start();
     }
+    /**
+     * Event de fin
+     */
     public void endEvent(){
         if(isConnect){
             this.addScore();
@@ -665,7 +781,10 @@ public class FXMLDocumentController implements Initializable, Observer {
     public void setPlateau(Plateau p){
         this.plateau=p;
     }
-
+    /**
+     * @see Observer#update(java.util.Observable, java.lang.Object) 
+     * 
+     */
     @Override
     public void update(Observable o, Object arg) {
         int i = this.plateau.getNextMouv();
@@ -686,6 +805,9 @@ public class FXMLDocumentController implements Initializable, Observer {
     }
     
    //Initialise la tableau de classement 
+    /**
+     * Initialise la tableau de classement 
+     */
    public void initRank(){
        System.out.println("initRank");
        //Classement de Test ( a enlever )
@@ -726,7 +848,9 @@ public class FXMLDocumentController implements Initializable, Observer {
         }
         
     }
-       
+    /**
+     * Lance la requéte jdbc pour ajouter le score effectuer a la basse de donnée
+     */   
     public void addScore(){
         String id =Jdbc.getIdByName(Username);
         boolean b = Jdbc.scoreReq(plateau.getSec(), plateau.getMin(), plateau.getScore(), 0 , id, plateau.getTaille());    
