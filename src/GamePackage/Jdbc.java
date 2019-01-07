@@ -318,8 +318,6 @@ public class Jdbc {
      * Lance la requéte qui selectionne les score de temps d'un joueur précis
      * @param taille
      *          Pour quelle taille du taquin , recherche ton le classement
-     * @param name
-     *          Nom du joueur
      * @return Le classement a afficher
      */
     public static ObservableList<Player> personalRankBTimeReq(String taille,String Username){
