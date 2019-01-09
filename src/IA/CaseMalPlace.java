@@ -14,7 +14,6 @@ import GamePackage.Case;
 public class CaseMalPlace implements HeuristiqueA {
     
     // Une heuristique possible
-    @Override
     public int heuristique(Case[][] plateau, int taille) {
         int cpt = 1, c = 0;
         for (int i = 0; i < taille; i++) {
@@ -28,7 +27,7 @@ public class CaseMalPlace implements HeuristiqueA {
         return c;
     }
 
-    @Override
+    
     public String toString() {
 	return "Le nombre de cases mal placées est de : ";
     }

@@ -31,7 +31,7 @@ public class SerialiserPlateau {
     public static void enregistrerPlateau(Plateau plateau) {
         ObjectOutputStream oos = null;
         try {
-            File fichier = new File("src/plateau.ser");//"src/plateau/plateau.ser"
+            File fichier = new File("src/plateau.ser");//"src/plateau.ser"
             oos = new ObjectOutputStream(new FileOutputStream(fichier));
             oos.writeObject(plateau);
             oos.flush();

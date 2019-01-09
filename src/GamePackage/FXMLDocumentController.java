@@ -494,7 +494,7 @@ public class FXMLDocumentController implements Initializable, Observer {
         }
         HeuristiqueA h = new DistanceManhattan();
         ActionIA ia = new ActionIA(h, plateau);
-        if (touche.compareTo("n")==0) {
+        if (touche.compareTo("o")==0) {
             ia.IAPerformed(plateau);
         }
         
@@ -502,7 +502,7 @@ public class FXMLDocumentController implements Initializable, Observer {
             ia.actionIAPerformed(plateau);
         }
         
-        if (touche.compareTo("o")==0) {
+        if (touche.compareTo("n")==0) {
             ia.MimaxIA(plateau);
         }
         

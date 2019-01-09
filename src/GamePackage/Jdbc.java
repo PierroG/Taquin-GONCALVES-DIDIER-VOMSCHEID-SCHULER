@@ -121,7 +121,7 @@ public class Jdbc {
     public static boolean inscription(String nom, String mdp){
         boolean reussi=false;
         try {
-            PreparedStatement prepare = Jdbc.con.prepareStatement("INSERT INTO joueur(nomJoueur, password) VALUES (?, ?)");
+            PreparedStatement prepare = Jdbc.con.prepareStatement("INSERT INTO joueur(nomJoueur, mdpJoueur) VALUES (?, ?)");
             prepare.setString(1, nom);
             prepare.setString(2, mdp);
             prepare.executeUpdate();
@@ -145,7 +145,7 @@ public class Jdbc {
     public static String connexion(String nom, String mdp){
         String retourUsername= null;
         try {
-            PreparedStatement prepare = con.prepareStatement("SELECT * from Joueur WHERE nomJoueur = ? AND password = ?");
+            PreparedStatement prepare = con.prepareStatement("SELECT * from Joueur WHERE nomJoueur = ? AND mdpJoueur = ?");
             prepare.setString(1, nom);
             prepare.setString(2, mdp);
             ResultSet result = prepare.executeQuery();
